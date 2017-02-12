@@ -10,6 +10,7 @@ kyu5 or higher. [History of the term kyu(https://en.wikipedia.org/wiki/Ky%C5%AB)
 
 * What's a perfect power anyway?
 * Grab CSV Columns
+*
 
 
 ## Details for each kata completed
@@ -44,4 +45,22 @@ def csv_columns(csv, indices):
     extract = lambda line: [line[idx] for idx in sorted_indices if idx < len(line)]
     csv_parsed = [line.split(',') for line in csv.split('\n')]
     return '\n'.join(','.join(line) for line in map(extract, csv_parsed) if line)
+```
+
+* Name: Last digit of a large number
+* Descripton of Kata: Define a function that takes in two numbers a and b and
+returns the last decimal digit of ```a^b```. Note that a and b may be very large!
+The inputs to your function will always be non-negative integers.
+* Difficulty: kyu5
+* Module: last_digit.py
+* Tests: test_last_digit.py
+* Link: https://www.codewars.com/kata/last-digit-of-a-large-number/python
+* Comments about most interesting solution/best practice:
+there is the option to use all the batteries included and simply call ```pow()```
+with a third argument but it was raised as an issue in the kata and was proposed
+to be banned. From the other solutions, I liked this one but don't know how it
+measures against my solution.
+```python
+def last_digit(n1, n2):
+    return (n1 % 10) ** min(n2 % 4 or 4, n2) % 10
 ```
