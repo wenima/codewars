@@ -12,6 +12,7 @@ We define 2 helper functions:
 """
 
 
+from itertools import tee, islice
 from bisect import bisect_left
 
 def eratosthenes2(n):
@@ -30,13 +31,16 @@ def binary_search(a, x, lo=0, hi=None):
     pos = bisect_left(a,x,lo,hi)
     return pos
 
-def gap(g, m, n):
-    """Return the prime factorization of n as a string."""
+def pairwise(iterable):
+    "Return a tuple of pairwise iteration."""
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+def gap(gap, m, n):
+    """Return the first pair of primes which has the desired gap."""
     primes = eratosthenes2(n)
-    pos = binary_search(primes, m)
-    for i in range(pos, n):
-        try:
-            if primes[i+1] - primes[i] == g:
-                return (primes[i], primes[i+1])
-        except IndexError:
-            break
+    for p in pairwise(islice(primes, binary_search(primes, m), None)):
+        p1, p2 = p
+        if p2 - p1 == gap:
+            return [p1, p2]
