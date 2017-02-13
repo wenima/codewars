@@ -64,3 +64,45 @@ measures against my solution.
 def last_digit(n1, n2):
     return (n1 % 10) ** min(n2 % 4 or 4, n2) % 10
 ```
+
+* Name: Primes in numbers
+* Descripton of Kata: Given a positive number n > 1 find the prime factor decomposition of n. The result will be a string with the following form :
+ ```
+ (p1**n1)(p2**n2)...(pk**nk)
+ ```
+with the p(i) in increasing order and n(i) empty if n(i) is 1.
+* Difficulty: kyu5
+* Module: primes_in_numbers.py
+* Tests: test_primes_in_numbers.py
+* Link: https://www.codewars.com/kata/primes-in-numbers
+* Comments about most interesting solution/best practice:
+```python
+
+```
+
+* Name: Gap in Primes
+* Descripton of Kata: A prime gap of length n is a run of n-1 consecutive
+composite numbers between two successive primes
+(see: http://mathworld.wolfram.com/PrimeGaps.html).
+
+We will write a function gap with parameters:
+
+g(integer >= 2) which indicates the gap we are looking for
+
+m (integer > 2) which gives the start of the search (m inclusive)
+
+n (integer >= m) which gives the end of the search (n inclusive)
+
+In the example above
+```
+gap(2, 3, 50)
+```
+ will return [3, 5] or (3, 5) or {3, 5} which is the first pair between 3 and 50 with a 2-gap.
+* Difficulty: kyu5
+* Module: gap_primes.py
+* Tests: test_gap_primes.py
+* Link: https://www.codewars.com/kata/gap-in-primes
+* Comments about most interesting solution/best practice:
+```python
+
+```
