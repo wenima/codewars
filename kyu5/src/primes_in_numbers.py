@@ -39,5 +39,5 @@ def primeFactors(n):
     pf = [(upf, prime_factors.count(upf)) for upf in sorted(set(prime_factors))]
     if len(pf) == 1 and m > 1:
         if pf[0][1] == 1:
-            return "({0})({1}))".format(pf[0][0], m)
+            return "({0})({1})".format(pf[0][0], m)
     return ''.join(["({0}**{1})".format(t[0], t[1]) if t[1] > 1 else "({0})".format(t[0]) for t in pf])
