@@ -104,5 +104,40 @@ gap(2, 3, 50)
 * Link: https://www.codewars.com/kata/gap-in-primes
 * Comments about most interesting solution/best practice:
 ```python
+def gap(g, m, n):
+    prev = 2
+    for x in range(m|1, n + 1, 2):
+        if all(x%d for d in range(3, int(x**.5) + 1, 2)):
+            if x - prev == g: return [prev, x]
+            prev = x
+```
 
+* Name: Biggest Sum
+* Descripton of Kata: You have to find maximum sum of numbers from top left
+corner of a matrix to bottom right corner. You can only go down or right.
+
+Matrix will be square M x M, 4 ≤ M ≤ 60
+Matrix will have only positive integers N.
+10 ≤ N ≤ 200
+```
+matrix = [[20, 20, 10, 10],
+          [10, 20, 10, 10],
+          [10, 20, 20, 20],
+          [10, 10, 10, 20]]
+```
+
+* Difficulty: kyu5
+* Module: find_sum.py
+* Tests: test_find_sum.py
+* Link: https://www.codewars.com/kata/biggest-sum/python
+* Comments about most interesting solution/best practice:
+Very nice solution to solve the issue. My approach of solving this via a graph
+also provides the path taken.
+```python
+def find_sum(m):
+    p = [0] * (len(m) + 1)
+    for l in m:
+        for i, v in enumerate(l, 1):
+            p[i] = v + max(p[i-1], p[i])
+    return p[-1]
 ```

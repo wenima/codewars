@@ -104,54 +104,12 @@ def make_graph_from_matrix(grid):
     return graph
 
 
-def find_all_paths(graph, start, end, path=[]):
-    path = path + [start]
-    if start == end:
-        return [path]
-    # if not start in graph.keys():
-    if not start in graph.keys():
-        return []
-    paths = []
-    for node in graph[start]:
-        if node not in path:
-            newpaths = find_all_paths(graph, node, end, path)
-            for newpath in newpaths:
-                paths.append(newpath)
-    return paths
-
-
-def find_sum_brute_force(m):
-    """Find the highest sum in a matrix from top left to bottom right."""
-    node_matrix = make_node_matrix(m)
-    graph = make_graph_from_matrix(node_matrix)
-    last_node = 'n' + str(len(m) ** 2)
-    paths = find_all_paths(graph, 'n1', last_node)
-    costs = []
-    for path in paths:
-        sum = m[0][0]
-        for n1, n2 in pairwise(path):
-            sum += graph[n1][n2]
-        costs.append(sum)
-    return max(costs)
-
-
-def find_sum_bellman_ford(m):
-    """Find the highest sum in a matrix from top left to bottom right."""
-    node_matrix = make_node_matrix(m)
-    graph = make_graph_from_matrix(node_matrix)
-    last_node = 'n' + str(len(m) ** 2)
-    d, p = bellman_ford(graph, 'n1')
-    print('Done with bellman ford')
-    return abs(d[last_node]) + m[0][0]
-
-
 def find_sum(m):
     """Find the highest sum in a matrix from top left to bottom right."""
     node_matrix = make_node_matrix(m)
     graph = make_graph_from_matrix(node_matrix)
     last_node = 'n' + str(len(m) ** 2)
     d, p = bellman_ford(graph, 'n1')
-    print('Done with bellman ford')
     return abs(d[last_node]) + m[0][0]
 
 m = [[191, 171, 128, 162, 158, 110, 171, 93, 127, 176, 190, 150, 176, 190, 121, 143, 89, 87, 105, 179, 48, 112, 56, 199, 132, 135, 124, 149, 135, 18, 57, 152, 27, 27, 42, 117, 118, 111, 119, 89, 46, 191, 26, 38, 121, 57, 66, 10, 107, 67, 147, 85, 187],
