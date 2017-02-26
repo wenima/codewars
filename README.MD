@@ -141,3 +141,41 @@ def find_sum(m):
             p[i] = v + max(p[i-1], p[i])
     return p[-1]
 ```
+
+* Name: Rudimentary Pivot Table
+* Descripton of Kata: Create a Rudimentary Pivot Table function that takes in a
+two dimensional array and returns an aggregated two dimensional array based on
+the values of a certain column.
+
+Example Input:
+```
+# A report showing shopping items and their related metrics
+report = [
+      ["Item 1", "Man", "2500", "500", "Yellow"],
+      ["Item 2", "Woman", "42", "8.4", "Blue"],
+      ["Item 3", "Woman", "56", "11.2", "Purple"],
+      ["Item 4", "Woman", "11", "2.2", "Yellow"],
+      ["Item 5", "Man", "3600", "720", "Red"],
+      ["Item 6", "Woman", "32", "6.4", "Red"],
+      ["Item 7", "Man", "6700", "1340", "Yellow"],
+      ["Item 8", "Woman", "25", "5", "Green"]
+]
+```
+* Difficulty: kyu5
+* Module: pivot.py
+* Tests: test_pivot.py
+* Link: https://www.codewars.com/kata/rudimentary-pivot-table
+* Comments about most interesting solution/best practice:
+I like the use of itertools' groupby and using itemgetter for sorting. I don't
+like the bare except and variable naming.
+```python
+from operator import itemgetter
+from itertools import groupby
+
+def agg(l):
+    try: return sum(map(float,l))
+    except: return '-'
+
+def pivot(a,ip):
+    return [[k if i==ip else agg(c) for i,c in enumerate(zip(*g))] for k,g in groupby(sorted(a,key=itemgetter(ip)),key=itemgetter(ip))]
+```
