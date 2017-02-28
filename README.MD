@@ -179,3 +179,36 @@ def agg(l):
 def pivot(a,ip):
     return [[k if i==ip else agg(c) for i,c in enumerate(zip(*g))] for k,g in groupby(sorted(a,key=itemgetter(ip)),key=itemgetter(ip))]
 ```
+
+
+* Name: Scraping: Codewars Top 500 Users
+* Descripton of Kata: You should get and parse the html of the codewars
+leaderboard page.
+
+Return a 'Leaderboard' object with a position property.
+```
+Leaderboard#position should contain 500 'User' objects.
+Leaderboard#position[i] should return the ith ranked User(1 based index).
+```
+
+Each User should have the following properties:
+```
+User#name    # => the user's username, not their real name
+User#clan    # => the user's clan, empty string if empty clan field
+User#honor   # => the user's honor points as an integer
+```
+Ex:
+```
+an_alien = leaderboard.position[3]   # => #<User:0x3124da0 @name="myjinxin2015", @clan="China Changyuan", @honor=21446>
+ an_alien.name                        # => "myjinxin2015"
+ an_alien.clan                        # => "China Changyuan"
+ an_alien.honor                       # => 21446
+ ```
+
+* Difficulty: kyu5
+* Module: scrape.py
+* Tests: test_scrape.py
+* Link: https://www.codewars.com/kata/scraping-codewars-top-500-users
+* Comments about most interesting solution/best practice:
+```python
+```
