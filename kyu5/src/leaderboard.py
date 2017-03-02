@@ -26,7 +26,6 @@ class User(object):
 class Leaderboard(object):
     """Create a Leaderboard object.
     Attributes:
-    _size:          The length of the position property
     Properties:
     position:       returns a list of objects of users
 
@@ -52,6 +51,8 @@ url = 'https://www.codewars.com/users/leaderboard'
 
 
 def get_clean_username(s):
+    """Return clean username as rank is put in front of username when parsing
+    the html data."""
     patterns = [r'kyu(.*)', r'dan(.*)']
     for pattern in patterns:
         match = re.search(pattern, s)
@@ -62,6 +63,7 @@ def get_clean_username(s):
 
 
 def create_users_from_soup(soup):
+    """Return a CustomList with user objects as elements of the list."""
     users = []
     for user in soup.find_all('tr', {"data-username": lambda x: x}):
         users.append([col.text for col in user.find_all('td')])
@@ -75,6 +77,8 @@ def create_users_from_soup(soup):
 
 
 def solution():
+    """Return a leaderboard object after the html response has been parsed into
+    user objects."""
     response = requests.get(url)
     html_file = response.text
     soup = BeautifulSoup(html_file,'lxml')
