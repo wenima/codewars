@@ -33,11 +33,19 @@ class Leaderboard(object):
     """
     def __init__(self, list_of_users=None):
         """Intialize a Leaderboard Object."""
-        self.position = ['']
-        self._size = len(self.position)
+        self.position = None
         if list_of_users:
-            for user in list_of_users:
-                self.position.append(user)
+            self.position = list_of_users
+
+
+class CustomList(list):
+    """Create a subclass of list with len() being ovewritten to be able to
+    return the first element by using 1 instead of 0."""
+    def __len__(self):
+        len = 0
+        for i in self:
+            len += 1
+        return len - 1
 
 
 url = 'https://www.codewars.com/users/leaderboard'
@@ -57,7 +65,8 @@ def create_users_from_soup(soup):
     users = []
     for user in soup.find_all('tr', {"data-username": lambda x: x}):
         users.append([col.text for col in user.find_all('td')])
-    user_objs = []
+    user_objs = CustomList()
+    user_objs.append('')
     for user in users:
         user[1] = get_clean_username(user[1])
         user[3] = int(user[3])
