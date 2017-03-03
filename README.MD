@@ -211,4 +211,48 @@ an_alien = leaderboard.position[3]   # => #<User:0x3124da0 @name="myjinxin2015",
 * Link: https://www.codewars.com/kata/scraping-codewars-top-500-users
 * Comments about most interesting solution/best practice:
 ```python
+import sys
+from bs4 import BeautifulSoup
+if sys.version_info[0] > 2:
+    import urllib.request
+else:
+    import urllib2
+
+
+class Leaderboard:
+
+    def __init__(self, position):
+        self.position = position
+
+
+class User:
+
+    def __init__(self, username, clan, honor):
+        self.name = username
+        self.clan = clan
+        self.honor = honor
+
+
+def get_html(url):
+    if sys.version_info[0] > 2:
+        with urllib.request.urlopen(url) as response:
+            return response.read()
+    return urllib2.urlopen(url).read()
+
+
+
+def get_table(html):
+    return BeautifulSoup(html).find('table')
+
+
+def solution():
+    table = get_table(get_html('https://www.codewars.com/users/leaderboard'))
+    positions = {}
+    i = 1
+    for row in table.find_all("tr")[1:]:
+        clan, honor = row.find_all('td')[-2:]
+        user_name = row.attrs['data-username']
+        positions[i] = User(str(user_name), clan.text, int(honor.text))
+        i += 1
+    return Leaderboard(positions)
 ```
