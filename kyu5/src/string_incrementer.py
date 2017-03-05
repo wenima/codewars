@@ -11,7 +11,4 @@ def string_increment(s):
 
     m = re.search(pattern, s)
 
-    if m:
-        return s[:m.start()] + str(int(m.group()) + 1).zfill(len(m.group()))
-    else:
-        return s + '1'
+    return s[:m.start()] + str(int(m.group()) + 1).zfill(len(m.group())) if m else s + '1'
