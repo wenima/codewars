@@ -284,3 +284,38 @@ should be incremented by 1. If the string does not end with a number the number
 ```python
 
 ```
+
+* Name: Regex Password Validation
+* Descripton of Kata: You need to write regex that will validate a password to
+make sure it meets the following criteria:
+
+    * At least six characters long
+    * contains a lowercase letter
+    * contains an uppercase letter
+    * contains a number
+
+Valid passwords will only be alphanumeric characters.
+
+* Difficulty: kyu5
+* Module: regex_pwd_validator.py
+* Tests: test_regex_pwd_validator.py
+* Link: https://www.codewars.com/kata/regex-password-validation/python
+* Comments about most interesting solution/best practice:
+I liked 2 solutions, the first one is to make the regex more readable:
+```python
+from re import compile, VERBOSE
+
+regex = compile("""
+^              # begin word
+(?=.*?[a-z])   # at least one lowercase letter
+(?=.*?[A-Z])   # at least one uppercase letter
+(?=.*?[0-9])   # at least one number
+[A-Za-z\d]     # only alphanumeric
+{6,}           # at least 6 characters long
+$              # end word
+""", VERBOSE)
+```
+the 2nd is the concise version
+```
+regex = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])\w{6,}$'
+```
