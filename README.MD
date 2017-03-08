@@ -319,3 +319,25 @@ the 2nd is the concise version
 ```
 regex = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])\w{6,}$'
 ```
+
+* Name: RPG dice roller
+* Descripton of Kata: Your task in this kata is to write a "dice roller" that
+interprets a subset of dice notation.
+Output:
+Your function must support two types of output depending on the second argument;
+verbose and summed.
+Summed output:
+If the verbose flag isn't set your function should sum up all the dice and
+modifiers and return the result as an integer.
+Verbose output:
+With the verbose flag your function should return an object/hash containing an
+array (dice) with all the dice rolls, and a integer (modifier) containing the
+sum of the modifiers which defaults to zero.
+* Difficulty: kyu5
+* Module: string_incrementer.py
+* Tests: test_string_incrementer.py
+* Link: https://www.codewars.com/kata/rpg-dice-roller/python
+* Comments about most interesting solution/best practice:
+```python
+
+```

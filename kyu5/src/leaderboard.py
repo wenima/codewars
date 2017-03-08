@@ -48,6 +48,13 @@ class CustomList(list):
 
 
 url = 'https://www.codewars.com/users/leaderboard'
+filename = leaderboard.html
+
+def save_response_to_file(response):
+    with open(filename, 'w+') as f:
+        f.write(response.text)
+
+
 
 
 def get_clean_username(s):
