@@ -3,11 +3,16 @@
 
 def to_nega_binary(n):
     """Return a string representation of the negabinary value of given n."""
-	res = []
-	while n != 0:
-		remainder = abs(n) % 2
-		res.append(str(remainder))
-		if n < 0 and remainder:
-			n -= 1
-		n = int(n / -2)
-	return (''.join(reversed(res)))
+    res = []
+    while i != 0:
+        remainder = abs(i) % 2
+        res.append(str(remainder))
+        if i < 0 and remainder:
+            i -= 1
+        i = math.trunc(i / -2)
+    return ''.join(reversed(res)) if res else '0'
+
+
+def from_nega_binary(bin):
+    """Return an integer for a given string representation of a binary in base-2."""
+    return sum([pow(-2, idx) for idx, bit in enumerate(reversed(s)) if bit == '1'])
