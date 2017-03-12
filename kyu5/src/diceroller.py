@@ -1,10 +1,19 @@
 """Module to solve the code-kata https://www.codewars.com/kata/rpg-dice-roller.
 """
 
+import re
+
 
 def validate_input(s):
     """Return True if input follows the dice notation or False."""
-    pass
+    try:
+        s = s.strip()
+    except AttributeError:
+        return False
+    s = s.replace(' ', '')
+    pattern = r'^[1-9]?d[1-9]+(?:[+-]?\d)*$'
+    m = re.match(pattern, s)
+    return True if m else False
 
 
 def roll(output='summed'):
