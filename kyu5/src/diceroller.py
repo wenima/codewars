@@ -35,17 +35,20 @@ def roll(s, output='summed'):
     'verbose' returns an object with a list containing all rolls and the sum of
     all modifiers. If no modifiers are given, returns zero
     """
+    throw = {}
     d = normalize_input(s)
     if validate_input(s):
-        mod_sum = get_modifiers(d)
+        throw['modifier'] = get_modifiers(d)
         m = re.search(r'^([0-9])*d([1-9][0-9]*)', d)
         if m.group(1) == None:
             no_of_dies = 1
         else:
             no_of_dies = m.group(1)
         die = m.group(2)
-        throw = sum([randint(1, int(die)) for i in range(int(no_of_dies))])
+        throw['dice'] = [randint(1, int(die)) for i in range(int(no_of_dies))]
         if output == 'summed':
-            return throw + mod_sum
+            return sum(throw['dice']) + throw['modifier']
+        else:
+            return throw
     else:
         return False
