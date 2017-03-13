@@ -2,18 +2,22 @@
 """
 
 import re
-from random import random
+from random import randint
+
+
+def normalize_input(s):
+    s = s.replace(' ', '')
+    pattern = r'^[0-9]*d[1-9]+(?:[+-]?\d)*$'
+    m = re.match(pattern, s)
+    return m.group()
 
 
 def validate_input(s):
     """Return True if input follows the dice notation or False."""
     try:
-        s = s.strip()
+        m = normalize_input(s)
     except AttributeError:
         return False
-    s = s.replace(' ', '')
-    pattern = r'^[1-9]?d[1-9]+(?:[+-]?\d)*$'
-    m = re.match(pattern, s)
     return True if m else False
 
 def get_modifiers(s):
@@ -22,14 +26,26 @@ def get_modifiers(s):
     return sum([int(match) for match in re.findall(pattern, s)])
 
 
-# def roll(s, output='summed'):
-#     """Roll Dice defined in input string and apply modifieres if present.
-#
-#     Keyword arguments:
-#     output -- takes either 'summed' or 'verbose' (default: 'summed')
-#     'summed' will sum up the roll plus modifieres and return an integers
-#     'verbose' returns an object with a list containing all rolls and the sum of
-#     all modifiers. If no modifiers are given, returns zero
-#     """
-#     d = validate_input(s)
-#     if d:
+def roll(s, output='summed'):
+    """Roll Dice defined in input string and apply modifieres if present.
+
+    Keyword arguments:
+    output -- takes either 'summed' or 'verbose' (default: 'summed')
+    'summed' will sum up the roll plus modifieres and return an integers
+    'verbose' returns an object with a list containing all rolls and the sum of
+    all modifiers. If no modifiers are given, returns zero
+    """
+    d = normalize_input(s)
+    if validate_input(s):
+        mod_sum = get_modifiers(d)
+        m = re.search(r'^([0-9])*d([1-9][0-9]*)', d)
+        if m.group(1) == None:
+            no_of_dies = 1
+        else:
+            no_of_dies = m.group(1)
+        die = m.group(2)
+        throw = sum([randint(1, int(die)) for i in range(int(no_of_dies))])
+        if output == 'summed':
+            return throw + mod_sum
+    else:
+        return False

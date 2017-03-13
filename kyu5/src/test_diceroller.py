@@ -13,6 +13,7 @@ TEST_INPUT = [
     ('2d4', True),
     ('d3 + 4', True),
     ('3d7 + 3 -2', True),
+    ('10d20', True),
 ]
 
 TEST_MODIFIERS = [
@@ -33,7 +34,7 @@ TEST_OUTPUT_SUMMED = [
 @pytest.mark.parametrize('d, result', TEST_INPUT)
 def test_dice_notation_input(d, result):
     """Test that dice notation is correct."""
-    from diceroller import validate_input
+    from diceroller import validate_input, normalize_input
     assert validate_input(d) == result
 
 @pytest.mark.parametrize('d, result', TEST_MODIFIERS)
@@ -42,8 +43,8 @@ def test_get_modifiers(d, result):
     from diceroller import get_modifiers
     assert get_modifiers(d) == result
 
-# @pytest.mark.parametrize('d, lower, upper', TEST_OUTPUT_SUMMED)
-# def test_dice_roll_summed(d, lower, upper):
-#     """Test that output with summed returns a number within bounds."""
-#     from diceroller import roll
-#     assert lower < roll(d) < upper
+@pytest.mark.parametrize('d, lower, upper', TEST_OUTPUT_SUMMED)
+def test_dice_roll_summed(d, lower, upper):
+    """Test that output with summed returns a number within bounds."""
+    from diceroller import roll
+    assert lower < roll(d) < upper
