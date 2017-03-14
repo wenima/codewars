@@ -10,6 +10,7 @@ kyu5 or higher. [History of the term kyu(https://en.wikipedia.org/wiki/Ky%C5%AB)
 
 * Base -2
 * RPG dice roller
+* Extract the domain name from a URL
 
 ## Details for each kata completed
 
@@ -78,4 +79,25 @@ def roll(desc, verbose=False):
             rolls = [random.randint(1, sides) for _ in range(dices)]
             return {'dice': rolls, 'modifier': modifier} if verbose else sum(rolls) + modifier
     return False
+```
+
+* Name: Extract the domain name from a URL
+* Descripton of Kata: Write a function that when given a URL as a string, parses
+out just the domain name and returns it as a string. For example:
+```
+domain_name("http://github.com/carbonfive/raygun") == "github"
+domain_name("http://www.zombie-bites.com") == "zombie-bites"
+domain_name("https://www.cnet.com") == "cnet"
+```
+* Difficulty: kyu5
+* Module: domain_name.py
+* Tests: test_domain_name.py
+* Link: https://www.codewars.com/kata/extract-the-domain-name-from-a-url-1/train/python
+* Comments about most interesting solution/best practice:
+Below solution is not the most up-voted one for this kata but in my view the one
+which solves the problem description the best.
+```python
+import re
+def domain_name(url):
+    return re.search('(https?://)?(www\d?\.)?(?P<name>[\w-]+)\.', url).group('name')
 ```
