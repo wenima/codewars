@@ -7,6 +7,7 @@ TEST_INPUT = [
     ('http://github.com/carbonfive/raygun', 'github'),
     ('http://www.zombie-bites.com', 'zombie-bites'),
     ('https://www.cnet.com', 'cnet'),
+    ('www.xakep.ru', 'xakep'),
 ]
 
 
