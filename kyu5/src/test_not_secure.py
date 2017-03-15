@@ -16,3 +16,9 @@ def test_alphanumeric(s, result):
     """Test alphanumeric returns True if input is alphanumeric else False."""
     from not_secure import alphanumeric
     assert alphanumeric(s) == result
+
+@pytest.mark.parametrize('s, result', TEST_INPUT)
+def test_alphanumeric_py(s, result):
+    """Test alphanumeric returns True if input is alphanumeric else False."""
+    from not_secure import alphanumeric_py
+    assert alphanumeric_py(s) == result
