@@ -11,6 +11,7 @@ kyu5 or higher. [History of the term kyu(https://en.wikipedia.org/wiki/Ky%C5%AB)
 * Base -2
 * RPG dice roller
 * Extract the domain name from a URL
+* not-very-secure
 
 ## Details for each kata completed
 
@@ -119,4 +120,7 @@ The string has the following conditions to be alphanumeric:
 * Link: https://www.codewars.com/kata/not-very-secure/train/python
 * Comments about most interesting solution/best practice:
 ```python
+import re
+def alphanumeric(string):
+    return bool(re.match(r'^[A-Za-z0-9]+$', string))
 ```
