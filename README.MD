@@ -1,8 +1,8 @@
-#Summary
+# Summary
 
 the repository *codewars* includes all of my completed code-katas from the
-[CodeWars Python challenges] (http://wwww.codewars.com) with a difficulty of
-kyu5 or higher. [History of the term kyu(https://en.wikipedia.org/wiki/Ky%C5%AB)]
+[CodeWars Python challenges](http://wwww.codewars.com) with a difficulty of
+kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)]
 
 # Python coding challenges:
 
@@ -12,10 +12,11 @@ kyu5 or higher. [History of the term kyu(https://en.wikipedia.org/wiki/Ky%C5%AB)
 * RPG dice roller
 * Extract the domain name from a URL
 * not-very-secure
+* Excel's COUNTIF, SUMIF and AVERAGEIF functions
 
 ## Details for each kata completed
 
-* Name: Base -2
+### Name: Base -2
 * Descripton of Kata: In this Kata you must convert integers numbers from and to
 a negative-base binary system.
 * Difficulty: kyu5
@@ -36,7 +37,7 @@ def int_to_negabinary(i):
 def negabinary_to_int(s):
     return (mask ^ int(s,2)) - mask
 ```
-Highest using solution using bit-shifting:
+Most upvoted solution using bit-shifting:
 ```python
 def int_to_negabinary(i):
     ds = []
@@ -52,7 +53,7 @@ def negabinary_to_int(s):
     return i
 ```
 
-* Name: RPG dice roller
+### Name: RPG dice roller
 * Descripton of Kata: Your task in this kata is to write a "dice roller" that
 interprets a subset of [dice notation] (https://en.wikipedia.org/wiki/Dice_notation)
 Your function must support two types of output depending on the second argument;
@@ -82,7 +83,7 @@ def roll(desc, verbose=False):
     return False
 ```
 
-* Name: Extract the domain name from a URL
+### Name: Extract the domain name from a URL
 * Descripton of Kata: Write a function that when given a URL as a string, parses
 out just the domain name and returns it as a string. For example:
 ```
@@ -103,7 +104,7 @@ def domain_name(url):
     return re.search('(https?://)?(www\d?\.)?(?P<name>[\w-]+)\.', url).group('name')
 ```
 
-* Name: Not very secure
+### Name: Not very secure
 * Descripton of Kata: In this example you have to validate if a user input
 string is alphanumeric. The given string is not nil, so you don't have to check
 that.
@@ -123,4 +124,30 @@ The string has the following conditions to be alphanumeric:
 import re
 def alphanumeric(string):
     return bool(re.match(r'^[A-Za-z0-9]+$', string))
+```
+
+### Name: Excel's COUNTIF, SUMIF and AVERAGEIF functions
+* Descripton of Kata: Microsoft Excel provides a number of useful functions for
+counting, summing, and averaging values if they meet a certain criteria. Your
+task is to write three functions that work similarly to Excel's COUNTIF, SUMIF
+and AVERAGEIF functions.
+
+Each function will take the same two arguments:
+
+- A list object containing ```values``` to be counted, summed, or averaged.
+- A ```criteria``` in either an integer, float, or string
+* Integer or float indicates equality
+* Strings can indicate >, >=, <, <= or <> (use the Excel-style "Not equal to"
+operator) to a number (ex. ">=3"). In the ```count_if``` function, a string without
+an operator indicates equality to this string.
+
+The tests will all include properly formatted inputs. The test cases all avoid
+rounding issues associated with floats.
+
+* Difficulty: kyu5
+* Module: basic_excel.py
+* Tests: test_basic_excel.py
+* Link: https://www.codewars.com/kata/56055244356dc5c45c00001e
+* Comments about most interesting solution/best practice:
+```python
 ```
