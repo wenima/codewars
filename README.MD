@@ -2,7 +2,7 @@
 
 the repository *codewars* includes all of my completed code-katas from the
 [CodeWars Python challenges](http://wwww.codewars.com) with a difficulty of
-kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)]
+kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)
 
 # Python coding challenges:
 
@@ -16,7 +16,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 
 ## Details for each kata completed
 
-### Name: Base -2
+### Base -2
 * Descripton of Kata: In this Kata you must convert integers numbers from and to
 a negative-base binary system.
 * Difficulty: kyu5
@@ -53,7 +53,7 @@ def negabinary_to_int(s):
     return i
 ```
 
-### Name: RPG dice roller
+### RPG dice roller
 * Descripton of Kata: Your task in this kata is to write a "dice roller" that
 interprets a subset of [dice notation] (https://en.wikipedia.org/wiki/Dice_notation)
 Your function must support two types of output depending on the second argument;
@@ -83,7 +83,7 @@ def roll(desc, verbose=False):
     return False
 ```
 
-### Name: Extract the domain name from a URL
+### Extract the domain name from a URL
 * Descripton of Kata: Write a function that when given a URL as a string, parses
 out just the domain name and returns it as a string. For example:
 ```
@@ -104,7 +104,7 @@ def domain_name(url):
     return re.search('(https?://)?(www\d?\.)?(?P<name>[\w-]+)\.', url).group('name')
 ```
 
-### Name: Not very secure
+### Not very secure
 * Descripton of Kata: In this example you have to validate if a user input
 string is alphanumeric. The given string is not nil, so you don't have to check
 that.
@@ -126,7 +126,7 @@ def alphanumeric(string):
     return bool(re.match(r'^[A-Za-z0-9]+$', string))
 ```
 
-### Name: Excel's COUNTIF, SUMIF and AVERAGEIF functions
+### Excel's COUNTIF, SUMIF and AVERAGEIF functions
 * Descripton of Kata: Microsoft Excel provides a number of useful functions for
 counting, summing, and averaging values if they meet a certain criteria. Your
 task is to write three functions that work similarly to Excel's COUNTIF, SUMIF
