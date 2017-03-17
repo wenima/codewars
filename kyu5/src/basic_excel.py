@@ -10,6 +10,7 @@ dispatch/commann pattern.
 import re
 from fastnumbers import fast_real
 
+
 def is_smaller(a, b):
   return True if a < b else None
 
@@ -25,6 +26,9 @@ def is_equal_or_greater(a, b):
 def is_not_equal(a, b):
     return True if a != b else None
 
+def compare(command, a, b):
+    return(dispatch[command](a, b))
+
 dispatch = {
   '<': is_smaller,
   '>': is_greater,
@@ -32,9 +36,6 @@ dispatch = {
   '>=': is_equal_or_greater,
   '<>': is_not_equal,
 }
-
-def compare(command, a, b):
-    return(dispatch[command](a, b))
 
 
 def parse_input(criteria):
@@ -68,6 +69,11 @@ def sumif(values, criteria):
         return sum([value for value in values if value == criteria])
 
 
-def average_if(values,criteria):
+def averageif(values,criteria):
     """Return average of values based on criteria."""
-    pass
+    operator, comparator = parse_input(criteria)
+    if len(operator) > 0:
+        out = [value for value in values if compare(operator, value, fast_real(comparator))]
+    else:
+        out = [value for value in values if value == criteria]
+    return sum(out) / len(out)
