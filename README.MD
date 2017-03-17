@@ -149,5 +149,6 @@ rounding issues associated with floats.
 * Tests: test_basic_excel.py
 * Link: https://www.codewars.com/kata/56055244356dc5c45c00001e
 * Comments about most interesting solution/best practice:
+Interesting use of lambdas but I don't like that the
 ```python
 ```
