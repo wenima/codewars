@@ -149,6 +149,35 @@ rounding issues associated with floats.
 * Tests: test_basic_excel.py
 * Link: https://www.codewars.com/kata/56055244356dc5c45c00001e
 * Comments about most interesting solution/best practice:
-Interesting use of lambdas but I don't like that the
+Not many solutions which didn't use eval or simply checked for the parameters
+given in the test. I feel this should be solved programmatically. I like the
+creativity of the below solutions but don't agree with checking for type.
 ```python
+def parse(values, criteria):
+    if type(criteria) in [int, float] or (type(criteria) is str and criteria[0] not in "<>"):
+        return [item for item in values if item == criteria]
+
+    rel = criteria.translate(None, "0123456789.")
+    limit = float(criteria.translate(None, "<>="))
+
+    if   rel == "<>":
+        return [item for item in values if item <> limit]
+    elif rel == "<=":
+        return [item for item in values if item <= limit]
+    elif rel == ">=":
+        return [item for item in values if item >= limit]
+    elif rel == "<":
+        return [item for item in values if item < limit]
+    elif rel == ">":
+        return [item for item in values if item > limit]
+
+
+def count_if(values, criteria):
+    return len(parse(values, criteria))
+
+def sum_if(values, criteria):
+    return sum(parse(values, criteria))
+
+def average_if(values, criteria):
+    return sum(parse(values, criteria)) * 1.0 / len(parse(values, criteria))
 ```
