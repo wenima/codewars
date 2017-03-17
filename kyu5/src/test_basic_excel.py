@@ -38,17 +38,17 @@ AVERAGEIF_INPUT = [
 @pytest.mark.parametrize('values, criteria, result', COUNTIF_INPUT)
 def test_countif(values, criteria, result):
     """Test function returns number of occurences of comparator in elements."""
-    from basic_excel import countif
-    assert countif(values, criteria) == result
+    from basic_excel import count_if
+    assert count_if(values, criteria) == result
 
 @pytest.mark.parametrize('values, criteria, result', SUMIF_INPUT)
 def test_sumif(values, criteria, result):
     """Test function returns sum of elements based on criteria."""
-    from basic_excel import sumif
-    assert sumif(values, criteria) == result
+    from basic_excel import sum_if
+    assert sum_if(values, criteria) == result
 
 @pytest.mark.parametrize('values, criteria, result', AVERAGEIF_INPUT)
-def test_countif(values, criteria, result):
+def test_averageif(values, criteria, result):
     """Test function returns average of elements based on comparator."""
-    from basic_excel import averageif
-    assert averageif(values, criteria) == result
+    from basic_excel import average_if
+    assert average_if(values, criteria) == result
