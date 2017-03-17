@@ -13,30 +13,15 @@ import re
 import operator as op
 
 
-def is_smaller(a, b):
-  return True if a < b else None
-
-def is_greater(a, b):
-  return True if a > b else None
-
-def is_equal_or_smaller(a, b):
-    return True if a <= b else None
-
-def is_equal_or_greater(a, b):
-    return True if a >= b else None
-
-def is_not_equal(a, b):
-    return True if a != b else None
-
 def compare(command, a, b):
     return(dispatch[command](a, b))
 
 dispatch = {
-  '<': is_smaller,
-  '>': is_greater,
-  '<=': is_equal_or_smaller,
-  '>=': is_equal_or_greater,
-  '<>': is_not_equal,
+  '<': op.lt,
+  '>': op.gt,
+  '<=': op.le,
+  '>=': op.ge,
+  '<>': op.ne,
 }
 
 
@@ -53,7 +38,7 @@ def parse_input(criteria):
             return operator, comparator
     except:
         return '', criteria
-        
+
 
 def out_arr(values, criteria, operator, comparator):
     if len(operator) > 0:
