@@ -17,6 +17,11 @@ COUNTIF_INPUT = [
 SUMIF_INPUT = [
     ([2, 4, 6, -1, 3, 1.5],">0", 16.5),
     ([1, 3, 5, 3], 3, 6),
+    ([1, 3, 5, 3],'>=3', 11),
+    ([1.5, 3, 5, 3, 0, -1, -5],'<=1.5', -4.5),
+    ([1, 3, 5, 3.5],'>3', 8.5),
+    ([1, 3, 5, 3, 0, -1, -5],'<1', -6),
+    ([1, 3, 5, 3, 0, -1, -5],'<>1', 5),
 ]
 
 AVERAGEIF_INPUT = [
@@ -30,11 +35,11 @@ def test_countif(values, criteria, result):
     from basic_excel import countif
     assert countif(values, criteria) == result
 
-# @pytest.mark.parametrize('elements, comparator, result', TEST_INPUT)
-# def test_sumif(elements, comparator, result):
-#     """Test function returns sum of elements based on comparator."""
-#     from basic_excel import sumif
-#     assert sumif(elements, comparator) == result
+@pytest.mark.parametrize('values, criteria, result', SUMIF_INPUT)
+def test_sumif(values, criteria, result):
+    """Test function returns sum of elements based on criteria."""
+    from basic_excel import sumif
+    assert sumif(values, criteria) == result
 #
 # @pytest.mark.parametrize('elements, comparator, result', TEST_INPUT)
 # def test_countif(elements, comparator, result):

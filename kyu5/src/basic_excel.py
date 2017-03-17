@@ -50,7 +50,7 @@ def parse_input(criteria):
         return '', criteria
 
 
-def countif(values,criteria):
+def countif(values, criteria):
     """Return number of occurences of criteria in list of values."""
     operator, comparator = parse_input(criteria)
     if len(operator) > 0:
@@ -59,9 +59,14 @@ def countif(values,criteria):
         return len([value for value in values if value == criteria])
 
 
-def sum_if(values,criteria):
+def sumif(values, criteria):
     """Return sum of values based on criteria."""
-    pass
+    operator, comparator = parse_input(criteria)
+    if len(operator) > 0:
+        return sum([value for value in values if compare(operator, value, fast_real(comparator))])
+    else:
+        return sum([value for value in values if value == criteria])
+
 
 def average_if(values,criteria):
     """Return average of values based on criteria."""
