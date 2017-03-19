@@ -181,3 +181,17 @@ def sum_if(values, criteria):
 def average_if(values, criteria):
     return sum(parse(values, criteria)) * 1.0 / len(parse(values, criteria))
 ```
+
+### Mod4 Regex
+* Descripton of Kata: You are to write a Regular Expression that matches any
+string with at least one number divisible by 4 (with no remainder). In most
+languages, you could do this easily by using ```number % 4 == 0```. How would
+you do it with Regex?
+* Difficulty: kyu5
+* Module: mod4regex.py
+* Tests: test_mod4regex.py
+* Link: https://www.codewars.com/kata/mod4-regex
+* Comments about most interesting solution/best practice:
+```python
+
+```
