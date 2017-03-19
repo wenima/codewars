@@ -192,6 +192,10 @@ you do it with Regex?
 * Tests: test_mod4regex.py
 * Link: https://www.codewars.com/kata/mod4-regex
 * Comments about most interesting solution/best practice:
+Not the highest voted but best solution nonetheless
 ```python
+import re
 
+class Mod:
+    mod4 = re.compile(r'.*\[[+-]?\d*((\b|[02468])[048]|[13579][26])\]')
 ```
