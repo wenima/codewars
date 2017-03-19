@@ -11,8 +11,15 @@ TEST_INPUT = [
     ('[005624]', True),
     ('[-05628]', True),
     ('the beginning [0] ... [invalid] numb[3]rs ... the end', True),
-    ("No, [2014] isn't a multiple of 4...", False)
-    ('...may be [+002016] will be.', True)
+    ("No, [2014] isn't a multiple of 4...", False),
+    ('...may be [+002016] will be.', True),
+    ('[555636]', True),
+    ('[005600]', True),
+    ('the beginning [-0] the end', True),
+    ('~[4]', True),
+    ('[+05640]', True),
+    ('[32]', True),
+    ('[~24]', False),
 ]
 
 
