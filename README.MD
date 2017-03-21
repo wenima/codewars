@@ -199,3 +199,15 @@ import re
 class Mod:
     mod4 = re.compile(r'.*\[[+-]?\d*((\b|[02468])[048]|[13579][26])\]')
 ```
+
+### Convert string to camel case
+* Descripton of Kata: Complete the method/function so that it converts dash/underscore
+delimited words into camel casing. The first word within the output should be
+capitalized only if the original word was capitalized.
+* Difficulty: kyu5
+* Module: camelcase.py
+* Tests: test_camelcase.py
+* Link: https://www.codewars.com/kata/convert-string-to-camel-case/python
+* Comments about most interesting solution/best practice:
+```python
+```
