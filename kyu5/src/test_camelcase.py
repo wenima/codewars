@@ -4,7 +4,7 @@ import pytest
 
 
 TEST_INPUT = [
-    # ('',''),
+    ('',''),
     ('the_stealth_warrior', 'theStealthWarrior'),
     ('The-Stealth-Warrior', 'TheStealthWarrior'),
 ]
