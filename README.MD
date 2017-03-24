@@ -211,3 +211,15 @@ capitalized only if the original word was capitalized.
 * Comments about most interesting solution/best practice:
 ```python
 ```
+
+### Calculate Fibonacci return count of digit occurrences
+* Descripton of Kata: Your task is to efficiently calculate the nth element in
+the Fibonacci sequence and then count the occurrence of each digit in the number
+returning a list of integer pairs sorted in descending order.
+* Difficulty: kyu5
+* Module: fib_digit_occurence.py
+* Tests: test_fib_digit_occurence.py
+* Link: https://www.codewars.com/kata/calculate-fibonacci-return-count-of-digit-occurrences
+* Comments about most interesting solution/best practice:
+```python
+```
