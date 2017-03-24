@@ -31,7 +31,7 @@ def test_generate_fib(n, result):
 
 
 
-@pytest.mark.parametrize('n, result', TEST)
+@pytest.mark.parametrize('n, result', TEST_DIGITS)
 def test_fib_digits(n, result):
     """Test fib_digits returns correct integer pairs."""
     from fib_digit_occurence import fib_digits
