@@ -4,11 +4,11 @@ import pytest
 
 
 TEST_FIB = [
-    (1, 0),
-    (3, 1),
-    (21, 6765),
-    (51, 12586269025),
-    (100, 218922995834555169026),
+    (1, 1),
+    (3, 2),
+    (20, 6765),
+    (50, 12586269025),
+    (99, 218922995834555169026),
 ]
 
 TEST_DIGITS = [
@@ -23,7 +23,7 @@ TEST_DIGITS = [
 ]
 
 
-@pytest.mark.parametrize('n, result', TEST)
+@pytest.mark.parametrize('n, result', TEST_FIB)
 def test_generate_fib(n, result):
     """Test generate_fib returns correct Fibonacci numbers."""
     from fib_digit_occurence import generate_fib
