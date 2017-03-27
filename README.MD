@@ -14,6 +14,10 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * not-very-secure
 * Excel's COUNTIF, SUMIF and AVERAGEIF functions
 
+##kyu4
+
+* Validate Sudoku with size `NxN`
+
 ## Details for each kata completed
 
 ### Base -2
@@ -231,4 +235,15 @@ def fib_digits(n):
         a,b = b, a+b
     counts = Counter(str(b))
     return sorted(((count, int(digit)) for digit, count in counts.items()), reverse=True)
+```
+
+### Calculate Fibonacci return count of digit occurrences
+* Descripton of Kata: Given a Sudoku data structure with size NxN, N > 0 and
+√N == integer, write a method to validate if it has been filled out correctly.
+* Difficulty: kyu4
+* Module: sudoku_validator.py
+* Tests: test_sudoku_validator.py
+* Link: https://www.codewars.com/kata/validate-sudoku-with-size-nxn
+* Comments about most interesting solution/best practice:
+```python
 ```
