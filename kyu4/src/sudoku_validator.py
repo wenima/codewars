@@ -3,22 +3,12 @@
 from math import sqrt
 from itertools import islice
 
-def extract_small_square(m, row, col, square_sides):
-    return [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
+class Sudoku(object):
 
+    """Create a Sudoku object.
 
-def check_square(matrix, row, square_sides):
-    for col in range(0, square_sides * 2 + 1, square_sides):
-        square = extract_small_square(matrix, row, col, square_sides)
-        return validate_square(square)
-
-
-def validate_square(square):
-    return sum([n for l in square for n in l]) == 45
-
-
-def sudoku_validator(m):
-    """Validate a Sudoku puzzle of size NxN.
+    Methods:
+        is_valid(): Check if the Sudoku object is valid
 
     Rules for validation are:
     Data structure dimension: NxN where N > 0 and √N == integer
@@ -26,13 +16,30 @@ def sudoku_validator(m):
     Columns may only contain integers: 1..N (N included)
     'Little squares' (3x3) may also only contain integers: 1..N (N included).
     """
-    if len(m) % 3 != 0:
-        return False
-    square_sides = int(sqrt(len(m)))
-    for i in range(0, square_sides * 2 + 1, square_sides):
-        try:
-            if not check_square(m, i, square_sides):
+    def __init__(self, matrix=None):
+        self.m = None
+        self.square_sides = 0
+        if matrix:
+            self.m = matrix
+            self.square_sides = int(sqrt(len(matrix)))
+
+    def _extract_small_square(self, row, col):
+        return [islice(self.m[i], col, self.square_sides + col) for i in range(row, row + self.square_sides)]
+
+    def _check_square(self, row):
+        for col in range(0, self.square_sides * 2 + 1, self.square_sides):
+            square = self._extract_small_square(row, col)
+            return self._validate_square(square)
+
+    def _validate_square(self, square):
+        return sum([n for l in square for n in l]) == 45
+
+    def is_valid(self):
+        """Validate a Sudoku puzzle of size NxN."""
+        for i in range(0, self.square_sides * 2 + 1, self.square_sides):
+            try:
+                if not self._check_square(i):
+                    return False
+            except TypeError:
                 return False
-        except TypeError:
-            return False
-    return True
+        return True

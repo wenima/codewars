@@ -2,7 +2,7 @@
 
 import pytest
 
-sudoku = [
+valid_m = [
 [7,8,4,  1,5,9,  3,2,6],
 [5,3,9,  6,7,2,  8,4,1],
 [6,1,2,  4,3,8,  7,5,9],
@@ -16,7 +16,7 @@ sudoku = [
 [1,9,5,  2,8,7,  6,3,4]
 ]
 
-invalid_sudoku = [
+invalid_m_str = [
 ['7',8,4,  1,5,9,  3,2,6],
 [5,3,9,  6,7,2,  8,4,1],
 [6,1,2,  4,3,8,  7,5,9],
@@ -30,7 +30,7 @@ invalid_sudoku = [
 [1,9,5,  2,8,7,  6,3,4]
 ]
 
-invalid_sudoku_float = [
+invalid_m_float = [
 [7.9999,8,4,  1,5,9,  3,2,6],
 [5,3,9,  6,7,2,  8,4,1],
 [6,1,2,  4,3,8,  7,5,9],
@@ -44,26 +44,41 @@ invalid_sudoku_float = [
 [1,9,5,  2,8,7,  6,3,4]
 ]
 
-TEST = [
-    (sudoku, True),
-    (sudoku[:1], False),
-]
+# TEST = [
+#     (sudoku, True),
+#     (sudoku[:1], False),
+# ]
+
+@pytest.fixture
+def valid_sudoku():
+    from sudoku_validator import Sudoku
+    new_sudoku = Sudoku(valid_m)
+    return new_sudoku
+
+@pytest.fixture
+def invalid_sudoku():
+    from sudoku_validator import Sudoku
+    new_sudoku = Sudoku(invalid_m_str)
+    return new_sudoku
+
+@pytest.fixture
+def invalid_sudoku_float():
+    from sudoku_validator import Sudoku
+    new_sudoku = Sudoku(invalid_m_float)
+    return new_sudoku
 
 
-@pytest.mark.parametrize('m, result', TEST)
-def test_sudoku_validator(m, result):
+# @pytest.mark.parametrize('m, result', TEST)
+def test_sudoku_validator(valid_sudoku):
     """Test sudoku_validator returns correct result."""
-    from sudoku_validator import sudoku_validator
-    assert sudoku_validator(m) == result
+    assert valid_sudoku.is_valid() == True
 
 
-def test_sudoku_validator_false_on_string_element():
+def test_sudoku_validator_false_on_string_element(invalid_sudoku):
     """Test sudoku_validator returns false if element in sudoku is not an integer."""
-    from sudoku_validator import sudoku_validator
-    assert sudoku_validator(invalid_sudoku) == False
+    assert invalid_sudoku.is_valid() == False
 
 
-def test_sudoku_validator_false_on_float_element():
+def test_sudoku_validator_false_on_float_element(invalid_sudoku_float):
     """Test sudoku_validator returns false if element in sudoku is not an integer."""
-    from sudoku_validator import sudoku_validator
-    assert sudoku_validator(invalid_sudoku_float) == False
+    assert invalid_sudoku_float.is_valid() == False
