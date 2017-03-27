@@ -1,14 +1,10 @@
 """Module to solve the code-kata https://www.codewars.com/kata/validate-sudoku-with-size-nxn."""
 
 from math import sqrt
+from itertools import islice
 
 def extract_small_square(m, row, col, square_sides):
-    s = []
-    total = 0
-    for i in range(row, row + square_sides):
-        slice = m[i][col:square_sides + col]
-        s.append(slice)
-    return s
+    return [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
 
 
 def check_square(matrix, row, square_sides):
