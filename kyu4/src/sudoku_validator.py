@@ -1,17 +1,19 @@
 """Module to solve the code-kata https://www.codewars.com/kata/validate-sudoku-with-size-nxn."""
 
-def extract_small_square(m, row, col):
+from math import sqrt
+
+def extract_small_square(m, row, col, square_sides):
     s = []
     total = 0
-    for i in range(row, row + 3):
-        slice = m[i][col:3 + col]
+    for i in range(row, row + square_sides):
+        slice = m[i][col:square_sides + col]
         s.append(slice)
     return s
 
 
-def check_square(matrix, row):
-    for col in range(0, 7, 3):
-        square = extract_small_square(matrix, row, col)
+def check_square(matrix, row, square_sides):
+    for col in range(0, square_sides * 2 + 1, square_sides):
+        square = extract_small_square(matrix, row, col, square_sides)
         return validate_square(square)
 
 
@@ -28,12 +30,13 @@ def sudoku_validator(m):
     Columns may only contain integers: 1..N (N included)
     'Little squares' (3x3) may also only contain integers: 1..N (N included).
     """
-    for i in range(0, 7, 3):
+    if len(m) % 3 != 0:
+        return False
+    square_sides = int(sqrt(len(m)))
+    for i in range(0, square_sides * 2 + 1, square_sides):
         try:
-            if not check_square(m, i):
+            if not check_square(m, i, square_sides):
                 return False
         except TypeError:
-            return False
-        except IndexError:
             return False
     return True
