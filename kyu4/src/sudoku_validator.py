@@ -19,7 +19,9 @@ class Sudoku(object):
     def __init__(self, matrix=None):
         self.m = None
         self.square_sides = 0
+        self.size = 0
         if matrix:
+            self.size = len(matrix)
             self.m = matrix
             self.square_sides = int(sqrt(len(matrix)))
 
@@ -27,16 +29,22 @@ class Sudoku(object):
         return [islice(self.m[i], col, self.square_sides + col) for i in range(row, row + self.square_sides)]
 
     def _check_square(self, row):
-        for col in range(0, self.square_sides * 2 + 1, self.square_sides):
+        for col in range(0, self.square_sides * 2, self.square_sides):
             square = self._extract_small_square(row, col)
             return self._validate_square(square)
 
     def _validate_square(self, square):
-        return sum([n for l in square for n in l]) == 45
+        sum_square = sum([n for l in square for n in l])
+        sum_expected = sum([n for n in range(1, self.size + 1)])
+        return sum_square == sum_expected
 
     def is_valid(self):
         """Validate a Sudoku puzzle of size NxN."""
-        for i in range(0, self.square_sides * 2 + 1, self.square_sides):
+        for l in self.m:        #because True is mask for 1
+            for n in l:
+                if isinstance(n, bool):
+                    return False
+        for i in range(0, 1 if self.square_sides == 1 else self.square_sides * 2, self.square_sides):
             try:
                 if not self._check_square(i):
                     return False
