@@ -13,6 +13,9 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Extract the domain name from a URL
 * not-very-secure
 * Excel's COUNTIF, SUMIF and AVERAGEIF functions
+* Mod 4 Regex
+* Convert string to camel case
+* Calculate Fibonacci return count of digit occurrences
 
 ##kyu4
 
@@ -237,13 +240,24 @@ def fib_digits(n):
     return sorted(((count, int(digit)) for digit, count in counts.items()), reverse=True)
 ```
 
-### Calculate Fibonacci return count of digit occurrences
+### Validate Sudoku with size `NxN`
 * Descripton of Kata: Given a Sudoku data structure with size NxN, N > 0 and
 √N == integer, write a method to validate if it has been filled out correctly.
 * Difficulty: kyu4
 * Module: sudoku_validator.py
 * Tests: test_sudoku_validator.py
 * Link: https://www.codewars.com/kata/validate-sudoku-with-size-nxn
+* Comments about most interesting solution/best practice:
+```python
+```
+
+### Primes with Even Digits
+* Descripton of Kata: Find the closest prime number under a certain integer n
+that has the maximum possible amount of even digits.
+* Difficulty: kyu4
+* Module: even_digit_primes.py
+* Tests: test_even_digit_primes.py
+* Link: https://www.codewars.com/kata/primes-with-even-digits
 * Comments about most interesting solution/best practice:
 ```python
 ```
