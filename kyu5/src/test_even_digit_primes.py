@@ -12,13 +12,6 @@ TEST_DIGITS = [
 ]
 
 
-@pytest.mark.parametrize('n, result', TEST_FIB)
-def test_generate_fib(n, result):
-    """Test generate_fib returns correct Fibonacci numbers."""
-    from fib_digit_occurence import generate_fib
-    assert generate_fib(n) == result
-
-
 @pytest.mark.parametrize('n, result', TEST_DIGITS)
 def test_fib_digits(n, result):
     """Test fib_digits returns correct integer pairs."""
