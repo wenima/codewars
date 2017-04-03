@@ -26,14 +26,21 @@ def get_range_even_digit_prime(n):
                 break
         if int(sn[1]) % 2 != 0:
             sn[1] = str(int(sn[1]) - 1)
-            for i in (2, len(sn) - 1):
+            for i in range(2, len(sn) - 1):
                 sn[i] = '8'
             sn[-1] = '9'
-    if sn[0] != '1' and int(sn[0]) % 2 != 0:
-        sn[0] = str(int(sn[0]) - 1)
-        for i in range(1, len(sn) - 1):
-            sn[i] = '8'
-        sn[-1] = '9'
+    i = 0
+    while True:
+        if sn[i] != '1' and int(sn[i]) % 2 != 0:
+            sn[i] = str(int(sn[i]) - 1)
+            for i in range(i + 1, len(sn) - 1):
+                sn[i] = '8'
+            sn[-1] = '9'
+            break
+        if i == len(sn) - 1:
+            break
+        i += 1
+    print(sn)
     return int(''.join(sn))
 
 
