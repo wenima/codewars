@@ -13,12 +13,15 @@ def get_value_to_subtract(n):
     """Return a value to get to the nearest range to find an even digit prime."""
     p = n - 1
     p = str(p)
-    if int(p[0]) == 1 and int(p[1]) % 2 != 0:
-        second_msd = int(p[2])
+    if int(p[0]) == 1:
+        if int(p[1]) % 2 != 0:
+            second_msd = int(p[2])
+        else:
+            return 0
+    elif int(p[0]) % 2 != 0 and int(p[0]) != 1 :
+            second_msd = int(p[2])
     else:
         return 0
-    if int(p[0]) % 2 != 0 and intp[0] != 1:
-            second_msd = int(p[1])
     multiples_of_10 = len(p) - 2
     build_str_to_subtract = [str(second_msd)] + multiples_of_10 * ['0']
     return int(''.join(build_str_to_subtract))
@@ -41,7 +44,7 @@ def f(n):
     p -= sub
     while True:
         p = step(p)
-        if sum([str(p).count(str(i)) for i in range(0, 10, 2)]) == len(str(p)) -1 if sub else -2:
+        if sum([str(p).count(str(i)) for i in range(0, 10, 2)]) == len(str(p)) - (2 if int(str(p)[0]) == 1 else 1):
             break
         p -= 2
     return p
