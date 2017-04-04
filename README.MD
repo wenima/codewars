@@ -218,6 +218,8 @@ capitalized only if the original word was capitalized.
 * Link: https://www.codewars.com/kata/convert-string-to-camel-case/python
 * Comments about most interesting solution/best practice:
 ```python
+def to_camel_case(s):
+    return s[0] + s.title().translate(None, "-_")[1:] if s else s
 ```
 
 ### Calculate Fibonacci return count of digit occurrences
@@ -255,7 +257,7 @@ def fib_digits(n):
 ### Primes with Even Digits
 * Descripton of Kata: Find the closest prime number under a certain integer n
 that has the maximum possible amount of even digits.
-* Difficulty: kyu4
+* Difficulty: kyu5
 * Module: even_digit_primes.py
 * Tests: test_even_digit_primes.py
 * Link: https://www.codewars.com/kata/primes-with-even-digits
