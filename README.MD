@@ -16,6 +16,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Mod 4 Regex
 * Convert string to camel case
 * Calculate Fibonacci return count of digit occurrences
+* Primes with Even Digits
 
 ##kyu4
 
@@ -259,5 +260,5 @@ that has the maximum possible amount of even digits.
 * Tests: test_even_digit_primes.py
 * Link: https://www.codewars.com/kata/primes-with-even-digits
 * Comments about most interesting solution/best practice:
-```python
-```
+I checked a few of the solutions at the top but most of them seem to time out and
+are not optimized.
