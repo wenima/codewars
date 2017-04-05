@@ -20,7 +20,26 @@ def test_create_Primes_object(empty_Primes):
     """Test creation of an empty Primes object."""
     assert empty_Primes.prime_list == []
 
+
 @pytest.mark.parametrize('p, result', TESTS)
 def test_first_few_primes(p, result, empty_Primes):
     """Test method first returns results from TESTS."""
     assert empty_Primes.first(p) == result
+
+def test_primes_slice():
+    """Test method first returns correct slice."""
+    from primes import Primes
+    Primes = Primes()
+    assert Primes.first(20)[-5:] == [53, 59, 61, 67, 71]
+
+def test_prime_100th_element():
+    """Test method first returns correct element."""
+    from primes import Primes
+    Primes = Primes()
+    assert Primes.first(100)[99] == 541
+
+def test_prime_80thth_element():
+    """Test method first returns correct element."""
+    from primes import Primes
+    Primes = Primes()
+    assert Primes.first(80)[79] == 409
