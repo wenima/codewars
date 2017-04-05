@@ -264,3 +264,28 @@ that has the maximum possible amount of even digits.
 * Comments about most interesting solution/best practice:
 I checked a few of the solutions at the top but most of them seem to time out and
 are not optimized.
+
+### First n Prime Numbers
+* Descripton of Kata: Write your own Primes class with class method Primes.first(n)
+ that returns an array of the first n prime numbers.
+* Difficulty: kyu5
+* Module: primes.py
+* Tests: test_primes.py
+* Link: https://www.codewars.com/kata/first-n-prime-numbers
+* Comments about most interesting solution/best practice:
+Not the most pythonic code but interesting Python2 solution
+```python
+primes = [2, 3, 5, 7, 11, 13] + \
+[n for n in xrange(15, 10**6, 2) if n%3 and n%5 and n%7 and n%11 and n%13 and pow(2, n-1, n) == 1]
+i = False
+while i < len(primes):
+    n = primes[i]
+    for x in primes:
+        if x**2 > n: i += 1; break
+        if not n%x: del primes[i]; break
+
+class Primes:
+    @staticmethod
+    def first(n):
+        return primes[:n]
+```
