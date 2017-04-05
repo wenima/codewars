@@ -1,5 +1,7 @@
 """Module to solve codewars kata https://www.codewars.com/kata/first-n-prime-numbers."""
 
+from itertools import islice, count
+
 class Primes(object):
     """Create Primes object to store and return prime numbers.
 
@@ -11,20 +13,28 @@ class Primes(object):
         """Initialize a Prime object."""
         self.prime_list = []
 
-    def _eratosthenes(self, n):
-        """Return all primes up to and including n if n is a prime
+    def _eratosthenes(self):
+        """Yield primes infinitively with a modified version of Eratosthenes.
         Since we know primes can't be even, we iterate in steps of 2."""
-        if n >= 2:
-            yield 2
-        multiples = set()
-        for i in range(3, n+1, 2):
-            if i not in multiples:
-                yield i
-                multiples.update(range(i*i, n+1, i))
+        D = {}
+        yield 2
+        for q in islice(count(3), 0, None, 2):
+            p = D.pop(q, None)
+            if p is None:
+                D[q*q] = q
+                yield q
+            else:
+                x = q + 2*p
+                while x in D:
+                    x += 2*p
+                D[x] = p
 
     def _generate_primes(self, n):
-        self.prime_list = [p for p in self._eratosthenes(n)]
+        for p in self._eratosthenes():
+            self.prime_list.append(p)
+            if len(self.prime_list) == n:
+                break
 
     def first(self, n):
-        _generate_primes(n)
+        self._generate_primes(n)
         return self.prime_list

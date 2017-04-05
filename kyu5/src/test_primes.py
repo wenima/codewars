@@ -18,9 +18,9 @@ def empty_Primes():
 
 def test_create_Primes_object(empty_Primes):
     """Test creation of an empty Primes object."""
-    assert Primes.prime_list is False
+    assert empty_Primes.prime_list == []
 
 @pytest.mark.parametrize('p, result', TESTS)
 def test_first_few_primes(p, result, empty_Primes):
     """Test method first returns results from TESTS."""
-    assert Primes.first(p) == result
+    assert empty_Primes.first(p) == result
