@@ -271,5 +271,19 @@ are not optimized.
 * Tests: test_primes.py
 * Link: https://www.codewars.com/kata/first-n-prime-numbers
 * Comments about most interesting solution/best practice:
+Not the most pythonic code but interesting Python2 solution
 ```python
+primes = [2, 3, 5, 7, 11, 13] + \
+[n for n in xrange(15, 10**6, 2) if n%3 and n%5 and n%7 and n%11 and n%13 and pow(2, n-1, n) == 1]
+i = False
+while i < len(primes):
+    n = primes[i]
+    for x in primes:
+        if x**2 > n: i += 1; break
+        if not n%x: del primes[i]; break
+
+class Primes:
+    @staticmethod
+    def first(n):
+        return primes[:n]
 ```
