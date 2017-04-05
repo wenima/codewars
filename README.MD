@@ -255,10 +255,21 @@ def fib_digits(n):
 ### Primes with Even Digits
 * Descripton of Kata: Find the closest prime number under a certain integer n
 that has the maximum possible amount of even digits.
-* Difficulty: kyu4
+* Difficulty: kyu5
 * Module: even_digit_primes.py
 * Tests: test_even_digit_primes.py
 * Link: https://www.codewars.com/kata/primes-with-even-digits
 * Comments about most interesting solution/best practice:
 I checked a few of the solutions at the top but most of them seem to time out and
 are not optimized.
+
+### First n Prime Numbers
+* Descripton of Kata: Write your own Primes class with class method Primes.first(n)
+ that returns an array of the first n prime numbers.
+* Difficulty: kyu5
+* Module: primes.py
+* Tests: test_primes.py
+* Link: https://www.codewars.com/kata/first-n-prime-numbers
+* Comments about most interesting solution/best practice:
+```python
+```
