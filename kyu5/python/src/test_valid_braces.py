@@ -12,14 +12,16 @@ TEST_PS = [
     ('()()())()()()', False),
     ('(()(()(', False),
     ('(((((())))', False),
-    ('())(((((', False)
+    ('())(((((', False),
 ]
 
 TEST_INPUT = [
     ('(){}[]', True),
     ('(}', False),
     ('[(])', False),
-    ('([{}])', True)
+    ('([{}])', True),
+    ('', False),
+    ('(', False),
 ]
 
 @pytest.mark.parametrize('s, result', TEST_PS)
