@@ -17,11 +17,12 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Convert string to camel case
 * Calculate Fibonacci return count of digit occurrences
 * Primes with Even Digits
-* Valid Braces
 
-##kyu4
+## kyu4
 
 * Validate Sudoku with size `NxN`
+* Valid Braces
+* Next Bigger Number with same digits
 
 ## Details for each kata completed
 
@@ -295,11 +296,36 @@ class Primes:
 * Descripton of Kata: Write a function called validBraces that takes a string of
 braces, and determines if the order of the braces is valid. validBraces should
 return true if the string is valid, and false if it's invalid.
-* Difficulty: kyu5
+* Difficulty: kyu4
 * Module: valid_braces.py
 * Tests: test_valid_braces.py
 * Link: https://www.codewars.com/kata/valid-braces
 * Comments about most interesting solution/best practice:
-Not the most pythonic code but interesting Python2 solution
 ```python
+```
+
+### Next Bigger Number
+* Descripton of Kata: You have to create a function that takes a positive integer
+number and returns the next bigger number formed by the same digits:
+* Difficulty: kyu4
+* Module: next_bigger.py
+* Tests: test_next_bigger.py
+* Link: https://www.codewars.com/kata/next-bigger-number-with-the-same-digits
+* Comments about most interesting solution/best practice:
+Some of the solutions are short but are basically brute-forcing it. The below
+solution is 2nd highest voted but I like it better than the top voted one due to
+readability and speed.
+```python
+import itertools
+def next_bigger(n):
+    s = list(str(n))
+    for i in range(len(s)-2,-1,-1):
+        if s[i] < s[i+1]:
+            t = s[i:]
+            m = min(filter(lambda x: x>t[0], t))
+            t.remove(m)
+            t.sort()
+            s[i:] = [m] + t
+            return int("".join(s))
+    return -1
 ```
