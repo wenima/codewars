@@ -24,6 +24,10 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Valid Braces
 * Next Bigger Number with same digits
 
+## kyu3
+
+* Sudoku Solver
+
 ## Details for each kata completed
 
 ### Base -2
@@ -328,4 +332,16 @@ def next_bigger(n):
             s[i:] = [m] + t
             return int("".join(s))
     return -1
+```
+
+### Sudoku Solver
+* Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
+function will take one argument consisting of the 2D puzzle array, with the value
+0 representing an unknown square.
+* Difficulty: kyu3
+* Module: sudoku_solver.py
+* Tests: test_sudoku_solver.py
+* Link: https://www.codewars.com/kata/sudoku-solver
+* Comments about most interesting solution/best practice:
+```python
 ```
