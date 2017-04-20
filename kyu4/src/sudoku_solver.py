@@ -6,12 +6,27 @@ from operator import itemgetter
 
 def sudoku_solver(m):
     """Return a valid Sudoku for a given matrix."""
-    pass
-
-square_sides = int(sqrt(len(m)))
-rows_missing = {}
-cols_missing = {}
-squares_missing = {}
+    square_sides = int(sqrt(len(m)))
+    rows_missing = {}
+    cols_missing = {}
+    squares_missing = {}
+    candidates = {}
+    starting_spots = get_starting_spots(m)
+    starting_spots.sort(key=itemgetter(2))
+    for coordinate in starting_spots:
+        get_candidates(coordinate, candidates, rows_missing, cols_missing, squares_missing)
+    while True:
+        try:
+            update_sudoku(find_fit(candidates), candidates, m, rows_missing, cols_missing, squares_missing)
+        except TypeError:
+            starting_spots = get_starting_spots(m) #rebuilding the starting spots
+            starting_spots.sort(key=itemgetter(2))
+            if len(starting_spots) == 0: #run until all spaces have been filled
+                break
+            for coordinate in starting_spots: #rebuild candidates based off of rebuilt starting_spots
+                get_candidates(coordinate, candidates, rows_missing, cols_missing, squares_missing)
+            run()
+    return m
 
 #finding missing numbers for square
 def missing_sq(square):
@@ -33,6 +48,7 @@ def initalize_missing_numbers_squares(m):
             sq_nr += 1
             square = [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
             squares_missing[sq_nr] = missing_sq(square)
+    return squares_missing
 
 
 #finding missing rows
@@ -46,10 +62,13 @@ def missing_row(row):
             continue
     return missing
 
+
 def initalize_missing_numbers_rows(m):
     """Fill a dictionary initially with all missing numbers for all rows of given matrix."""
     for row_nr, row in enumerate(m):
         rows_missing[row_nr] = missing_row(row)
+    return rows_missing
+
 
 #finding missing cols
 def missing_col(col):
@@ -67,6 +86,7 @@ def initalize_missing_numbers_cols(m):
     for i in range(9):
         missing = missing_col(i)
         cols_missing[i] = missing
+    return cols_missing
 
 
 def get_square_nr(row, col):
