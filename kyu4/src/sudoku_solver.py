@@ -12,6 +12,7 @@ def sudoku_solver(m):
     cols_missing = defaultdict(list)
     squares_missing = defaultdict(list)
     squares_coords = {}
+    candidates = {}
     dicts = rows_missing, cols_missing, squares_missing
     sq_nr = 0
     for row in range(0, square_sides ** 2, square_sides):
@@ -22,22 +23,10 @@ def sudoku_solver(m):
     for d in dicts:
         d = get_missing(d)
     starting_spots = get_starting_spots(m, dicts, squares_coords)
-    starting_spots.sort(key=itemgetter(2))
-
+    starting_spots.sort(key=itemgetter(2)) #sort list with least amount of possibilities first
     for coordinate in starting_spots:
-        get_candidates(coordinate, candidates, rows_missing, cols_missing, squares_missing)
-    while True:
-        try:
-            update_sudoku(find_fit(candidates), candidates, m, rows_missing, cols_missing, squares_missing)
-        except TypeError:
-            starting_spots = get_starting_spots(m) #rebuilding the starting spots
-            starting_spots.sort(key=itemgetter(2))
-            if len(starting_spots) == 0: #run until all spaces have been filled
-                break
-            for coordinate in starting_spots: #rebuild candidates based off of rebuilt starting_spots
-                get_candidates(coordinate, candidates, rows_missing, cols_missing, squares_missing)
-            run()
-    return m
+        candidates =  get_candidates(coordinate, candidates, dicts, squares_coords)
+    return fill_sudoku(m, candidates, dicts, squares_coords)
 
 #mapping given numbers to respective row, cols and squares
 def fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords):
@@ -62,7 +51,7 @@ def get_missing(d):
 
 
 def get_starting_spots(m, dicts, squares_coords):
-    """Return a sorted list with coordinates as starting point for sudoku solver."""
+    """Return a list with coordinates as starting point for sudoku solver."""
     rm, cm, sm = dicts
     starting_spots = []
     row = 0
@@ -78,19 +67,68 @@ def get_starting_spots(m, dicts, squares_coords):
     return starting_spots
 
 
-def get_candidates(coordinate, candidates, rows_missing, cols_missing, squares_missing):
+def get_candidates(coordinate, candidates, dicts, squares_coords):
     """Return an updated dict of candidates for a given coordinate in the Sudoko."""
     row, col, missing = coordinate
-    rm = rows_missing[row]
-    sm = squares_missing[get_square_nr(row, col)]
-    candidates[(row, col)] = [n for n in cols_missing[col] if n in rm and n in sm]
+    rm, cm, sm = dicts
+    candidates[(row, col)] = [n for n in cm[col] if n in rm[row] and n in sm[squares_coords[row, col]]]
     return candidates
 
-def update_sudoku(coordinate, candidates, m, rows_missing, cols_missing, squares_missing):
+
+def find_fit(candidates):
+    """Return a tuple with coordinate and value to update from a sorted
+    representation of a dict."""
+    fit = sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)
+    row, col = fit[0]
+    n = fit[1].pop()
+    if len(fit[1]) == 0:
+        return row, col, n
+    return None
+
+def update_sudoku(fit, candidates, m, dicts, squares_coords):
     """Return an updated Sudoku and missing number dicts."""
-    if len(candidates[(row, col)]) == 1:
-    n = candidates[(row, col)].pop()
-    m[row][col] = n
-    rows_missing[row].remove(n)
-    cols_missing[col].remove(n)
-    squares_missing[get_square_nr(row, col)].remove(n)
+    row, col, n = fit
+    rm, cm, sm = dicts
+    try:
+        if m[row][col] != 0:
+            raise ValueError
+        m[row][col] = n
+#         print('updated {0}, {1} with {2}'.format(row, col, n))
+    except ValueError:
+        raise ValueError('Trying to update at a coordinate that already holds a non-zero value')
+    rm[row].remove(n)
+    cm[col].remove(n)
+    sm[squares_coords[row, col]].remove(n)
+    del candidates[(row, col)]
+    for k, v in candidates.items():
+        if k[0] == row or k[1] == col:
+            try:
+                v.remove(n)
+#                 print('removed {0} from {1}'.format(n, k))
+            except:
+#                 print('not in list')
+                continue
+    return candidates
+
+
+def fill_sudoku(m, candidates, dicts, squares_coords):
+    """Return the solved Sudoku by continously updating numbers from the list of
+    candidates. If no immediate candidates, rebuild the starting spots and list
+    of candidates and repeat updating process until no more candidates."""
+    while True:
+        try:
+            if candidates:
+                candidates = update_sudoku(find_fit(candidates), candidates, m, dicts, squares_coords)
+                continue
+            break
+        except TypeError:
+#             print(DataFrame(m))
+#             print('Rebuilding')
+            starting_spots = get_starting_spots(m, dicts, squares_coords) #Rebuilding starting spots
+            starting_spots.sort(key=itemgetter(2))
+            if len(starting_spots) == 0:
+                break
+            for coordinate in starting_spots: #rebuild candidates based off of rebuilt starting_spots
+                get_candidates(coordinate, candidates, dicts, squares_coords)
+            fill_sudoku(m, candidates, dicts, squares_coords)
+    return m
