@@ -151,4 +151,3 @@ def fill_sudoku(m, dicts, squares_coords):
             candidates = {} #we are no longer interested in current candidates
             starting_spots = []
             m = fill_sudoku(m, dicts, squares_coords)
-    return m
