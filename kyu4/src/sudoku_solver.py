@@ -3,13 +3,24 @@
 from math import sqrt, ceil
 from itertools import islice
 from operator import itemgetter
+from collections import defaultdict
 
 def sudoku_solver(m):
     """Return a valid Sudoku for a given matrix."""
     square_sides = int(sqrt(len(m)))
-    rows_missing = {}
-    cols_missing = {}
-    squares_missing = {}
+    rows_missing = defaultdict(list)
+    cols_missing = defaultdict(list)
+    squares_missing = defaultdict(list)
+    squares_coords = defaultdict(list)
+    dicts = rows_missing, cols_missing, squares_missing
+    sq_nr = 0
+    for row in range(0, square_sides ** 2, square_sides):
+        for col in range(0, square_sides ** 2, square_sides):
+            sq_nr += 1
+            square = [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
+            fill_given_numbers(square, row, col, sq_nr)
+    for d in dicts:
+        d = get_missing(d)
     candidates = {}
     starting_spots = get_starting_spots(m)
     starting_spots.sort(key=itemgetter(2))
@@ -28,27 +39,23 @@ def sudoku_solver(m):
             run()
     return m
 
-#finding missing numbers for square
-def missing_sq(square):
-    """Return the missing number for a given square."""
-    missing = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+#mapping given numbers to respective row, cols and squares
+def fill_given_numbers(square, row, col, sq_nr):
+    """Fill dicts with given numbers number for a given square."""
     for row_idx, sr in enumerate(square):
         for col_idx, sv in enumerate(sr):
-            try:
-                missing.remove(sv)
-            except ValueError:
-                continue
-    return missing
+            coord = (row + row_idx, col + col_idx)
+            squares_coords[sq_nr].append(coord)
+            rows_missing[coord[0]].append(sv)
+            cols_missing[coord[1]].append(sv)
+            squares_missing[sq_nr].append(sv)
 
-def initalize_missing_numbers_squares(m):
-    """Fill a dictionary intitally with all missing numbers in the matrix."""
-    sq_nr = 0
-    for row in range(0, square_sides ** 2, square_sides):
-        for col in range(0, square_sides ** 2, square_sides):
-            sq_nr += 1
-            square = [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
-            squares_missing[sq_nr] = missing_sq(square)
-    return squares_missing
+
+def get_missing(d):
+    """Return a dictionary with swapped values from given numbers to missing numbers."""
+    for k, v in d.items():
+        d[k] = set([1, 2, 3, 4, 5, 6, 7, 8, 9]) - set(v)
+    return d
 
 
 #finding missing rows
@@ -63,57 +70,15 @@ def missing_row(row):
     return missing
 
 
-def initalize_missing_numbers_rows(m):
-    """Fill a dictionary initially with all missing numbers for all rows of given matrix."""
-    for row_nr, row in enumerate(m):
-        rows_missing[row_nr] = missing_row(row)
-    return rows_missing
-
-
-#finding missing cols
-def missing_col(col):
-    """Return the missing numbers from a given col."""
-    missing = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    for i in range(9):
-        try:
-            missing.remove(m[i][col])
-        except ValueError:
-            continue
-    return missing
-
-def initalize_missing_numbers_cols(m):
-    """Fill a dictionary initially with all missing numbers for all cols of given matrix."""
-    for i in range(9):
-        missing = missing_col(i)
-        cols_missing[i] = missing
-    return cols_missing
-
-
-def get_square_nr(row, col):
-    """Return the square number in the Sudoku starting top left being 0 based
-    on given row and column."""
-    if col < 3:
-        if row // 3 == 0:
-            square_nr = 1
-        elif row // 3 == 1:
-            square_nr = 4
-        elif row // 3 > 1:
-            square_nr = 7
-    elif 2 < col < 6:
-        if row // 3 == 0:
-            square_nr = 2
-        elif row // 3 == 1:
-            square_nr = 5
-        elif row // 3 > 1:
-            square_nr = 8
-    else:
-        if row // 3 == 0:
-            square_nr = 3
-        elif row // 3 == 1:
-            square_nr = 6
-        elif row // 3 > 1:
-            square_nr = 9
-    return square_nr
+def get_square_nr(square_coords, row, col):
+    """Return the square number in the Sudoku starting top left being 1 based
+    on given row and column. If row and column cannot be located, return -1."""
+    target = (row, col)
+    for k, v in square_coords.items():
+        for coord in v:
+            if coord == target:
+                return k
+    return -1
 
 
 def get_starting_spots(m, rows_missing, squares_missing):
