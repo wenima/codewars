@@ -58,18 +58,6 @@ def get_missing(d):
     return d
 
 
-#finding missing rows
-def missing_row(row):
-    """Return the missing numbers from a given row."""
-    missing = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    for rv in row:
-        try:
-            missing.remove(rv)
-        except ValueError:
-            continue
-    return missing
-
-
 def get_square_nr(square_coords, row, col):
     """Return the square number in the Sudoku starting top left being 1 based
     on given row and column. If row and column cannot be located, return -1."""
