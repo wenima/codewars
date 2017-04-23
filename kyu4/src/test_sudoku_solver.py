@@ -26,6 +26,18 @@ kata = [
     [0,0,0,0,8,0,0,7,9]
     ]
 
+kata4 = [
+    [0, 1, 9, 0, 6, 0, 5, 4, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [8, 2, 0, 9, 7, 4, 0, 3, 6],
+    [0, 0, 1, 5, 0, 3, 8, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 2, 7, 0, 1, 6, 0, 0],
+    [7, 5, 0, 1, 3, 8, 0, 9, 2],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 8, 3, 0, 4, 0, 7, 1, 0]
+    ]
+
 medium = [
     [3,0,5,0,2,0,7,0,1],
     [0,0,0,8,0,3,0,0,2],
@@ -52,6 +64,12 @@ def kata_sudoku():
     return new_sudoku
 
 @pytest.fixture
+def kata4_sudoku():
+    from sudoku_solver import sudoku_solver
+    new_sudoku = sudoku_solver(kata4)
+    return new_sudoku
+
+@pytest.fixture
 def medium_sudoku():
     from sudoku_solver import sudoku_solver
     new_sudoku = sudoku_solver(medium)
@@ -68,6 +86,12 @@ def test_kata_sudoku_validator(kata_sudoku):
     from sudoku_validator import Sudoku
     kata_sudoku = Sudoku(kata_sudoku)
     assert kata_sudoku.is_valid() == True
+
+def test_kata4_sudoku_validator(kata4_sudoku):
+    """Test sudoku_validator returns correct result."""
+    from sudoku_validator import Sudoku
+    kata4_sudoku = Sudoku(kata4_sudoku)
+    assert kata4_sudoku.is_valid() == True
 
 
 def test_medium_sudoku_validator(medium_sudoku):

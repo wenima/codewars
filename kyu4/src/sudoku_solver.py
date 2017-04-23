@@ -20,7 +20,9 @@ def sudoku_solver(m):
         """
     square_sides = int(sqrt(len(m)))
     rows_missing = defaultdict(list)
+    rows_missing = initialize_d(rows_missing, square_sides)
     cols_missing = defaultdict(list)
+    cols_missing = initialize_d(cols_missing, square_sides)
     squares_missing = defaultdict(list)
     squares_missing = {key:[] for key in range(1, square_sides ** 2 + 1)}
     squares_coords = {}
@@ -35,6 +37,12 @@ def sudoku_solver(m):
         d = get_missing(d)
     m = fill_sudoku(m, dicts, squares_coords)
     return m
+
+
+def initialize_d(d, square_sides):
+    """Return an initialized dict so empty rows or columns in the Sudoku are
+    correctly handled."""
+    return {key:[] for key in range(square_sides ** 2)}
 
 
 def fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords):
