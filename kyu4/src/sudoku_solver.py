@@ -22,6 +22,7 @@ def sudoku_solver(m):
     rows_missing = defaultdict(list)
     cols_missing = defaultdict(list)
     squares_missing = defaultdict(list)
+    squares_missing = {key:[] for key in range(1, square_sides ** 2 + 1)}
     squares_coords = {}
     dicts = rows_missing, cols_missing, squares_missing
     sq_nr = 0
@@ -136,7 +137,10 @@ def fill_sudoku(m, dicts, squares_coords):
     starting_spots = get_starting_spots(m, dicts, squares_coords)
     starting_spots.sort(key=itemgetter(2))
     candidates =  get_candidates(starting_spots, candidates, dicts, squares_coords)
+    if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
+        return m
     while True:
+        candidates_amt = len(candidates)
         try:
             fit = find_fit(candidates)
         except IndexError:
