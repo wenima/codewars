@@ -93,7 +93,6 @@ def test_kata4_sudoku_validator(kata4_sudoku):
     kata4_sudoku = Sudoku(kata4_sudoku)
     assert kata4_sudoku.is_valid() == True
 
-
 def test_medium_sudoku_validator(medium_sudoku):
     """Test sudoku_validator returns correct result."""
     from sudoku_validator import Sudoku

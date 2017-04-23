@@ -344,4 +344,77 @@ function will take one argument consisting of the 2D puzzle array, with the valu
 * Link: https://www.codewars.com/kata/sudoku-solver
 * Comments about most interesting solution/best practice:
 ```python
+import numpy as np
+
+def sudoku(puzzle):
+    """return the solved puzzle as a 2d array of 9 x 9"""
+    count = 0
+    puzzle = np.array(puzzle)
+    while(not all([all(row.tolist()) for row in puzzle])):
+        for i in range(9):
+            for j in range(9):
+                if puzzle[i,j]: continue
+                n = {1,2,3,4,5,6,7,8,9} - (set(puzzle[i].tolist()).union(set(puzzle[:,j].tolist())).union(set(puzzle[3*(i//3):3*(i//3) + 3, 3*(j//3): 3*(j//3) + 3].flatten().tolist())) - {0})
+                if len(n) == 1:
+                    puzzle[i,j] = list(n)[0]
+                    print(i,j)
+
+        count += 1
+        print(puzzle[0])
+        if count == 10:
+            return "aaaa"
+    print(count)
+
+    return puzzle.tolist()
 ```
+
+```python
+
+
+def row_numbers(puzzle, row):
+  return set(puzzle[row][i] for i in range(9) if puzzle[row][i] != 0)
+
+def col_numbers(puzzle, col):
+  return set(puzzle[i][col] for i in range(9) if puzzle[i][col] != 0)
+
+def subsquare(puzzle, row, col):
+  return set([puzzle[i][j] for i in range(row, row+3) for j in range(col, col+3) if puzzle[i][j] != 0])
+
+def count(puzzle):
+  return sum((puzzle[i].count(0) for i in range(9)))
+
+
+def sudoku(puzzle):
+  sol = set(i for i in range(1, 10))
+
+  while count(puzzle) > 0:
+    for x in range(9):
+      for y in range(9):
+        if puzzle[x][y] == 0:
+          possible = sol - (row_numbers(puzzle, x) | col_numbers(puzzle, y) | subsquare(puzzle, 3*(x//3), 3*(y//3)))
+          if len(possible) == 1:
+            puzzle[x][y] = list(possible)[0]
+
+  return puzzle
+```
+
+```python
+  from itertools import product
+
+def possibles(puzzle, x, y):
+    a, b = 3*(x/3), 3*(y/3)
+    square = set([puzzle[r][c] for r, c in product(range(a,a + 3), range(b,b + 3))])
+    row = set(puzzle[x])
+    col = set(zip(*puzzle)[y])
+    return set(range(1,10)).difference(square.union(row).union(col))
+
+def sudoku(puzzle):
+    z = [(r,c) for (r,c) in product(range(9),range(9)) if puzzle[r][c] == 0]    
+    if z == []:
+        return puzzle
+    for (r,c) in z:
+        p = possibles(puzzle, r, c)
+        if len(p) == 1:
+            puzzle[r][c] = p.pop()
+    return sudoku(puzzle)
+  ```
