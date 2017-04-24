@@ -27,6 +27,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 ## kyu3
 
 * Sudoku Solver
+* Hard Sudoku Solver
 
 ## Details for each kata completed
 
