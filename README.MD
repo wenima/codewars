@@ -417,4 +417,16 @@ def sudoku(puzzle):
         if len(p) == 1:
             puzzle[r][c] = p.pop()
     return sudoku(puzzle)
-  ```
+```
+
+### Hard Sudoku Solver
+* Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
+function will take one argument consisting of the 2D puzzle array, with the value
+0 representing an unknown square. Puzzle is of hard or higher difficulty.
+* Difficulty: kyu3
+* Module: sudoku_solver_hard.py
+* Tests: test_sudoku_solver_hard.py
+* Link: https://www.codewars.com/kata/hard-sudoku-solver
+* Comments about most interesting solution/best practice:
+```python
+```
