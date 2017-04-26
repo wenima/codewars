@@ -17,6 +17,8 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Convert string to camel case
 * Calculate Fibonacci return count of digit occurrences
 * Primes with Even Digits
+* First n Prime Numbers
+* Prime Factorization
 
 ## kyu4
 
@@ -295,6 +297,28 @@ class Primes:
     def first(n):
         return primes[:n]
 ```
+
+### Prime Factorization
+* Descripton of Kata: The prime factorization of a positive integer is a list of
+ the integer's prime factors, together with their multiplicities; the process of
+ determining these factors is called integer factorization. The fundamental theorem
+ of arithmetic says that every positive integer has a single unique prime factorization.
+
+The prime factorization of 24, for instance, is ```(2^3) * (3^1)```.
+
+Without using the prime library, write a class called PrimeFactorizer that takes
+in an integer greater than 1 and has a method called factor which returns a hash
+where the keys are prime numbers and the values are the multiplicities.
+
+* Difficulty: kyu5
+* Module: prime_factorization.py
+* Tests: test_prime_factorization.py
+* Link: https://www.codewars.com/kata/prime-factorization
+* Comments about most interesting solution/best practice:
+```python
+```
+
+
 
 ### Valid Braces
 * Descripton of Kata: Write a function called validBraces that takes a string of
