@@ -3,11 +3,15 @@
 from collections import defaultdict
 
 
-class PrimeFactorizer:
+class PrimeFactorizer(int):
 
-    @staticmethod
-    def prime_factors(n):
+    def __init__(self, n):
+        """Initialize a Prime object."""
+
+
+    def prime_factors(self):
         """Return a list of prime factors for a given number in ascending order."""
+        n = self
         factors = []
         p = 2
         if n < 2:
@@ -21,13 +25,12 @@ class PrimeFactorizer:
         factors.append(n)
         return factors
 
-
-    @staticmethod
-    def factor(n):
+    @property
+    def factor(self):
         """Return a dict where key is the prime and value the number of occurences
         in the prime factorization of n."""
-        prime_factors = PrimeFactorizer.prime_factors(n)
+        prime_factors = PrimeFactorizer.prime_factors(self)
         d = defaultdict(int)
         for pf in prime_factors:
             d[pf] += 1
-        return d
+        return dict(d)

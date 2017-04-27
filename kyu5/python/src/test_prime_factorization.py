@@ -2,17 +2,21 @@
 
 import pytest
 
-TESTS_PF = [
-    (24, { 2: 3, 3: 1 }),
-]
+INPUT_NUMS = [1, 24, 13]
 
-@pytest.fixture
-def PrimeFactorizer():
+TESTS_PF = {
+    1: {},
+    24: {2: 3, 3: 1},
+    13: {13: 1},
+}
+
+@pytest.fixture(scope='function', params=INPUT_NUMS)
+def PrimeFactorizer(request):
     from prime_factorization import PrimeFactorizer
-    new_PrimeFactorizer = PrimeFactorizer()
+    new_PrimeFactorizer = PrimeFactorizer(request.param)
     return new_PrimeFactorizer
 
-@pytest.mark.parametrize('n, result', TESTS_PF)
-def test_prime_factorization(n, result, PrimeFactorizer):
+def test_prime_factorization(PrimeFactorizer):
     """Test that a dict with correct prime factors and count are returned."""
-    assert PrimeFactorizer.factor(n) == result
+    result = TESTS_PF[PrimeFactorizer]
+    assert PrimeFactorizer.factor == result
