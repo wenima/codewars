@@ -36,6 +36,8 @@ def sudoku_solver(m):
     for d in dicts:
         d = get_missing(d)
     m = fill_sudoku(m, dicts, squares_coords)
+    coords_missing_in_square = squares_to_missing(squares_coords)
+    fits = single_candidate(c, coords_missing_in_square, sm)
     return m
 
 
@@ -166,3 +168,39 @@ def fill_sudoku(m, dicts, squares_coords):
             candidates = {} #we are no longer interested in current candidates
             starting_spots = []
             m = fill_sudoku(m, dicts, squares_coords)
+
+
+def squares_to_missing(squares_coords):
+    """Return a dict of square numbers as key and empty fields in the Sudoku as values."""
+    squares_missing = defaultdict(list)
+
+    for k, v in squares_coords.items():
+        squares_missing[v].append(k)
+    return squares_missing
+
+
+def find_fit_per_square(candidates, coords_missing_in_square, squares_missing):
+    """Return a number which is a single candidate for a coordinate in the list of candidates:
+        Go through every square and get all missing fields
+        For every missing field in that square, get the possible numbers
+        Look for a number which is only missing in one field in a square."""
+    out = []
+    for k, v in coords_missing_in_square.items():
+        single_candidates = defaultdict(list)
+        seen = set()
+        for coord in v:
+            pn = set(candidates[coord])
+            if pn.issubset(seen):
+#                 print('is subset, continuing..')
+                continue
+            for n in pn:
+                if n in seen:
+                    continue
+                if single_candidates.get(n, 0):
+                    seen.add(n)
+                    continue
+                single_candidates[n] = coord
+        if len(seen) == len(squares_missing[k]): #no fit for this square
+            continue
+        out.append([(k, v) for k, v in single_candidates.items() if k not in seen])
+    return out
