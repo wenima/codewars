@@ -1,7 +1,7 @@
 """Module to solve the code-kata https://www.codewars.com/kata/sudoku-solver."""
 
 from math import sqrt, ceil
-from itertools import islice
+from itertools import islice, chain
 from operator import itemgetter
 from collections import defaultdict
 
@@ -18,6 +18,7 @@ def sudoku_solver(m):
         If no immediate match is found, scrap candidated and rebuild until all digits have been
         inserted.
         """
+    candidates = {}
     square_sides = int(sqrt(len(m)))
     rows_missing = defaultdict(list)
     rows_missing = initialize_d(rows_missing, square_sides)
@@ -35,10 +36,8 @@ def sudoku_solver(m):
             fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords)
     for d in dicts:
         d = get_missing(d)
-    m = fill_sudoku(m, dicts, squares_coords)
-    coords_missing_in_square = squares_to_missing(squares_coords)
-    fits = single_candidate(c, coords_missing_in_square, sm)
-    return m
+    m, candidates = fill_sudoku(m, dicts, squares_coords)
+    return m, candidates
 
 
 def initialize_d(d, square_sides):
@@ -143,17 +142,31 @@ def remove_from_candidates(fit, candidates):
 
 
 def fill_sudoku(m, dicts, squares_coords):
-    """Return the solved Sudoku by continously updating numbers from the list of
-    candidates. If no immediate candidates, rebuild the starting spots and list
-    of candidates and repeat updating process until no more candidates."""
+    rm, cm, sm = dicts
     candidates = {}
     starting_spots = get_starting_spots(m, dicts, squares_coords)
     starting_spots.sort(key=itemgetter(2))
     candidates =  get_candidates(starting_spots, candidates, dicts, squares_coords)
     if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
-        return m
+        coords_missing_in_square = squares_to_missing(squares_coords)
+        fits = single_candidate(candidates, coords_missing_in_square, sm)
+        while True:
+            try:
+                fit = fits.pop(0)
+                n = fit[0]
+                row, col = fit[1]
+                fit = (row, col, n)
+                update_sudoku(fit, m)
+                dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
+            except IndexError:
+                starting_spots = []
+                starting_spots = get_starting_spots(m, dicts, squares_coords)
+                starting_spots.sort(key=itemgetter(2))
+                candidates = {}
+                candidates =  get_candidates(starting_spots, candidates, dicts, squares_coords)
+                break
+        return m, candidates
     while True:
-        candidates_amt = len(candidates)
         try:
             fit = find_fit(candidates)
         except IndexError:
@@ -165,21 +178,21 @@ def fill_sudoku(m, dicts, squares_coords):
             if not candidates:
                 return m
         else:
-            candidates = {} #we are no longer interested in current candidates
+            candidates = {} # we are no longer interested in current candidates
             starting_spots = []
             m = fill_sudoku(m, dicts, squares_coords)
+    return m
 
 
 def squares_to_missing(squares_coords):
     """Return a dict of square numbers as key and empty fields in the Sudoku as values."""
     squares_missing = defaultdict(list)
-
     for k, v in squares_coords.items():
         squares_missing[v].append(k)
     return squares_missing
 
 
-def find_fit_per_square(candidates, coords_missing_in_square, squares_missing):
+def single_candidate(candidates, coords_missing_in_square, squares_missing):
     """Return a number which is a single candidate for a coordinate in the list of candidates:
         Go through every square and get all missing fields
         For every missing field in that square, get the possible numbers
@@ -191,7 +204,6 @@ def find_fit_per_square(candidates, coords_missing_in_square, squares_missing):
         for coord in v:
             pn = set(candidates[coord])
             if pn.issubset(seen):
-#                 print('is subset, continuing..')
                 continue
             for n in pn:
                 if n in seen:
@@ -200,7 +212,20 @@ def find_fit_per_square(candidates, coords_missing_in_square, squares_missing):
                     seen.add(n)
                     continue
                 single_candidates[n] = coord
-        if len(seen) == len(squares_missing[k]): #no fit for this square
+        if len(seen) == len(squares_missing[k]):
             continue
+
         out.append([(k, v) for k, v in single_candidates.items() if k not in seen])
-    return out
+    return list(chain.from_iterable(out))
+
+
+def find_naked_pairs(c):
+    """Return a dict of coordinates with naked pairs. A naked pair is a pair of numbers
+    which exist in 2 coordinates along the same row or column."""
+    seen = []
+    naked_pairs = {}
+    for k, v in c.items():
+        if len(v) == 2 and v in seen:
+            naked_pairs[k] = v
+        seen.append(v)
+    return naked_pairs
