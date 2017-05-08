@@ -1,7 +1,7 @@
 """Module to solve the code-kata https://www.codewars.com/kata/sudoku-solver."""
 
 from math import sqrt, ceil
-from itertools import islice, chain
+from itertools import islice, chain, groupby
 from operator import itemgetter
 from collections import defaultdict
 
@@ -37,7 +37,7 @@ def sudoku_solver(m):
     for d in dicts:
         d = get_missing(d)
     m, candidates = fill_sudoku(m, dicts, squares_coords)
-    return m, candidates
+    return m, candidates, dicts
 
 
 def initialize_d(d, square_sides):
@@ -219,13 +219,61 @@ def single_candidate(candidates, coords_missing_in_square, squares_missing):
     return list(chain.from_iterable(out))
 
 
-def find_naked_pairs(c):
-    """Return a dict of coordinates with naked pairs. A naked pair is a pair of numbers
-    which exist in 2 coordinates along the same row or column."""
-    seen = []
-    naked_pairs = {}
+def find_naked_sets(candidates, dicts, setlength=2):
+    """Return a dict of naked sets mapped to coordinates. A naked set is a set of numbers
+    which are the only possible values for fields along a row or column."""
+    c = candidates
+    ns = build_possible_naked_sets(c)
+    cpns = build_coords_per_naked_set(ns)
+    ns = update_naked_set(ns, cpns)
+    return get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
+
+
+def build_possible_naked_sets(c, setlength=2):
+    """Return a dict with coordinates and possible values with length of setlength, 2 by default."""
+    ns = {}
+    pairs = [p for p in c.values() if len(p) == setlength]
     for k, v in c.items():
-        if len(v) == 2 and v in seen:
-            naked_pairs[k] = v
-        seen.append(v)
-    return naked_pairs
+        if v in pairs:
+            ns[k] = v
+    return ns
+
+
+def build_coords_per_naked_set(ns):
+    """Return a new dict with inverted values from ns"""
+    cpns = defaultdict(list)
+    for pair in ns.values():
+        for k, v in ns.items():
+            row, col = k
+            if v == pair:
+                cpns[tuple(pair)].append(k)
+    return cpns
+
+
+def update_naked_set(ns, cpns):
+    """Return an updated dict of naked set."""
+    for k, v in cpns.items():
+        if len(v) == 1:
+            del ns[v.pop()]
+        else:
+            if len(set(v)) < 3:
+                for coord in set(v):
+                    del ns[coord]
+    return ns
+
+
+def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
+    """Return a list of coordinates where naked sets can be removed from."""
+    c = candidates
+    rm, cm, sm = dicts
+    group = []
+    out = {}
+    ns_sorted = {el[0]:el[1] for el in sorted(ns.items(), key=lambda x: x[0])}
+    for k, g in groupby(ns_sorted, lambda x: x[row_or_col]):
+        coords = list(g)
+        key = tuple(ns[coords[0]])
+        print(coords)
+        if len(coords) > 1: #if list has only one element, there are no naked sets for that key
+            if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
+                out[key] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in coords]
+    return out
