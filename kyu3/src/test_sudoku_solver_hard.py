@@ -26,7 +26,7 @@ naked_pairs = [
     [0, 0, 4, 0, 8, 7, 0, 0, 2]
 ]
 
-np = [1, 5]
+np = {(1, 5): [(8, 0), (8, 7), (8, 3)]}
 
 fiendish = [
     [3,0,5,0,2,0,7,0,1],
@@ -55,12 +55,11 @@ def fiendish_sudoku():
 
 
 def test_find_naked_pairs():
-    """Given a Sudoku with naked pairs, test that funtion returns all naked
-    pairs in that Sudoku."""
-    from sudoku_solver_hard import find_naked_pairs, sudoku_solver
-    m, candidates = sudoku_solver(naked_pairs)
-    np = find_naked_pairs(candidates)
-    assert sorted(np.values()) == [[1, 5], [1, 5], [1, 5], [3, 6], [8, 5], [9, 3]]
+    """Given a Sudoku with naked pairs, test that funtion returns a dict with
+    a naked set as key and coords to be updated."""
+    from sudoku_solver_hard import find_naked_sets, sudoku_solver
+    m, candidates, dicts = sudoku_solver(naked_pairs)
+    assert find_naked_sets(candidates, dicts) == np
 
 def test_solved_sudoku_validator(solved_sudoku):
     """Test solved sudoku to make sure validtor works."""
