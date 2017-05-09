@@ -1,8 +1,6 @@
-"""Solution for kata https://www.codewars.com/kata/valid-parentheses/python.
-Please note that function names sometimes do not follow the suggested convention of
-snake_case due to the kata's author not following it."""
+"""Solution for kata https://www.codewars.com/kata/valid-parentheses/python."""
 
-def validParentheses(s):
+def valid_parentheses(s):
     """Return a boolean if given string has valid parentheses."""
     stack = []
     for c in s:

@@ -18,7 +18,7 @@ TEST_PS = [
 
 
 @pytest.mark.parametrize('s, result', TEST_PS)
-def test_validParentheses(s, result):
+def test_valid_parentheses(s, result):
     """Test valid braces for parantheses."""
-    from valid_parentheses import validParentheses
-    assert validParentheses(s) == result
+    from valid_parentheses import valid_parentheses
+    assert valid_parentheses(s) == result
