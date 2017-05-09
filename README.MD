@@ -19,6 +19,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Primes with Even Digits
 * First n Prime Numbers
 * Prime Factorization
+* Valid Parentheses
 
 ## kyu4
 
@@ -314,6 +315,20 @@ where the keys are prime numbers and the values are the multiplicities.
 * Module: prime_factorization.py
 * Tests: test_prime_factorization.py
 * Link: https://www.codewars.com/kata/prime-factorization
+* Comments about most interesting solution/best practice:
+```python
+```
+
+### Valid Parentheses
+* Descripton of Kata: Write a function called validParentheses that takes
+a string of parentheses, and determines if the order of the parentheses
+is valid. validParentheses should return true if the string is valid,
+and false if it's invalid.
+
+* Difficulty: kyu5
+* Module: valid_parentheses.py
+* Tests: test_valid_parentheses.py
+* Link: https://www.codewars.com/kata/valid-parentheses/python
 * Comments about most interesting solution/best practice:
 ```python
 ```
