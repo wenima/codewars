@@ -226,7 +226,9 @@ def find_naked_sets(candidates, dicts, setlength=2):
     ns = build_possible_naked_sets(c)
     cpns = build_coords_per_naked_set(ns)
     ns = update_naked_set(ns, cpns)
-    return get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
+    rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
+    cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
+    return rows, cols
 
 
 def build_possible_naked_sets(c, setlength=2):
