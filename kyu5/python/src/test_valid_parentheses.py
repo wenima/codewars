@@ -13,7 +13,7 @@ TEST_PS = [
     ('(()(()(', False),
     ('(((((())))', False),
     ('())(((((', False),
-    ('hi(hi)()',True),
+    ('hi(hiasdfsfasfal2342342ogojia.?!!$%^sdjgosagj)()',True),
 ]
 
 
