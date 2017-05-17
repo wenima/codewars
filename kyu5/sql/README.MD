@@ -9,6 +9,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 ## kyu5
 
 * SQL Tuning: Function Calls
+* Simple Hierarchical structure
 
 ## Details for each kata completed
 
@@ -18,7 +19,12 @@ The success criteria is to manage to run the query within the allowed kata
 solution time window (12 seconds for SQL katas).
 * Difficulty: kyu5
 * Module: efficient_salary_increase.sql
-* Link: https://www.codewars.com/kata/sql-tuning-function-calls/
-* Comments about most interesting solution/best practice:
-```
-```
+* [Link](https://www.codewars.com/kata/sql-tuning-function-calls/)
+* Comments:
+
+### Simple Hierarchical structure
+* Descripton of Kata: For this challenge you need to create a RECURSIVE Hierarchical query
+* Difficulty: kyu5
+* Module: hierachical_structure.sql
+* [Link](https://www.codewars.com/kata/sql-basics-simple-hierarchical-structure/sql)
+* Comments:
