@@ -10,6 +10,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 
 * SQL Tuning: Function Calls
 * Simple Hierarchical structure
+* Simple PIVOTING data
 
 ## Details for each kata completed
 
@@ -27,4 +28,11 @@ solution time window (12 seconds for SQL katas).
 * Difficulty: kyu5
 * Module: hierachical_structure.sql
 * [Link](https://www.codewars.com/kata/sql-basics-simple-hierarchical-structure/sql)
+* Comments:
+
+### Simple PIVOTING data
+* Descripton of Kata: For this challenge you need to create a RECURSIVE Hierarchical query
+* Difficulty: kyu5
+* Module: hierachical_structure.sql
+* [Link](https://www.codewars.com/kata/sql-basics-simple-pivoting-data/sql)
 * Comments:
