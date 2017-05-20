@@ -44,3 +44,11 @@ solution time window (12 seconds for SQL katas).
 * Module: simple_view.sql
 * [Link](https://www.codewars.com/kata/sql-basics-simple-view/sql)
 * Comments:
+
+### SQL Statistics: MIN, MEDIAN, MAX
+* Descripton of Kata: SQL Statistics: Your task is to calculate the MIN, MEDIAN
+and MAX scores of the students from the results table.
+* Difficulty: kyu5
+* Module: min_median_max.sql
+* [Link](https://www.codewars.com/kata/sql-statistics-min-median-max/sql)
+* Comments:
