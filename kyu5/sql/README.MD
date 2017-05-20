@@ -11,6 +11,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * SQL Tuning: Function Calls
 * Simple Hierarchical structure
 * Simple PIVOTING data
+* Simple View
 
 ## Details for each kata completed
 
@@ -35,4 +36,11 @@ solution time window (12 seconds for SQL katas).
 * Difficulty: kyu5
 * Module: hierachical_structure.sql
 * [Link](https://www.codewars.com/kata/sql-basics-simple-pivoting-data/sql)
+* Comments:
+
+### Simple View
+* Descripton of Kata: Create a simple view
+* Difficulty: kyu5
+* Module: simple_view.sql
+* [Link](https://www.codewars.com/kata/sql-basics-simple-view/sql)
 * Comments:
