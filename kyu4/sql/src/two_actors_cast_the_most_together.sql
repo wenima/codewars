@@ -6,8 +6,8 @@
 WITH top_team (actor1, actor2, starts)
 AS
 (
-  select tp.actor_id, fa.actor_id as costar, count(fa.actor_id) as starts
-  from film_actor fa, film_actor tp
+  SELECT tp.actor_id, fa.actor_id AS costar, count(fa.actor_id) AS starts
+  FROM film_actor fa, film_actor tp
   WHERE fa.film_id = tp.film_id
   AND fa.actor_id <> tp.actor_id
   GROUP BY tp.actor_id, fa.actor_id
@@ -15,8 +15,8 @@ AS
   LIMIT 1
 )
 
-SELECT a1.first_name||' '||a1.last_name as "first_actor",
-      a2.first_name||' '||a2.last_name as "second_actor",
+SELECT a1.first_name||' '||a1.last_name AS "first_actor",
+      a2.first_name||' '||a2.last_name AS "second_actor",
       f.title
 FROM actor a1, actor a2, top_team tt, film f
 WHERE tt.actor1 = a1.actor_id
