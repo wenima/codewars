@@ -12,6 +12,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Simple Hierarchical structure
 * Simple PIVOTING data
 * Simple View
+* Group By Day
 
 ## Details for each kata completed
 
@@ -51,4 +52,15 @@ and MAX scores of the students from the results table.
 * Difficulty: kyu5
 * Module: min_median_max.sql
 * [Link](https://www.codewars.com/kata/sql-statistics-min-median-max/sql)
+* Comments:
+
+### Group By Day
+* Descripton of Kata: There is an events table used to track different key
+activities taken on a website. For this task you need to filter the name field
+to only show "trained" events. Events should be grouped by the day they happened
+and counted. The description field is used to distinguish which items the events
+happened on.
+* Difficulty: kyu5
+* Module: group_by_day.sql
+* [Link](https://www.codewars.com/kata/sql-basics-group-by-day/sql)
 * Comments:
