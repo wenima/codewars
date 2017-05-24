@@ -1,6 +1,7 @@
 """Tests for https://www.codewars.com/kata/sudoku-solver."""
 
 import pytest
+from math import sqrt
 
 base = [
     [5, 3, 4, 6, 7, 8, 9, 1, 2],
@@ -12,6 +13,18 @@ base = [
     [9, 6, 1, 5, 3, 7, 2, 8, 4],
     [2, 8, 7, 4, 1, 9, 6, 3, 5],
     [3, 4, 5, 2, 8, 6, 1, 7, 9]
+    ]
+
+scan = [
+    [5,0,0,0,9,0,0,0,8],
+    [0,6,0,0,1,0,0,7,0],
+    [0,0,0,5,0,2,0,0,0],
+    [0,0,4,0,8,0,1,0,0],
+    [7,1,0,9,0,5,0,4,6],
+    [0,0,5,0,2,0,9,0,0],
+    [0,0,0,1,0,6,0,0,0],
+    [0,5,0,0,4,0,0,2,0],
+    [9,0,0,0,7,0,0,0,4]
     ]
 
 naked_pairs = [
@@ -52,6 +65,37 @@ def fiendish_sudoku():
     from sudoku_solver import sudoku_solver
     new_sudoku = sudoku_solver(fiendish)
     return new_sudoku
+
+def test_initialize_dicts():
+    """Given a Sudoku test that dicts are initialized correctly."""
+    from sudoku_solver_hard import initialize_dicts, initialize_d
+    square_sides = int(sqrt(len(scan)))
+    rows_missing, cols_missing, squares_missing = initialize_dicts(scan, square_sides)
+    assert len(rows_missing) == 9
+    assert len(cols_missing) == 9
+    assert len(squares_missing) == 9
+
+
+def test_populate_dicts():
+    """Given a Sudoku test that dicts to keep information about the Sudoku
+    are populated correctly."""
+    from sudoku_solver_hard import (initialize_dicts, initialize_d,
+    fill_given_numbers, populate_dicts)
+    square_sides = int(sqrt(len(scan)))
+    dicts = initialize_dicts(scan, square_sides)
+    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    rows_missing, cols_missing, squares_missing = dicts
+    assert rows_missing[0] == [5, 9, 8]
+    assert cols_missing[8] == [8, 6, 4]
+    assert squares_missing[9] == [2, 4]
+
+
+def test_scan_for_fills():
+    """Given a Sudoku with naked pairs, test that funtion returns a dict with
+    a naked set as key and coords to be updated."""
+    from sudoku_solver_hard import find_naked_sets, sudoku_solver
+    m, candidates, dicts = sudoku_solver(naked_pairs)
+    assert find_naked_sets(candidates, dicts) == np
 
 
 def test_find_naked_pairs():

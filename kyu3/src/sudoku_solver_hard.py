@@ -18,16 +18,18 @@ def sudoku_solver(m):
         If no immediate match is found, scrap candidated and rebuild until all digits have been
         inserted.
         """
-    candidates = {}
     square_sides = int(sqrt(len(m)))
-    rows_missing = defaultdict(list)
-    rows_missing = initialize_d(rows_missing, square_sides)
-    cols_missing = defaultdict(list)
-    cols_missing = initialize_d(cols_missing, square_sides)
-    squares_missing = defaultdict(list)
-    squares_missing = {key:[] for key in range(1, square_sides ** 2 + 1)}
-    squares_coords = {}
-    dicts = rows_missing, cols_missing, squares_missing
+    dicts = initialize_dicts(m, square_sides)
+    # candidates = {}
+    # square_sides = int(sqrt(len(m)))
+    # rows_missing = defaultdict(list)
+    # rows_missing = initialize_d(rows_missing, square_sides)
+    # cols_missing = defaultdict(list)
+    # cols_missing = initialize_d(cols_missing, square_sides)
+    # squares_missing = defaultdict(list)
+    # squares_missing = {key:[] for key in range(1, square_sides ** 2 + 1)}
+    # squares_coords = {}
+    # dicts = rows_missing, cols_missing, squares_missing
     sq_nr = 0
     for row in range(0, square_sides ** 2, square_sides):
         for col in range(0, square_sides ** 2, square_sides):
@@ -39,25 +41,49 @@ def sudoku_solver(m):
     m, candidates = fill_sudoku(m, dicts, squares_coords)
     return m, candidates, dicts
 
+def initialize_dicts(m, square_sides):
+    """Return dicts to hold information about the Sudoku."""
+    rows_missing = defaultdict(list)
+    rows_missing = initialize_d(rows_missing, square_sides)
+    cols_missing = defaultdict(list)
+    cols_missing = initialize_d(cols_missing, square_sides)
+    squares_missing = defaultdict(list)
+    squares_missing = initialize_d(cols_missing, square_sides, 1)
+    return rows_missing, cols_missing, squares_missing
 
-def initialize_d(d, square_sides):
+
+def initialize_d(d, square_sides, offset=0):
     """Return an initialized dict so empty rows or columns in the Sudoku are
     correctly handled."""
-    return {key:[] for key in range(square_sides ** 2)}
+    return {key:[] for key in range(offset, square_sides ** 2 + offset)}
 
 
 def fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords):
     """Fill dicts with given numbers number for a given square."""
     rm, cm, sm = dicts
+    sq = squares_coords
     for row_idx, sr in enumerate(square):
         for col_idx, sv in enumerate(sr):
             coord = (row + row_idx, col + col_idx)
             if sv == 0:
-                squares_coords[coord] = sq_nr
+                sq[coord] = sq_nr
                 continue
             rm[coord[0]].append(sv)
             cm[coord[1]].append(sv)
             sm[sq_nr].append(sv)
+    return dicts, sq
+
+
+def populate_dicts(m, square_sides, dicts):
+    """Return dicts holding information about fills in given Sudoku."""
+    sq_nr = 0
+    squares_coords = {}
+    for row in range(0, square_sides ** 2, square_sides):
+        for col in range(0, square_sides ** 2, square_sides):
+            sq_nr += 1
+            square = [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
+            dicts, square_coords = fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords)
+    return dicts, square_coords
 
 
 def get_missing(d):
