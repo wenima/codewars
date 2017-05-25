@@ -141,6 +141,8 @@ def test_find_fit(immediate_fills_candidates):
     assert row == 4 and col == 4 and num == 3
 
 def test_fill_fit(immediate_fills_candidates, immediate_fills_dicts):
+    """Test that given candidates with immediate fits, the Sudoku is updated correctly
+    and the fill is removed from Sudoku dicts."""
     from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
     remove_from_candidates)
     m = scan
@@ -152,6 +154,25 @@ def test_fill_fit(immediate_fills_candidates, immediate_fills_dicts):
     assert m[6][4] == 5
     assert 3 not in rm[4]
     assert (4, 4) not in candidates.keys()
+
+
+def test_scan_sudoku(immediate_fills_candidates, immediate_fills_dicts):
+    """Test that function fills in fits as long as it can find one by rebuilding
+    list of candidates."""
+    from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
+    remove_from_candidates, scan_sudoku)
+    m = scan
+    dicts, square_coords = immediate_fills_dicts
+    m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
+    total_zeroes = 0
+    for row in m:
+        total_zeroes += row.count(0)
+    assert m[5][5] == 1
+    assert total_zeroes == 46
+    assert (5, 3) not in candidates.keys()
+
+
+
 
 
 
