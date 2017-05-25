@@ -178,6 +178,21 @@ def fill_fit(m, candidates, dicts, squares_coords):
         else:
             return m, candidates
 
+def scan_sudoku(m, dicts, square_coords, candidates):
+    """Return an updated Sudoku by using the scanning technique to find fits and
+    filling them in. After each scan, list of candidates is rebuild until no
+    further immediate fills are possible."""
+    rm, cm, sm = dicts
+    while True:
+        if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
+            break
+        m, candidiates = fill_fit(m, candidates, dicts, square_coords)
+        starting_spots = get_starting_spots(m, dicts, square_coords)
+        starting_spots.sort(key=itemgetter(2))
+        candidates = get_candidates(starting_spots, dicts, square_coords)
+        if not candidates: break
+    return m, candidates
+
 
 def fill_sudoku(m, dicts, squares_coords):
     rm, cm, sm = dicts
