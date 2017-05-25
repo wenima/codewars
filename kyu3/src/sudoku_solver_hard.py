@@ -117,7 +117,10 @@ def get_candidates(starting_spots, dicts, square_coords, naked_sets={}, c={}):
 def find_fit(candidates):
     """Return a tuple with coordinate and value to update from a sorted
     representation of a dict. If no fit can be found, return None."""
-    fit = sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)
+    try:
+        fit = sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)
+    except AttributeError:
+        return None
     row, col = fit[0]
     n = fit[1].pop()
     if len(fit[1]) == 0:
@@ -151,6 +154,7 @@ def remove_updated_from_dicts(fit, dicts, squares_coords):
 
 def remove_from_candidates(fit, candidates):
     """Return candidates with updated digit removed from all coordinates."""
+    if not candidates: return candidates
     row, col, n = fit
     del candidates[(row, col)]
     for k, v in candidates.items():
@@ -178,8 +182,6 @@ def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
             m = update_sudoku(fit, m)
             dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
             candidates = remove_from_candidates(fit, candidates)
-            if not candidates:
-                return m, candidates
         else:
             return m, candidates
 
