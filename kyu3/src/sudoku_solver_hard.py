@@ -20,16 +20,6 @@ def sudoku_solver(m):
         """
     square_sides = int(sqrt(len(m)))
     dicts = initialize_dicts(m, square_sides)
-    # candidates = {}
-    # square_sides = int(sqrt(len(m)))
-    # rows_missing = defaultdict(list)
-    # rows_missing = initialize_d(rows_missing, square_sides)
-    # cols_missing = defaultdict(list)
-    # cols_missing = initialize_d(cols_missing, square_sides)
-    # squares_missing = defaultdict(list)
-    # squares_missing = {key:[] for key in range(1, square_sides ** 2 + 1)}
-    # squares_coords = {}
-    # dicts = rows_missing, cols_missing, squares_missing
     sq_nr = 0
     for row in range(0, square_sides ** 2, square_sides):
         for col in range(0, square_sides ** 2, square_sides):
