@@ -62,12 +62,18 @@ def solved_sudoku():
     return new_sudoku
 
 @pytest.fixture
-def immediate_fills_candidates():
+def immediate_fills_dicts():
     from sudoku_solver_hard import (initialize_dicts, initialize_d,
-    fill_given_numbers, populate_dicts, get_missing, get_starting_spots, get_candidates)
+    fill_given_numbers, populate_dicts)
     square_sides = int(sqrt(len(scan)))
     dicts = initialize_dicts(scan, square_sides)
     dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    return dicts, square_coords
+
+@pytest.fixture
+def immediate_fills_candidates(immediate_fills_dicts):
+    from sudoku_solver_hard import get_missing, get_starting_spots, get_candidates
+    dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
     starting_spots = get_starting_spots(scan, dicts, square_coords)
     starting_spots.sort(key=itemgetter(2))
@@ -90,26 +96,19 @@ def test_initialize_dicts():
     assert len(squares_missing) == 9
 
 
-def test_populate_dicts():
+def test_populate_dicts(immediate_fills_dicts):
     """Given a Sudoku test that dicts to keep information about the Sudoku
     are populated correctly."""
-    from sudoku_solver_hard import (initialize_dicts, initialize_d,
-    fill_given_numbers, populate_dicts)
-    square_sides = int(sqrt(len(scan)))
-    dicts = initialize_dicts(scan, square_sides)
-    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    dicts, square_coords = immediate_fills_dicts
     rows_missing, cols_missing, squares_missing = dicts
     assert rows_missing[0] == [5, 9, 8]
     assert cols_missing[8] == [8, 6, 4]
     assert squares_missing[9] == [2, 4]
 
-def test_get_missing():
+def test_get_missing(immediate_fills_dicts):
     """Test that dicts with given numbers swap with missing numbers."""
-    from sudoku_solver_hard import (initialize_dicts, initialize_d,
-    fill_given_numbers, populate_dicts, get_missing)
-    square_sides = int(sqrt(len(scan)))
-    dicts = initialize_dicts(scan, square_sides)
-    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    from sudoku_solver_hard import get_missing
+    dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
     rows_missing, cols_missing, squares_missing = dicts
     assert rows_missing[0] == set([1, 2, 3, 4, 6, 7])
@@ -117,39 +116,43 @@ def test_get_missing():
     assert squares_missing[9] == set([1, 3, 5, 6, 7, 8, 9])
 
 
-def test_get_sorted_starting_spots():
+def test_get_sorted_starting_spots(immediate_fills_dicts):
     """Test that function returns best starting spots given a sudoku dicts
     and square coordinates."""
-    from sudoku_solver_hard import (initialize_dicts, initialize_d,
-    fill_given_numbers, populate_dicts, get_missing, get_starting_spots)
-    square_sides = int(sqrt(len(scan)))
-    dicts = initialize_dicts(scan, square_sides)
-    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    from sudoku_solver_hard import get_missing, get_starting_spots
+    dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
     starting_spots = get_starting_spots(scan, dicts, square_coords)
     starting_spots.sort(key=itemgetter(2))
     assert starting_spots[0] == (4, 4, 11)
     assert starting_spots[-1] == (2, 2, 21)
 
-def test_get_candidates():
+
+def test_get_candidates(immediate_fills_candidates):
     """Test that function returns a dict of candidates per coordinate."""
-    from sudoku_solver_hard import (initialize_dicts, initialize_d,
-    fill_given_numbers, populate_dicts, get_missing, get_starting_spots, get_candidates)
-    square_sides = int(sqrt(len(scan)))
-    dicts = initialize_dicts(scan, square_sides)
-    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
-    dicts = get_missing(dicts)
-    starting_spots = get_starting_spots(scan, dicts, square_coords)
-    starting_spots.sort(key=itemgetter(2))
-    candidates = get_candidates(starting_spots, dicts, square_coords)
-    assert candidates[(4, 4)] == [3]
+    assert immediate_fills_candidates[(4, 4)] == [3]
+
 
 def test_find_fit(immediate_fills_candidates):
     """Test that given a dict of candidates, a tuple is returned with coordinates
-    and value to update the Sudoku. If no fit is found, test that function returns None."""
+    and value to update the Sudoku."""
     from sudoku_solver_hard import find_fit
     row, col, num = find_fit(immediate_fills_candidates)
     assert row == 4 and col == 4 and num == 3
+
+# def test_fill_fit(immediate_fills_candidates):
+#     from sudoku_solver_hard import (find_fit, update_sudoku, remove_updated_from_dicts,
+#     remove_from_candidates)
+#     scan, candidates = fill_fit(scan, candidates, dicts, squares_coords)
+#     assert m[4, 4] == 3
+#     assert m[2, 4] == 6
+#     assert m[6, 4] == 5
+#     assert
+#     assert (4, 4) not in candidates.keys()
+
+
+
+
 
 
 
