@@ -171,6 +171,19 @@ def test_scan_sudoku(immediate_fills_candidates, immediate_fills_dicts):
     assert total_zeroes == 46
     assert (5, 3) not in candidates.keys()
 
+def test_squares_to_missing(immediate_fills_dicts):
+    """Test that function returns a dict with squares as key and missing fields
+    as values."""
+    from sudoku_solver_hard import squares_to_missing
+    dicts, square_coords = immediate_fills_dicts
+    squares_missing = squares_to_missing(square_coords)
+    total_missing = 0
+    for v in squares_missing.values():
+        total_missing += len(v)
+    assert len(squares_missing.values()) == 8
+    assert total_missing == 46
+
+
 
 
 
