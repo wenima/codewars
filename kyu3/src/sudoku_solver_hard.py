@@ -182,7 +182,6 @@ def scan_sudoku(m, dicts, square_coords, candidates):
     """Return an updated Sudoku by using the scanning technique to find fits and
     filling them in. After each scan, list of candidates is rebuild until no
     further immediate fills are possible."""
-    rm, cm, sm = dicts
     while True:
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
@@ -192,6 +191,9 @@ def scan_sudoku(m, dicts, square_coords, candidates):
         candidates = get_candidates(starting_spots, dicts, square_coords)
         if not candidates: break
     return m, candidates
+
+
+
 
 
 def fill_sudoku(m, dicts, squares_coords):
@@ -237,20 +239,22 @@ def fill_sudoku(m, dicts, squares_coords):
     return m
 
 
-def squares_to_missing(squares_coords):
+def squares_to_missing(square_coords):
     """Return a dict of square numbers as key and empty fields in the Sudoku as values."""
     squares_missing = defaultdict(list)
-    for k, v in squares_coords.items():
+    for k, v in square_coords.items():
         squares_missing[v].append(k)
     return squares_missing
 
 
-def single_candidate(candidates, coords_missing_in_square, squares_missing):
+def single_candidate(candidates, square_coords, squares_missing):
     """Return a number which is a single candidate for a coordinate in the list of candidates:
+        Build a dict with square as key and empty fields as value
         Go through every square and get all missing fields
         For every missing field in that square, get the possible numbers
         Look for a number which is only missing in one field in a square."""
     out = []
+    coords_missing_in_square = squares_to_missing(square_coords)
     for k, v in coords_missing_in_square.items():
         single_candidates = defaultdict(list)
         seen = set()
@@ -267,7 +271,6 @@ def single_candidate(candidates, coords_missing_in_square, squares_missing):
                 single_candidates[n] = coord
         if len(seen) == len(squares_missing[k]):
             continue
-
         out.append([(k, v) for k, v in single_candidates.items() if k not in seen])
     return list(chain.from_iterable(out))
 
