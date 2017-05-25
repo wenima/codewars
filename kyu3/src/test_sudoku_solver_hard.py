@@ -62,6 +62,19 @@ def solved_sudoku():
     return new_sudoku
 
 @pytest.fixture
+def immediate_fills_candidates():
+    from sudoku_solver_hard import (initialize_dicts, initialize_d,
+    fill_given_numbers, populate_dicts, get_missing, get_starting_spots, get_candidates)
+    square_sides = int(sqrt(len(scan)))
+    dicts = initialize_dicts(scan, square_sides)
+    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    dicts = get_missing(dicts)
+    starting_spots = get_starting_spots(scan, dicts, square_coords)
+    starting_spots.sort(key=itemgetter(2))
+    candidates = get_candidates(starting_spots, dicts, square_coords)
+    return candidates
+
+@pytest.fixture
 def fiendish_sudoku():
     from sudoku_solver import sudoku_solver
     new_sudoku = sudoku_solver(fiendish)
@@ -117,6 +130,27 @@ def test_get_sorted_starting_spots():
     starting_spots.sort(key=itemgetter(2))
     assert starting_spots[0] == (4, 4, 11)
     assert starting_spots[-1] == (2, 2, 21)
+
+def test_get_candidates():
+    """Test that function returns a dict of candidates per coordinate."""
+    from sudoku_solver_hard import (initialize_dicts, initialize_d,
+    fill_given_numbers, populate_dicts, get_missing, get_starting_spots, get_candidates)
+    square_sides = int(sqrt(len(scan)))
+    dicts = initialize_dicts(scan, square_sides)
+    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    dicts = get_missing(dicts)
+    starting_spots = get_starting_spots(scan, dicts, square_coords)
+    starting_spots.sort(key=itemgetter(2))
+    candidates = get_candidates(starting_spots, dicts, square_coords)
+    assert candidates[(4, 4)] == [3]
+
+def test_find_fit(immediate_fills_candidates):
+    """Test that given a dict of candidates, a tuple is returned with coordinates
+    and value to update the Sudoku. If no fit is found, test that function returns None."""
+    from sudoku_solver_hard import find_fit
+    row, col, num = find_fit(immediate_fills_candidates)
+    assert row == 4 and col == 4 and num == 3
+
 
 
 # def test_scan_for_fills():
