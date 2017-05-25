@@ -2,6 +2,7 @@
 
 import pytest
 from math import sqrt
+from operator import itemgetter
 
 base = [
     [5, 3, 4, 6, 7, 8, 9, 1, 2],
@@ -101,6 +102,21 @@ def test_get_missing():
     assert rows_missing[0] == set([1, 2, 3, 4, 6, 7])
     assert cols_missing[8] == set([1, 2, 3, 5, 7, 9])
     assert squares_missing[9] == set([1, 3, 5, 6, 7, 8, 9])
+
+
+def test_get_sorted_starting_spots():
+    """Test that function returns best starting spots given a sudoku dicts
+    and square coordinates."""
+    from sudoku_solver_hard import (initialize_dicts, initialize_d,
+    fill_given_numbers, populate_dicts, get_missing, get_starting_spots)
+    square_sides = int(sqrt(len(scan)))
+    dicts = initialize_dicts(scan, square_sides)
+    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    dicts = get_missing(dicts)
+    starting_spots = get_starting_spots(scan, dicts, square_coords)
+    starting_spots.sort(key=itemgetter(2))
+    assert starting_spots[0] == (4, 4, 11)
+    assert starting_spots[-1] == (2, 2, 21)
 
 
 # def test_scan_for_fills():
