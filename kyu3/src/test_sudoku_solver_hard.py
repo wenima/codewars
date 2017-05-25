@@ -89,30 +89,43 @@ def test_populate_dicts():
     assert cols_missing[8] == [8, 6, 4]
     assert squares_missing[9] == [2, 4]
 
+def test_get_missing():
+    """Test that dicts with given numbers swap with missing numbers."""
+    from sudoku_solver_hard import (initialize_dicts, initialize_d,
+    fill_given_numbers, populate_dicts, get_missing)
+    square_sides = int(sqrt(len(scan)))
+    dicts = initialize_dicts(scan, square_sides)
+    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    dicts = get_missing(dicts)
+    rows_missing, cols_missing, squares_missing = dicts
+    assert rows_missing[0] == set([1, 2, 3, 4, 6, 7])
+    assert cols_missing[8] == set([1, 2, 3, 5, 7, 9])
+    assert squares_missing[9] == set([1, 3, 5, 6, 7, 8, 9])
 
-def test_scan_for_fills():
-    """Given a Sudoku with naked pairs, test that funtion returns a dict with
-    a naked set as key and coords to be updated."""
-    from sudoku_solver_hard import find_naked_sets, sudoku_solver
-    m, candidates, dicts = sudoku_solver(naked_pairs)
-    assert find_naked_sets(candidates, dicts) == np
 
-
-def test_find_naked_pairs():
-    """Given a Sudoku with naked pairs, test that funtion returns a dict with
-    a naked set as key and coords to be updated."""
-    from sudoku_solver_hard import find_naked_sets, sudoku_solver
-    m, candidates, dicts = sudoku_solver(naked_pairs)
-    assert find_naked_sets(candidates, dicts) == np
-
-def test_solved_sudoku_validator(solved_sudoku):
-    """Test solved sudoku to make sure validtor works."""
-    from sudoku_validator import Sudoku
-    solved_sudoku = Sudoku(solved_sudoku)
-    assert solved_sudoku.is_valid() == True
-
-def test_medium_sudoku_validator(fiendish_sudoku):
-    """Test sudoku_validator returns correct result."""
-    from sudoku_validator import Sudoku
-    fiendish_sudoku = Sudoku(fiendish_sudoku)
-    assert fiendish_sudoku.is_valid() == True
+# def test_scan_for_fills():
+#     """Given a Sudoku with naked pairs, test that funtion returns a dict with
+#     a naked set as key and coords to be updated."""
+#     from sudoku_solver_hard import find_naked_sets, sudoku_solver
+#     m, candidates, dicts = sudoku_solver(naked_pairs)
+#     assert find_naked_sets(candidates, dicts) == np
+#
+#
+# def test_find_naked_pairs():
+#     """Given a Sudoku with naked pairs, test that funtion returns a dict with
+#     a naked set as key and coords to be updated."""
+#     from sudoku_solver_hard import find_naked_sets, sudoku_solver
+#     m, candidates, dicts = sudoku_solver(naked_pairs)
+#     assert find_naked_sets(candidates, dicts) == np
+#
+# def test_solved_sudoku_validator(solved_sudoku):
+#     """Test solved sudoku to make sure validtor works."""
+#     from sudoku_validator import Sudoku
+#     solved_sudoku = Sudoku(solved_sudoku)
+#     assert solved_sudoku.is_valid() == True
+#
+# def test_medium_sudoku_validator(fiendish_sudoku):
+#     """Test sudoku_validator returns correct result."""
+#     from sudoku_validator import Sudoku
+#     fiendish_sudoku = Sudoku(fiendish_sudoku)
+#     assert fiendish_sudoku.is_valid() == True
