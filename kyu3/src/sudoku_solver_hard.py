@@ -101,18 +101,22 @@ def get_starting_spots(m, dicts, squares_coords):
     return starting_spots
 
 
-def get_candidates(starting_spots, candidates, dicts, squares_coords):
+def get_candidates(starting_spots, dicts, square_coords, naked_sets={}, c={}):
     """Return a dict of candidates for all starting_spots in the Sudoko."""
+    rm, cm, sm = dicts
     for coordinate in starting_spots:
         row, col, missing = coordinate
-        rm, cm, sm = dicts
-        candidates[(row, col)] = [n for n in cm[col] if n in rm[row] and n in sm[squares_coords[row, col]]]
-    return candidates
+        c[(row, col)] = [n for n in cm[col] if n in rm[row] and n in sm[square_coords[row, col]]]
+        try:
+            c[(row, col)] = [n for n in c[(row, col)] if n not in naked_sets[(row, col)]]
+        except KeyError:
+            continue
+    return c
 
 
 def find_fit(candidates):
     """Return a tuple with coordinate and value to update from a sorted
-    representation of a dict."""
+    representation of a dict. If no fit can be found, return None."""
     fit = sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)
     row, col = fit[0]
     n = fit[1].pop()
@@ -156,6 +160,23 @@ def remove_from_candidates(fit, candidates):
             except:
                 continue
     return candidates
+
+def fill_fit(m, candidates, dicts, squares_coords):
+    """Return an updated Sudoku by finding a fit and filling it in as long as a fit is found."""
+    while True:
+        try:
+            fit = find_fit(candidates)
+            print("fit: ", fit)
+        except IndexError:
+            return m, candidates
+        if fit:
+            m = update_sudoku(fit, m)
+            dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
+            candidates = remove_from_candidates(fit, candidates)
+            if not candidates:
+                return m, candidates
+        else:
+            return m, candidates
 
 
 def fill_sudoku(m, dicts, squares_coords):
