@@ -16,18 +16,6 @@ base = [
     [3, 4, 5, 2, 8, 6, 1, 7, 9]
     ]
 
-scan = [
-    [5,0,0,0,9,0,0,0,8],
-    [0,6,0,0,1,0,0,7,0],
-    [0,0,0,5,0,2,0,0,0],
-    [0,0,4,0,8,0,1,0,0],
-    [7,1,0,9,0,5,0,4,6],
-    [0,0,5,0,2,0,9,0,0],
-    [0,0,0,1,0,6,0,0,0],
-    [0,5,0,0,4,0,0,2,0],
-    [9,0,0,0,7,0,0,0,4]
-    ]
-
 naked_pairs = [
     [4, 0, 0, 2, 7, 0, 6, 0, 0],
     [7, 9, 8, 1, 5, 6, 2, 3, 4],
@@ -62,20 +50,37 @@ def solved_sudoku():
     return new_sudoku
 
 @pytest.fixture
-def immediate_fills_dicts():
+def medium_sudoku():
+    new_sudoku = [
+        [5,0,0,0,9,0,0,0,8],
+        [0,6,0,0,1,0,0,7,0],
+        [0,0,0,5,0,2,0,0,0],
+        [0,0,4,0,8,0,1,0,0],
+        [7,1,0,9,0,5,0,4,6],
+        [0,0,5,0,2,0,9,0,0],
+        [0,0,0,1,0,6,0,0,0],
+        [0,5,0,0,4,0,0,2,0],
+        [9,0,0,0,7,0,0,0,4]
+        ]
+    return new_sudoku
+
+@pytest.fixture
+def immediate_fills_dicts(medium_sudoku):
     from sudoku_solver_hard import (initialize_dicts, initialize_d,
     fill_given_numbers, populate_dicts)
-    square_sides = int(sqrt(len(scan)))
-    dicts = initialize_dicts(scan, square_sides)
-    dicts, square_coords = populate_dicts(scan, square_sides, dicts)
+    m = medium_sudoku
+    square_sides = int(sqrt(len(medium_sudoku)))
+    dicts = initialize_dicts(m, square_sides)
+    dicts, square_coords = populate_dicts(m, square_sides, dicts)
     return dicts, square_coords
 
 @pytest.fixture
-def immediate_fills_candidates(immediate_fills_dicts):
+def immediate_fills_candidates(immediate_fills_dicts, medium_sudoku):
     from sudoku_solver_hard import get_missing, get_starting_spots, get_candidates
+    m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
-    starting_spots = get_starting_spots(scan, dicts, square_coords)
+    starting_spots = get_starting_spots(m, dicts, square_coords)
     starting_spots.sort(key=itemgetter(2))
     candidates = get_candidates(starting_spots, dicts, square_coords)
     return candidates
@@ -86,11 +91,11 @@ def fiendish_sudoku():
     new_sudoku = sudoku_solver(fiendish)
     return new_sudoku
 
-def test_initialize_dicts():
+def test_initialize_dicts(medium_sudoku):
     """Given a Sudoku test that dicts are initialized correctly."""
     from sudoku_solver_hard import initialize_dicts, initialize_d
-    square_sides = int(sqrt(len(scan)))
-    rows_missing, cols_missing, squares_missing = initialize_dicts(scan, square_sides)
+    square_sides = int(sqrt(len(medium_sudoku)))
+    rows_missing, cols_missing, squares_missing = initialize_dicts(medium_sudoku, square_sides)
     assert len(rows_missing) == 9
     assert len(cols_missing) == 9
     assert len(squares_missing) == 9
@@ -116,13 +121,13 @@ def test_get_missing(immediate_fills_dicts):
     assert squares_missing[9] == set([1, 3, 5, 6, 7, 8, 9])
 
 
-def test_get_sorted_starting_spots(immediate_fills_dicts):
+def test_get_sorted_starting_spots(immediate_fills_dicts, medium_sudoku):
     """Test that function returns best starting spots given a sudoku dicts
     and square coordinates."""
     from sudoku_solver_hard import get_missing, get_starting_spots
     dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
-    starting_spots = get_starting_spots(scan, dicts, square_coords)
+    starting_spots = get_starting_spots(medium_sudoku, dicts, square_coords)
     starting_spots.sort(key=itemgetter(2))
     assert starting_spots[0] == (4, 4, 11)
     assert starting_spots[-1] == (2, 2, 21)
@@ -140,12 +145,12 @@ def test_find_fit(immediate_fills_candidates):
     row, col, num = find_fit(immediate_fills_candidates)
     assert row == 4 and col == 4 and num == 3
 
-def test_fill_fit(immediate_fills_candidates, immediate_fills_dicts):
+def test_fill_fit(medium_sudoku, immediate_fills_candidates, immediate_fills_dicts):
     """Test that given candidates with immediate fits, the Sudoku is updated correctly
     and the fill is removed from Sudoku dicts."""
     from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
     remove_from_candidates)
-    m = scan
+    m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     rm, cm, sm = dicts
     m, candidates = fill_fit(m, dicts, square_coords, candidates=immediate_fills_candidates)
@@ -156,12 +161,31 @@ def test_fill_fit(immediate_fills_candidates, immediate_fills_dicts):
     assert (4, 4) not in candidates.keys()
 
 
-def test_scan_sudoku(immediate_fills_candidates, immediate_fills_dicts):
+def test_fill_fit(medium_sudoku, immediate_fills_dicts):
+    """Test that given single_candidates, the Sudoku is updated correctly and
+    the fill is removed from Sudoku dicts."""
+    from sudoku_solver_hard import (get_missing, find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
+    remove_from_candidates)
+    m = medium_sudoku
+    dicts, square_coords = immediate_fills_dicts
+    dicts = get_missing(dicts)
+    rm, cm, sm = dicts
+    print(medium_sudoku[0])
+    single_candidates = [(7, (0, 3)), (9, (3, 1)), (6, (5, 0)), (7, (5, 8)), (9, (7, 5)), (2, (8, 3))]
+    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    print(medium_sudoku[0])
+    assert m[0][3] == 7
+    assert m[5][0] == 6
+    assert m[8][3] == 2
+    assert 7 not in rm[0]
+
+
+def test_scan_sudoku(medium_sudoku, immediate_fills_candidates, immediate_fills_dicts):
     """Test that function fills in fits as long as it can find one by rebuilding
     list of candidates."""
     from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
     remove_from_candidates, scan_sudoku)
-    m = scan
+    m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
     total_zeroes = 0
@@ -181,21 +205,23 @@ def test_squares_to_missing(immediate_fills_dicts):
     total_missing = 0
     for v in squares_missing.values():
         total_missing += len(v)
-    assert len(squares_missing.values()) == 8
-    assert total_missing == 46
+    assert len(squares_missing.values()) == 9
+    assert total_missing == 53
 
 
-def test_single_candidate(immediate_fills_dicts, immediate_fills_candidates):
+def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_candidates):
     """Test that function returns a fill by using the single candidate technique."""
     from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
     remove_from_candidates, scan_sudoku, squares_to_missing, single_candidate)
-    m = scan
+    m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
     rm, cm, sm = dicts
-    fits = single_candidate(candidates, square_coords, sm)
-    assert len(fits) == 6
-    assert (7, (0, 3)) in fits
+    single_candidates = single_candidate(candidates, square_coords, sm)
+    assert len(single_candidates) == 6
+    assert (7, (0, 3)) in single_candidates
+
+
 
 
 
