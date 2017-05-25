@@ -140,15 +140,18 @@ def test_find_fit(immediate_fills_candidates):
     row, col, num = find_fit(immediate_fills_candidates)
     assert row == 4 and col == 4 and num == 3
 
-# def test_fill_fit(immediate_fills_candidates):
-#     from sudoku_solver_hard import (find_fit, update_sudoku, remove_updated_from_dicts,
-#     remove_from_candidates)
-#     scan, candidates = fill_fit(scan, candidates, dicts, squares_coords)
-#     assert m[4, 4] == 3
-#     assert m[2, 4] == 6
-#     assert m[6, 4] == 5
-#     assert
-#     assert (4, 4) not in candidates.keys()
+def test_fill_fit(immediate_fills_candidates, immediate_fills_dicts):
+    from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
+    remove_from_candidates)
+    m = scan
+    dicts, square_coords = immediate_fills_dicts
+    rm, cm, sm = dicts
+    m, candidates = fill_fit(m, immediate_fills_candidates, dicts, square_coords)
+    assert m[4][4] == 3
+    assert m[2][4] == 6
+    assert m[6][4] == 5
+    assert 3 not in rm[4]
+    assert (4, 4) not in candidates.keys()
 
 
 
