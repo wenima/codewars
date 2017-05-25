@@ -161,11 +161,16 @@ def remove_from_candidates(fit, candidates):
                 continue
     return candidates
 
-def fill_fit(m, candidates, dicts, squares_coords):
-    """Return an updated Sudoku by finding a fit and filling it in as long as a fit is found."""
+def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
+    """Return an updated Sudoku by either finding a fit or taking a fit from a provided
+    list of fits and filling it in as long as a fit is found."""
     while True:
         try:
-            fit = find_fit(candidates)
+            if single_candidates:
+                num, coord = single_candidates.pop()
+                fit = (coord[0], coord[1], num)
+            else:
+                fit = find_fit(candidates)
             print("fit: ", fit)
         except IndexError:
             return m, candidates
@@ -185,7 +190,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
     while True:
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
-        m, candidiates = fill_fit(m, candidates, dicts, square_coords)
+        m, candidiates = fill_fit(m, dicts, square_coords, candidates=candidates)
         starting_spots = get_starting_spots(m, dicts, square_coords)
         starting_spots.sort(key=itemgetter(2))
         candidates = get_candidates(starting_spots, dicts, square_coords)
