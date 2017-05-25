@@ -86,11 +86,12 @@ def populate_dicts(m, square_sides, dicts):
     return dicts, square_coords
 
 
-def get_missing(d):
-    """Return a dictionary with swapped values from given numbers to missing numbers."""
-    for k, v in d.items():
-        d[k] = set([1, 2, 3, 4, 5, 6, 7, 8, 9]) - set(v)
-    return d
+def get_missing(dicts):
+    """Return dictionaries with swapped values from given numbers to missing numbers."""
+    for d in dicts:
+        for k, v in d.items():
+            d[k] = set([1, 2, 3, 4, 5, 6, 7, 8, 9]) - set(v)
+    return dicts
 
 
 def get_starting_spots(m, dicts, squares_coords):
