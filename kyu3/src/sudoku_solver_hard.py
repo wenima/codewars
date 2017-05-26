@@ -84,7 +84,7 @@ def get_missing(dicts):
     return dicts
 
 
-def get_starting_spots(m, dicts, squares_coords):
+def get_starting_spots(m, dicts, square_coords):
     """Return a list with coordinates as starting point for sudoku solver."""
     rm, cm, sm = dicts
     starting_spots = []
@@ -95,21 +95,24 @@ def get_starting_spots(m, dicts, squares_coords):
     for col in range(9):
         for row in range(9):
             if m[row][col] == 0:
-                square = squares_coords[(row, col)] - 1
+                square = square_coords[(row, col)] - 1
                 missing_numbers = len(cm[col]) + len(rm[row]) + len(sm[1 if square < 1 else square])
                 starting_spots.append((row, col, missing_numbers))
     return starting_spots
 
 
-def get_candidates(starting_spots, dicts, square_coords, naked_sets={}, c={}):
+def get_candidates(m, dicts, square_coords, naked_sets=None):
     """Return a dict of candidates for all starting_spots in the Sudoko."""
+    starting_spots = get_starting_spots(m, dicts, square_coords)
+    starting_spots.sort(key=itemgetter(2))
     rm, cm, sm = dicts
+    c = {}
     for coordinate in starting_spots:
         row, col, missing = coordinate
         c[(row, col)] = [n for n in cm[col] if n in rm[row] and n in sm[square_coords[row, col]]]
         try:
             c[(row, col)] = [n for n in c[(row, col)] if n not in naked_sets[(row, col)]]
-        except KeyError:
+        except (KeyError, TypeError):
             continue
     return c
 
@@ -175,7 +178,7 @@ def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
                 fit = (coord[0], coord[1], num)
             else:
                 fit = find_fit(candidates)
-            print("fit: ", fit)
+            # print("fit: ", fit)
         except IndexError:
             return m, candidates
         if fit:
@@ -195,7 +198,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
         m, candidiates = fill_fit(m, dicts, square_coords, candidates=candidates)
         starting_spots = get_starting_spots(m, dicts, square_coords)
         starting_spots.sort(key=itemgetter(2))
-        candidates = get_candidates(starting_spots, dicts, square_coords)
+        candidates = get_candidates(m, dicts, square_coords)
         if not candidates: break
     return m, candidates
 
@@ -306,12 +309,12 @@ def build_possible_naked_sets(c, setlength=2):
 
 def build_coords_per_naked_set(ns):
     """Return a new dict with inverted values from ns"""
-    cpns = defaultdict(list)
+    cpns = defaultdict(set)
     for pair in ns.values():
         for k, v in ns.items():
             row, col = k
             if v == pair:
-                cpns[tuple(pair)].append(k)
+                cpns[tuple(pair)].add(k)
     return cpns
 
 
@@ -337,7 +340,6 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
     for k, g in groupby(ns_sorted, lambda x: x[row_or_col]):
         coords = list(g)
         key = tuple(ns[coords[0]])
-        print(coords)
         if len(coords) > 1: #if list has only one element, there are no naked sets for that key
             if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
                 out[key] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in coords]
