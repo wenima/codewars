@@ -80,10 +80,30 @@ def immediate_fills_candidates(immediate_fills_dicts, medium_sudoku):
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
-    starting_spots = get_starting_spots(m, dicts, square_coords)
-    starting_spots.sort(key=itemgetter(2))
-    candidates = get_candidates(starting_spots, dicts, square_coords)
+    candidates = get_candidates(m, dicts, square_coords)
     return candidates
+
+@pytest.fixture
+def naked_sets_sudoku(medium_sudoku, immediate_fills_dicts, immediate_fills_candidates):
+    from sudoku_solver_hard import scan_sudoku, fill_fit, single_candidate
+    m = medium_sudoku
+    dicts, square_coords = immediate_fills_dicts
+    rm, cm, sm = dicts
+    m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
+    single_candidates = single_candidate(candidates, square_coords, sm)
+    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    return m
+
+@pytest.fixture
+def naked_sets_dicts(naked_sets_sudoku):
+    from sudoku_solver_hard import (initialize_dicts, initialize_d,
+    fill_given_numbers, populate_dicts, get_missing, get_candidates, find_naked_sets)
+    m = naked_sets_sudoku
+    square_sides = int(sqrt(len(naked_sets_sudoku)))
+    dicts = initialize_dicts(m, square_sides)
+    dicts, square_coords = populate_dicts(m, square_sides, dicts)
+    dicts = get_missing(dicts)
+    return dicts, square_coords
 
 @pytest.fixture
 def fiendish_sudoku():
@@ -222,6 +242,33 @@ def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_
     assert (7, (0, 3)) in single_candidates
 
 
+def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+    """Given a Sudoku test that function returns possible naked sets."""
+    from sudoku_solver_hard import get_candidates, build_possible_naked_sets
+    m = naked_sets_sudoku
+    dicts, square_coords = naked_sets_dicts
+    candidates = get_candidates(m, dicts, square_coords)
+    possible_naked_sets = build_possible_naked_sets(candidates)
+    assert possible_naked_sets[(7, 3)] == [8, 3]
+    assert possible_naked_sets[(8, 5)] == [8, 3]
+
+
+
+# def test_find_naked_pairs(naked_sets_sudoku):
+#     """Given a Sudoku with naked pairs, test that funtion returns a dict with
+#     a naked set as key and coords to be updated."""
+#     from sudoku_solver_hard import (initialize_dicts, initialize_d,
+#     fill_given_numbers, populate_dicts, get_missing, get_candidates, find_naked_sets)
+#     m = naked_sets_sudoku
+#     square_sides = int(sqrt(len(naked_sets_sudoku)))
+#     dicts = initialize_dicts(m, square_sides)
+#     dicts, square_coords = populate_dicts(m, square_sides, dicts)
+#     dicts = get_missing(dicts)
+#     candidates = get_candidates(m, dicts, square_coords)
+#     print(candidates)
+#     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
+#     assert naked_sets_fields_row == {(3, 8): [(8, 7), (8, 6), (8, 2)]}
+#     assert naked_sets_fields_cols == {}
 
 
 
@@ -233,15 +280,20 @@ def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_
 
 
 
-# def test_scan_for_fills():
+
+
+
+
+#
+#
+# def test_find_naked_pairs():
 #     """Given a Sudoku with naked pairs, test that funtion returns a dict with
 #     a naked set as key and coords to be updated."""
 #     from sudoku_solver_hard import find_naked_sets, sudoku_solver
 #     m, candidates, dicts = sudoku_solver(naked_pairs)
 #     assert find_naked_sets(candidates, dicts) == np
-#
-#
-# def test_find_naked_pairs():
+
+# def test_scan_for_fills():
 #     """Given a Sudoku with naked pairs, test that funtion returns a dict with
 #     a naked set as key and coords to be updated."""
 #     from sudoku_solver_hard import find_naked_sets, sudoku_solver
