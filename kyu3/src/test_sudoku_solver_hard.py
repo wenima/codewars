@@ -249,11 +249,11 @@ def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
     dicts, square_coords = naked_sets_dicts
     candidates = get_candidates(m, dicts, square_coords)
     possible_naked_sets = build_possible_naked_sets(candidates)
-    assert possible_naked_sets[(7, 3)] == [8, 3]
-    assert possible_naked_sets[(8, 5)] == [8, 3]
+    assert possible_naked_sets[(7, 3)] == [3, 8]
+    assert possible_naked_sets[(8, 5)] == [3, 8]
 
 
-def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+def test_coords_per_naked_set(naked_sets_sudoku, naked_sets_dicts):
     """Given a dict of possible naked sets, test that function returns the inverted dict."""
     from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
     build_coords_per_naked_set)
@@ -265,6 +265,40 @@ def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
     for k, v in coords_per_naked_set.items():
         assert len(v) == len([1 for nums in possible_naked_sets.values() if nums == list(k)])
 
+
+def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
+    """Given a dict of possible naked sets and it inverse dict, test that the
+    function returns an updated dict."""
+    from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
+    build_coords_per_naked_set, update_naked_set)
+    m = naked_sets_sudoku
+    dicts, square_coords = naked_sets_dicts
+    c = get_candidates(m, dicts, square_coords)
+    possible_naked_sets = build_possible_naked_sets(c)
+    coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
+    naked_sets = update_naked_set(possible_naked_sets, coords_per_naked_set)
+    vals = []
+    for v in naked_sets.values():
+        if v not in vals: vals.append(v)
+    assert len(vals) == 1
+
+
+def test_get_coords_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+    """Given a dict of naked sets, test that function returns a list
+    of coordinates from which a naked set can be removed from."""
+    from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
+    build_coords_per_naked_set, update_naked_set, get_coords_naked_sets)
+    m = naked_sets_sudoku
+    dicts, square_coords = naked_sets_dicts
+    c = get_candidates(m, dicts, square_coords)
+    possible_naked_sets = build_possible_naked_sets(c)
+    coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
+    naked_sets = update_naked_set(possible_naked_sets, coords_per_naked_set)
+    coords_to_update = get_coords_naked_sets(naked_sets, c, dicts, row_or_col=0, setlength=2)
+    print(coords_to_update)
+    assert (8, 6) in coords_to_update[(3, 8)]
+    assert (8, 2) in coords_to_update[(3, 8)]
+    assert (8, 7) in coords_to_update[(3, 8)]
 
 
 # def test_find_naked_pairs(naked_sets_sudoku):
