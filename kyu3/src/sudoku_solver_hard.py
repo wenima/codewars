@@ -303,7 +303,7 @@ def build_possible_naked_sets(c, setlength=2):
     pairs = [p for p in c.values() if len(p) == setlength]
     for k, v in c.items():
         if v in pairs:
-            ns[k] = v
+            ns[k] = sorted(v)
     return ns
 
 
@@ -340,7 +340,11 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
     for k, g in groupby(ns_sorted, lambda x: x[row_or_col]):
         coords = list(g)
         key = tuple(ns[coords[0]])
+        print(coords)
+        print(len(coords))
         if len(coords) > 1: #if list has only one element, there are no naked sets for that key
+            print(rm[k])
             if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
+                print(key)
                 out[key] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in coords]
     return out
