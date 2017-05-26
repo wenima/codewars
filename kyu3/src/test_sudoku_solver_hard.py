@@ -168,8 +168,7 @@ def test_find_fit(immediate_fills_candidates):
 def test_fill_fit(medium_sudoku, immediate_fills_candidates, immediate_fills_dicts):
     """Test that given candidates with immediate fits, the Sudoku is updated correctly
     and the fill is removed from Sudoku dicts."""
-    from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
-    remove_from_candidates)
+    from sudoku_solver_hard import fill_fit
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     rm, cm, sm = dicts
@@ -184,16 +183,13 @@ def test_fill_fit(medium_sudoku, immediate_fills_candidates, immediate_fills_dic
 def test_fill_fit(medium_sudoku, immediate_fills_dicts):
     """Test that given single_candidates, the Sudoku is updated correctly and
     the fill is removed from Sudoku dicts."""
-    from sudoku_solver_hard import (get_missing, find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
-    remove_from_candidates)
+    from sudoku_solver_hard import get_missing, fill_fit
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     dicts = get_missing(dicts)
     rm, cm, sm = dicts
-    print(medium_sudoku[0])
     single_candidates = [(7, (0, 3)), (9, (3, 1)), (6, (5, 0)), (7, (5, 8)), (9, (7, 5)), (2, (8, 3))]
     m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
-    print(medium_sudoku[0])
     assert m[0][3] == 7
     assert m[5][0] == 6
     assert m[8][3] == 2
@@ -203,8 +199,7 @@ def test_fill_fit(medium_sudoku, immediate_fills_dicts):
 def test_scan_sudoku(medium_sudoku, immediate_fills_candidates, immediate_fills_dicts):
     """Test that function fills in fits as long as it can find one by rebuilding
     list of candidates."""
-    from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
-    remove_from_candidates, scan_sudoku)
+    from sudoku_solver_hard import scan_sudoku
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
@@ -231,8 +226,7 @@ def test_squares_to_missing(immediate_fills_dicts):
 
 def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_candidates):
     """Test that function returns a fill by using the single candidate technique."""
-    from sudoku_solver_hard import (find_fit, fill_fit, update_sudoku, remove_updated_from_dicts,
-    remove_from_candidates, scan_sudoku, squares_to_missing, single_candidate)
+    from sudoku_solver_hard import scan_sudoku, single_candidate
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
@@ -283,22 +277,18 @@ def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
     assert len(vals) == 1
 
 
-def test_get_coords_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
     """Given a dict of naked sets, test that function returns a list
     of coordinates from which a naked set can be removed from."""
-    from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
-    build_coords_per_naked_set, update_naked_set, get_coords_naked_sets)
+    from sudoku_solver_hard import get_candidates, find_naked_sets
     m = naked_sets_sudoku
     dicts, square_coords = naked_sets_dicts
     c = get_candidates(m, dicts, square_coords)
-    possible_naked_sets = build_possible_naked_sets(c)
-    coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
-    naked_sets = update_naked_set(possible_naked_sets, coords_per_naked_set)
-    coords_to_update = get_coords_naked_sets(naked_sets, c, dicts, row_or_col=0, setlength=2)
-    print(coords_to_update)
-    assert (8, 6) in coords_to_update[(3, 8)]
-    assert (8, 2) in coords_to_update[(3, 8)]
-    assert (8, 7) in coords_to_update[(3, 8)]
+    rows, cols = find_naked_sets(c, dicts)
+    assert (8, 6) in rows[(3, 8)]
+    assert (8, 2) in rows[(3, 8)]
+    assert (8, 7) in rows[(3, 8)]
+    assert cols == {}
 
 
 # def test_find_naked_pairs(naked_sets_sudoku):
