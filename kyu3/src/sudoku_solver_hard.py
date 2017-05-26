@@ -168,6 +168,7 @@ def remove_from_candidates(fit, candidates):
                 continue
     return candidates
 
+
 def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
     """Return an updated Sudoku by either finding a fit or taking a fit from a provided
     list of fits and filling it in as long as a fit is found."""
@@ -188,6 +189,7 @@ def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
         else:
             return m, candidates
 
+
 def scan_sudoku(m, dicts, square_coords, candidates):
     """Return an updated Sudoku by using the scanning technique to find fits and
     filling them in. After each scan, list of candidates is rebuild until no
@@ -201,52 +203,6 @@ def scan_sudoku(m, dicts, square_coords, candidates):
         candidates = get_candidates(m, dicts, square_coords)
         if not candidates: break
     return m, candidates
-
-
-
-
-
-def fill_sudoku(m, dicts, squares_coords):
-    rm, cm, sm = dicts
-    candidates = {}
-    starting_spots = get_starting_spots(m, dicts, squares_coords)
-    starting_spots.sort(key=itemgetter(2))
-    candidates =  get_candidates(starting_spots, candidates, dicts, squares_coords)
-    if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
-        coords_missing_in_square = squares_to_missing(squares_coords)
-        fits = single_candidate(candidates, coords_missing_in_square, sm)
-        while True:
-            try:
-                fit = fits.pop(0)
-                n = fit[0]
-                row, col = fit[1]
-                fit = (row, col, n)
-                update_sudoku(fit, m)
-                dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
-            except IndexError:
-                starting_spots = []
-                starting_spots = get_starting_spots(m, dicts, squares_coords)
-                starting_spots.sort(key=itemgetter(2))
-                candidates = {}
-                candidates =  get_candidates(starting_spots, candidates, dicts, squares_coords)
-                break
-        return m, candidates
-    while True:
-        try:
-            fit = find_fit(candidates)
-        except IndexError:
-            return m
-        if fit:
-            m = update_sudoku(fit, m)
-            dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
-            candidates = remove_from_candidates(fit, candidates)
-            if not candidates:
-                return m
-        else:
-            candidates = {} # we are no longer interested in current candidates
-            starting_spots = []
-            m = fill_sudoku(m, dicts, squares_coords)
-    return m
 
 
 def squares_to_missing(square_coords):
@@ -293,7 +249,7 @@ def find_naked_sets(candidates, dicts, setlength=2):
     cpns = build_coords_per_naked_set(ns)
     ns = update_naked_set(ns, cpns)
     rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
-    cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
+    cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=2)
     return rows, cols
 
 
@@ -340,11 +296,7 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
     for k, g in groupby(ns_sorted, lambda x: x[row_or_col]):
         coords = list(g)
         key = tuple(ns[coords[0]])
-        print(coords)
-        print(len(coords))
         if len(coords) > 1: #if list has only one element, there are no naked sets for that key
-            print(rm[k])
             if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
-                print(key)
                 out[key] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in coords]
     return out
