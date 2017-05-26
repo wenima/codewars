@@ -253,6 +253,19 @@ def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
     assert possible_naked_sets[(8, 5)] == [8, 3]
 
 
+def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+    """Given a dict of possible naked sets, test that function returns the inverted dict."""
+    from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
+    build_coords_per_naked_set)
+    m = naked_sets_sudoku
+    dicts, square_coords = naked_sets_dicts
+    c = get_candidates(m, dicts, square_coords)
+    possible_naked_sets = build_possible_naked_sets(c)
+    coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
+    for k, v in coords_per_naked_set.items():
+        assert len(v) == len([1 for nums in possible_naked_sets.values() if nums == list(k)])
+
+
 
 # def test_find_naked_pairs(naked_sets_sudoku):
 #     """Given a Sudoku with naked pairs, test that funtion returns a dict with
