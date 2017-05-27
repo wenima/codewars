@@ -291,6 +291,23 @@ def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
     assert cols == {}
 
 
+def test_remove_naked_sets_from_candidates(naked_sets_sudoku, naked_sets_dicts):
+    """Given a dict of naked sets, test that function returns a list
+    of coordinates from which a naked set can be removed from."""
+    from sudoku_solver_hard import (get_candidates, find_naked_sets,
+    remove_naked_sets_from_candidates)
+    m = naked_sets_sudoku
+    dicts, square_coords = naked_sets_dicts
+    c = get_candidates(m, dicts, square_coords)
+    rows, cols = find_naked_sets(c, dicts)
+    c = remove_naked_sets_from_candidates(c, rows, cols)
+    assert 3, 8 not in c[(8, 6)] #and 8 not in c[(8, 6)]
+    assert 3, 8 not in c[(8, 2)]
+    assert 3, 8 not in c[(8, 7)]
+
+
+
+
 # def test_find_naked_pairs(naked_sets_sudoku):
 #     """Given a Sudoku with naked pairs, test that funtion returns a dict with
 #     a naked set as key and coords to be updated."""
