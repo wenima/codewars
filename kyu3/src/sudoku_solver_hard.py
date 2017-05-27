@@ -300,3 +300,12 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
             if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
                 out[key] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in coords]
     return out
+
+
+def remove_naked_sets_from_candidates(c, *args):
+    """Return an updated list of candidates after removing possible numbers by looking at naked sets"""
+    for d in args:
+        for k, v in d.items():
+            for coord in v:
+                c[coord] = [n for n in c[coord] if n not in k]
+    return c
