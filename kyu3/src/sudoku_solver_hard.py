@@ -302,10 +302,11 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
     return out
 
 
-def remove_naked_sets_from_candidates(c, *args):
-    """Return an updated list of candidates after removing possible numbers by looking at naked sets"""
+def remove_naked_sets_from_candidates(c, *args, naked_sets=defaultdict(list)):
+    """Return an updated list of candidates and naked sets after removing possible numbers by looking at naked sets"""
     for d in args:
         for k, v in d.items():
             for coord in v:
                 c[coord] = [n for n in c[coord] if n not in k]
-    return c
+                naked_sets[coord].extend(list(k))
+    return c, dict(naked_sets)
