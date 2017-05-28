@@ -245,11 +245,11 @@ def find_naked_sets(candidates, dicts, setlength=2):
     """Return a dict of naked sets mapped to coordinates. A naked set is a set of numbers
     which are the only possible values for fields along a row or column."""
     c = candidates
-    ns = build_possible_naked_sets(c)
+    ns = build_possible_naked_sets(c, setlength=setlength)
     cpns = build_coords_per_naked_set(ns)
     ns = update_naked_set(ns, cpns)
-    rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2)
-    cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=2)
+    rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=setlength)
+    cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=setlength)
     return rows, cols
 
 
