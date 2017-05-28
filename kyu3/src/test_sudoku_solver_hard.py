@@ -158,6 +158,19 @@ def test_get_candidates(immediate_fills_candidates):
     assert immediate_fills_candidates[(4, 4)] == [3]
 
 
+def test_get_candidates_account_for_naked_sets(medium_sudoku, immediate_fills_dicts):
+    """Test that function returns a dict of candidates per coordinate but omits
+    numbers for coordinates from naked sets if provided."""
+    from sudoku_solver_hard import get_missing, get_candidates
+    dicts, square_coords = immediate_fills_dicts
+    dicts = get_missing(dicts)
+    naked_sets = {(3, 8): [(8, 7), (8, 6), (8, 2)]}
+    c = get_candidates(medium_sudoku, dicts, square_coords, naked_sets)
+    assert 3, 8 not in c[(8, 6)]
+    assert 3, 8 not in c[(8, 2)]
+    assert 3, 8 not in c[(8, 7)]
+
+
 def test_find_fit(immediate_fills_candidates):
     """Test that given a dict of candidates, a tuple is returned with coordinates
     and value to update the Sudoku."""
@@ -301,7 +314,7 @@ def test_remove_naked_sets_from_candidates(naked_sets_sudoku, naked_sets_dicts):
     c = get_candidates(m, dicts, square_coords)
     rows, cols = find_naked_sets(c, dicts)
     c = remove_naked_sets_from_candidates(c, rows, cols)
-    assert 3, 8 not in c[(8, 6)] #and 8 not in c[(8, 6)]
+    assert 3, 8 not in c[(8, 6)]
     assert 3, 8 not in c[(8, 2)]
     assert 3, 8 not in c[(8, 7)]
 
