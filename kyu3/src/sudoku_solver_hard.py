@@ -20,16 +20,18 @@ def sudoku_solver(m):
         """
     square_sides = int(sqrt(len(m)))
     dicts = initialize_dicts(m, square_sides)
-    sq_nr = 0
-    for row in range(0, square_sides ** 2, square_sides):
-        for col in range(0, square_sides ** 2, square_sides):
-            sq_nr += 1
-            square = [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
-            fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords)
-    for d in dicts:
-        d = get_missing(d)
-    m, candidates = fill_sudoku(m, dicts, squares_coords)
-    return m, candidates, dicts
+    dicts, square_coords = populate_dicts(m, square_sides, dicts)
+    dicts = get_missing(dicts)
+    candidates = get_candidates(m, dicts, square_coords)
+    m, candidates = scan_sudoku(m, dicts, square_coords, candidates)
+    single_candidates = single_candidate(candidates, square_coords, dicts)
+    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    candidates = get_candidates(m, dicts, square_coords)
+    naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
+    candidates, naked_sets = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
+    candidates = get_candidates(m, dicts, square_coords, naked_sets)
+    naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=3)
+    return m
 
 def initialize_dicts(m, square_sides):
     """Return dicts to hold information about the Sudoku."""
