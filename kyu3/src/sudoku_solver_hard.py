@@ -267,12 +267,13 @@ def build_possible_naked_sets(c, setlength=2):
 
 def build_coords_per_naked_set(ns):
     """Return a new dict with inverted values from ns"""
-    cpns = defaultdict(set)
+    cpns = defaultdict(list)
     for pair in ns.values():
+        if cpns.get(tuple(pair), 0): continue
         for k, v in ns.items():
             row, col = k
             if v == pair:
-                cpns[tuple(pair)].add(k)
+                cpns[tuple(pair)].append(k)
     return cpns
 
 
