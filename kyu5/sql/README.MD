@@ -13,11 +13,12 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Simple PIVOTING data
 * Simple View
 * Group By Day
+* Relational Division
 
 ## Details for each kata completed
 
 ### SQL Tuning: Function Calls
-* Descripton of Kata: Your objective in this kata is to optimize this query.
+* Description of Kata: Your objective in this kata is to optimize this query.
 The success criteria is to manage to run the query within the allowed kata
 solution time window (12 seconds for SQL katas).
 * Difficulty: kyu5
@@ -26,28 +27,28 @@ solution time window (12 seconds for SQL katas).
 * Comments:
 
 ### Simple Hierarchical structure
-* Descripton of Kata: For this challenge you need to create a RECURSIVE Hierarchical query
+* Description of Kata: For this challenge you need to create a RECURSIVE Hierarchical query
 * Difficulty: kyu5
 * Module: hierachical_structure.sql
 * [Link](https://www.codewars.com/kata/sql-basics-simple-hierarchical-structure/sql)
 * Comments:
 
 ### Simple PIVOTING data
-* Descripton of Kata: For this challenge you need to create a RECURSIVE Hierarchical query
+* Description of Kata: For this challenge you need to PIVOT data using crosstab.
 * Difficulty: kyu5
-* Module: hierachical_structure.sql
+* Module: pivot.sql
 * [Link](https://www.codewars.com/kata/sql-basics-simple-pivoting-data/sql)
 * Comments:
 
 ### Simple View
-* Descripton of Kata: Create a simple view
+* Description of Kata: Create a simple view
 * Difficulty: kyu5
 * Module: simple_view.sql
 * [Link](https://www.codewars.com/kata/sql-basics-simple-view/sql)
 * Comments:
 
 ### SQL Statistics: MIN, MEDIAN, MAX
-* Descripton of Kata: SQL Statistics: Your task is to calculate the MIN, MEDIAN
+* Description of Kata: SQL Statistics: Your task is to calculate the MIN, MEDIAN
 and MAX scores of the students from the results table.
 * Difficulty: kyu5
 * Module: min_median_max.sql
@@ -55,7 +56,7 @@ and MAX scores of the students from the results table.
 * Comments:
 
 ### Group By Day
-* Descripton of Kata: There is an events table used to track different key
+* Description of Kata: There is an events table used to track different key
 activities taken on a website. For this task you need to filter the name field
 to only show "trained" events. Events should be grouped by the day they happened
 and counted. The description field is used to distinguish which items the events
@@ -63,4 +64,13 @@ happened on.
 * Difficulty: kyu5
 * Module: group_by_day.sql
 * [Link](https://www.codewars.com/kata/sql-basics-group-by-day/sql)
+* Comments:
+
+### Relational Divison
+* Description of Kata: Given film_actor and film tables from the DVD Rental sample
+database find all movies both Sidney Crowe (actor_id = 105) and Salma Nolte
+(actor_id = 122) cast in together and order the result set alphabetically.
+* Difficulty: kyu5
+* Module: relational_division_of_actors.sql
+* [Link](https://www.codewars.com/kata/relational-division-find-all-movies-two-actors-cast-in-together/sql)
 * Comments:
