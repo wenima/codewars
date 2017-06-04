@@ -15,6 +15,10 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Group By Day
 * Relational Division
 
+## beta
+
+* Using Window Functions To Get Top N per Group
+
 ## Details for each kata completed
 
 ### SQL Tuning: Function Calls
@@ -73,4 +77,12 @@ database find all movies both Sidney Crowe (actor_id = 105) and Salma Nolte
 * Difficulty: kyu5
 * Module: relational_division_of_actors.sql
 * [Link](https://www.codewars.com/kata/relational-division-find-all-movies-two-actors-cast-in-together/sql)
+* Comments:
+
+### Using Window Functions To Get Top N per Group
+* Description of Kata: Given the schema presented below write a query, which
+uses a window function, that returns two most viewed posts for every category.
+* Difficulty: beta
+* Module: top_n_per_group_window.sql
+* [Link](https://www.codewars.com/kata/using-window-functions-to-get-top-n-per-group)
 * Comments:
