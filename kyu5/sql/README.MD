@@ -18,6 +18,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 ## beta
 
 * Using Window Functions To Get Top N per Group
+* SQL Data: Company Data - totals per day
 
 ## Details for each kata completed
 
@@ -85,4 +86,12 @@ uses a window function, that returns two most viewed posts for every category.
 * Difficulty: beta
 * Module: top_n_per_group_window.sql
 * [Link](https://www.codewars.com/kata/using-window-functions-to-get-top-n-per-group)
+* Comments:
+
+### SQL Data: Company Data - totals per day
+* Description of Kata: Your task is simple, given the data you must calculate
+on each day how many hours have been clocked up for each department.
+* Difficulty: beta
+* Module: time_clocked.sql
+* [Link](https://www.codewars.com/kata/sql-data-company-data-totals-per-day/)
 * Comments:
