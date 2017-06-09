@@ -6,6 +6,7 @@ def digits_product(n):
     if n == 1: return 11
     if n == 0: return 10
     while True:
+        if n > 7 and isprime(n):return -1
         for i in range(9, 0, -1):
             if i == 1 and len(out) == 0:
                 return -1
@@ -19,3 +20,9 @@ def digits_product(n):
             break
         elif n == 1:break
     return int(''.join(sorted(out)))
+
+
+def isprime(n):
+    """Return True if n is a prime number for all n > 7."""
+    if n % 2 == 0:return False
+    return all(n % i for i in range(3, int(n**0.5) + 1, 2))
