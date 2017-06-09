@@ -19,5 +19,4 @@ TEST_DIGITS = [
 def test_digits_product(n, result):
     """Test fib_digits returns correct integer pairs."""
     from digits_product import digits_product
-    out = []
-    assert digits_product(n, out) == result
+    assert digits_product(n) == result
