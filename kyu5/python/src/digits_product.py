@@ -1,4 +1,4 @@
-"""Test for https://www.codewars.com/kata/simple-fun-number-81-digits-product/."""
+"""Solution for https://www.codewars.com/kata/simple-fun-number-81-digits-product/."""
 
 def digits_product(n):
     """Return the smallest integer composed of products of n."""
