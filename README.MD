@@ -20,6 +20,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * First n Prime Numbers
 * Prime Factorization
 * Valid Parentheses
+* Simple Fun #81: Digits Product
 
 ## kyu4
 
@@ -324,11 +325,22 @@ where the keys are prime numbers and the values are the multiplicities.
 a string of parentheses, and determines if the order of the parentheses
 is valid. validParentheses should return true if the string is valid,
 and false if it's invalid.
-
 * Difficulty: kyu5
 * Module: valid_parentheses.py
 * Tests: test_valid_parentheses.py
 * Link: https://www.codewars.com/kata/valid-parentheses/python
+* Comments about most interesting solution/best practice:
+```python
+```
+
+### Simple Fun #81: Digits Product
+* Descripton of Kata: Given an integer product, find the smallest positive integer
+the product of whose digits is equal to product. If there is no such integer,
+return -1 instead.
+* Difficulty: kyu5
+* Module: digits_product.py
+* Tests: test_digits_product.py
+* Link: https://www.codewars.com/kata/simple-fun-number-81-digits-product
 * Comments about most interesting solution/best practice:
 ```python
 ```
