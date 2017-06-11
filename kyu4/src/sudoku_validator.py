@@ -24,6 +24,7 @@ class Sudoku(object):
             self.size = len(matrix)
             self.m = matrix
             self.square_sides = int(sqrt(len(matrix)))
+        self.nums = {x for x in range(1, len(self.m))}
 
     def _extract_small_square(self, row, col):
         return [islice(self.m[i], col, self.square_sides + col) for i in range(row, row + self.square_sides)]
@@ -40,6 +41,13 @@ class Sudoku(object):
 
     def is_valid(self):
         """Validate a Sudoku puzzle of size NxN."""
+        for row in self.m:
+            if self.nums - set(row): return False #check all rows for valid numbers
+        for i in range(len(self.m)): # check all cols for valid numbers
+            nums = set()
+            for j in range(len(self.m)):
+                nums.add(self.m[j][i])
+            if self.nums - set(nums): return False
         for l in self.m:        #because True is mask for 1
             for n in l:
                 if isinstance(n, bool):
