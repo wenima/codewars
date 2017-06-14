@@ -2,8 +2,14 @@
 
 def escape(carpark):
     """Return a list of directions to take to escape a given carpark."""
+    while True:
+        try:
+            carpark[0].index(2)
+            break
+        except:
+            carpark = carpark[1:]
     if len(carpark) == 1:
-        if carpark[0].index(2) + 1 == len(carpark[0]): return [] 
+        if carpark[0].index(2) + 1 == len(carpark[0]): return []
         return ["R" + str(len(carpark[-1]) - 1 - carpark[0].index(2))]
     out = []
     start = carpark[0].index(2)
