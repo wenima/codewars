@@ -26,8 +26,8 @@ TEST_INPUT = [
 ]
 
 
-@pytest.mark.parametrize('carpark, escape', TEST_INPUT)
-def test_alphanumeric(carpark, escape):
+@pytest.mark.parametrize('carpark, route', TEST_INPUT)
+def test_alphanumeric(carpark, route):
     """Test that for a given carpark, the function returns a valid escape route."""
     from carpark import escape
-    assert escape(carpark) == escape
+    assert escape(carpark) == route
