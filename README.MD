@@ -21,6 +21,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Prime Factorization
 * Valid Parentheses
 * Simple Fun #81: Digits Product
+* Car Park Escape
 
 ## kyu4
 
@@ -352,6 +353,17 @@ def digits_product(product):
             n += str(d)
             product //= d
     return int(n[::-1]) if product == 1 else -1
+```
+
+* Descripton of Kata: Your task is to escape from the carpark using only the
+staircases provided to reach the exit. You may not jump over the edge of the levels
+(you’re not Superman!) and the exit is always on the far right of the ground floor.
+* Difficulty: kyu5
+* Module: carpark.py
+* Tests: test_carpark.py
+* Link: https://www.codewars.com/kata/car-park-escape/
+* Comments about most interesting solution/best practice:
+```python
 ```
 
 
