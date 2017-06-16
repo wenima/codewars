@@ -9,6 +9,5 @@ def choose_best_sum(t, k, ls):
     best = 0
     for c in combinations(ls, k):
         if best < sum(c) <= t:
-            print("updated best fit: ", c)
             best = sum(c)
     return best if best else None
