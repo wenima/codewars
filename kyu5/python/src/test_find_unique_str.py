@@ -6,6 +6,7 @@ import pytest
 TEST = [
     ([ 'Aa', 'aaa', 'aaaaa', 'BbBb', 'Aaaa', 'AaAaAa', 'a' ], 'BbBb'),
     ([ 'abc', 'acb', 'bac', 'foo', 'bca', 'cab', 'cba' ], 'foo'),
+    (['    ', '  ', ' ', 'a', ' ', ''], 'a'),
 ]
 
 
