@@ -3,7 +3,7 @@
 import pytest
 
 
-TEST_INPUT = [
+TEST = [
     ([ 'Aa', 'aaa', 'aaaaa', 'BbBb', 'Aaaa', 'AaAaAa', 'a' ], 'BbBb'),
     ([ 'abc', 'acb', 'bac', 'foo', 'bca', 'cab', 'cba' ], 'foo'),
 ]
@@ -12,5 +12,5 @@ TEST_INPUT = [
 @pytest.mark.parametrize('arr, result', TEST)
 def test_find_uniq(arr, result):
     """Test that function returns unique element."""
-    from find_uniqe_str import find_uniq
+    from find_unique_str import find_uniq
     assert find_uniq(arr) == result
