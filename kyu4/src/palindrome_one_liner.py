@@ -1,3 +1,3 @@
 """Solution for kata http://www.codewars.com/kata/one-line-task-palindrome-string/."""
 
-def palindrome(n, c): return ""
+palindrome=lambda n,s:(s*n)[:n/2]+(s*n)[~-n/2::-1]
