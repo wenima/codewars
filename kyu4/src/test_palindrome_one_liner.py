@@ -11,5 +11,5 @@ TEST = [
 @pytest.mark.parametrize('n, s', TEST)
 def test_make_palindrome(n, s, result):
     """Test palindrome is returned with length n."""
-    from palindrome_one_liner import make_palindrome
+    from palindrome_one_liner import palindrome
     assert make_palindrome(n, s) == result
