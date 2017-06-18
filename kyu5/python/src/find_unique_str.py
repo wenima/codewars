@@ -3,4 +3,6 @@
 
 def find_uniq(arr):
     """Return the unique element from a list of strings."""
-    pass
+    for idx, e in enumerate(arr):
+        out = [set(e.lower()) - set(n.lower()) for n in arr if set(e.lower()) - set(n.lower())]
+        if len(out) > 1: return arr[idx]
