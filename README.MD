@@ -30,6 +30,8 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Validate Sudoku with size `NxN`
 * Valid Braces
 * Next Bigger Number with same digits
+* One Line Task: Palindrome String
+* Strip Url Params
 
 ## kyu3
 
@@ -247,7 +249,6 @@ returning a list of integer pairs sorted in descending order.
 ```python
 from collections import Counter
 
-
 def fib_digits(n):
     a,b = 0,1
     for i in range(n-1):
@@ -263,9 +264,6 @@ def fib_digits(n):
 * Module: sudoku_validator.py
 * Tests: test_sudoku_validator.py
 * Link: https://www.codewars.com/kata/validate-sudoku-with-size-nxn
-* Comments about most interesting solution/best practice:
-```python
-```
 
 ### Primes with Even Digits
 * Descripton of Kata: Find the closest prime number under a certain integer n
@@ -319,9 +317,6 @@ where the keys are prime numbers and the values are the multiplicities.
 * Module: prime_factorization.py
 * Tests: test_prime_factorization.py
 * Link: https://www.codewars.com/kata/prime-factorization
-* Comments about most interesting solution/best practice:
-```python
-```
 
 ### Valid Parentheses
 * Descripton of Kata: Write a function called validParentheses that takes
@@ -332,9 +327,6 @@ and false if it's invalid.
 * Module: valid_parentheses.py
 * Tests: test_valid_parentheses.py
 * Link: https://www.codewars.com/kata/valid-parentheses/python
-* Comments about most interesting solution/best practice:
-```python
-```
 
 ### Simple Fun #81: Digits Product
 * Descripton of Kata: Given an integer product, find the smallest positive integer
@@ -378,9 +370,9 @@ as parameter. If the board is valid return 'Finished!', otherwise return 'Try ag
 * Descripton of Kata: There is an array of strings. All strings contains similar
 letters except one. Try to find it!
 * Difficulty: kyu5
-* Module: sud_validator.py
-* Tests: test_sud_validator.py
-* Link: https://www.codewars.com/kata/did-i-finish-my-sudoku/
+* Module: find_unique_str.py
+* Tests: test_find_unique_str.py
+* Link: https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3
 
 
 ### Valid Braces
@@ -391,9 +383,6 @@ return true if the string is valid, and false if it's invalid.
 * Module: valid_braces.py
 * Tests: test_valid_braces.py
 * Link: https://www.codewars.com/kata/valid-braces
-* Comments about most interesting solution/best practice:
-```python
-```
 
 ### Next Bigger Number
 * Descripton of Kata: You have to create a function that takes a positive integer
@@ -420,6 +409,30 @@ def next_bigger(n):
             return int("".join(s))
     return -1
 ```
+
+### One Line Task: Palindrome String
+* Descripton of Kata: Your task is to generate a palindrome string, using the
+specified length n, the specified characters c(all characters in c must be used
+at least once), and the code length should less than 55 characters
+* Difficulty: kyu4
+* Module: palindrome_one_liner.py
+* Tests: test_palindrome_one_liner.py
+* Link: https://www.codewars.com/kata/one-line-task-palindrome-string
+* Comments about most interesting solution/best practice: Didn't know about method
+center, nice use here.
+```python
+palindrome=lambda n,s:(s+s[-1-n%2::-1]).center(n,s[0])
+```
+
+### Strip Url Params
+* Descripton of Kata: Write a method that
+Removes any duplicate query string parameters from the url
+Removes any query string parameters specified within the 2nd argument (optional array)
+* Difficulty: kyu4
+* Module: url_strip_params.py
+* Tests: test_palindrome_one_liner.py
+* Link: https://www.codewars.com/kata/strip-url-params
+
 
 ### Sudoku Solver
 * Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
