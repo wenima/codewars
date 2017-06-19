@@ -23,6 +23,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Simple Fun #81: Digits Product
 * Car Park Escape
 * Did I Finish my Sudoku?
+* Find the unique string
 
 ## kyu4
 
@@ -364,9 +365,6 @@ staircases provided to reach the exit. You may not jump over the edge of the lev
 * Module: carpark.py
 * Tests: test_carpark.py
 * Link: https://www.codewars.com/kata/car-park-escape/
-* Comments about most interesting solution/best practice:
-```python
-```
 
 ### Did I Finish my Sudoku?
 * Descripton of Kata: Write a function done_or_not passing a board (list[list_lines])
@@ -375,9 +373,14 @@ as parameter. If the board is valid return 'Finished!', otherwise return 'Try ag
 * Module: sud_validator.py
 * Tests: test_sud_validator.py
 * Link: https://www.codewars.com/kata/did-i-finish-my-sudoku/
-* Comments about most interesting solution/best practice:
-```python
-```
+
+### Find the unique string
+* Descripton of Kata: There is an array of strings. All strings contains similar
+letters except one. Try to find it!
+* Difficulty: kyu5
+* Module: sud_validator.py
+* Tests: test_sud_validator.py
+* Link: https://www.codewars.com/kata/did-i-finish-my-sudoku/
 
 
 ### Valid Braces
