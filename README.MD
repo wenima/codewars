@@ -22,6 +22,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Valid Parentheses
 * Simple Fun #81: Digits Product
 * Car Park Escape
+* Did I Finish my Sudoku?
 
 ## kyu4
 
@@ -355,6 +356,7 @@ def digits_product(product):
     return int(n[::-1]) if product == 1 else -1
 ```
 
+### Car Park Escape
 * Descripton of Kata: Your task is to escape from the carpark using only the
 staircases provided to reach the exit. You may not jump over the edge of the levels
 (you’re not Superman!) and the exit is always on the far right of the ground floor.
@@ -366,6 +368,16 @@ staircases provided to reach the exit. You may not jump over the edge of the lev
 ```python
 ```
 
+### Did I Finish my Sudoku?
+* Descripton of Kata: Write a function done_or_not passing a board (list[list_lines])
+as parameter. If the board is valid return 'Finished!', otherwise return 'Try again!'
+* Difficulty: kyu5
+* Module: sud_validator.py
+* Tests: test_sud_validator.py
+* Link: https://www.codewars.com/kata/did-i-finish-my-sudoku/
+* Comments about most interesting solution/best practice:
+```python
+```
 
 
 ### Valid Braces
