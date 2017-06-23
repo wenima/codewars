@@ -3,7 +3,9 @@
 // an array as order is not guaranteed for a dict, OrderedDictionary in C# only sorts by value
 // which isn't what is required here.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClimbersRanking
 {
