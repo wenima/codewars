@@ -45,14 +45,7 @@ public static class SumOfK
         var combinations = IterTools.Combinations(ls, k);
         foreach (var c in combinations)
         {
-          if (c.Sum() > best)
-          {
-            if (c.Sum() <= t)
-            {
-              best = c.Sum();
-            }
-          }
-          // best = (best < c.Sum() && best <= t) ? c.Sum() : best;
+          best = (c.Sum() > best && c.Sum() <= t) ? c.Sum() : best;
         }
         if (best > 0)
         {
