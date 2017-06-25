@@ -12,12 +12,16 @@ In addition, some of the challenges will be translated in VB.net
 
 * Directions Reduction
 
-## Details for each kata completed
+## Best Travel
 
-### Directions Reduction
-* Descripton of Kata:
+### Best Travel
+* Descripton of Kata: The function chooseBestSum (or choose_best_sum or ...
+  depending on the language) will take as parameters t (maximum sum of distances,
+  integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances,
+  all distances are positive or null integers and this list has at least one element).
+  The function returns the "best" sum ie the biggest possible sum of k distances
+  less than or equal to the given limit t, if that sum exists, or otherwise null or None.
 * Difficulty: kyu5
-* Module:
+* Module: best_travel.cs
 * Tests:
-* [Link](https://www.codewars.com/kata/directions-reduction/csharp)
-* Comments about most interesting solution/best practice:
+* Link: https://www.codewars.com/kata/best-travel/train/csharp

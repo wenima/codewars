@@ -28,6 +28,7 @@ translation.
 * Car Park Escape
 * Did I Finish my Sudoku?
 * Find the unique string
+* Best Travel
 
 ## kyu4
 
@@ -377,6 +378,24 @@ letters except one. Try to find it!
 * Module: find_unique_str.py
 * Tests: test_find_unique_str.py
 * Link: https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3
+
+## Best Travel
+* Descripton of Kata: The function chooseBestSum (or choose_best_sum or ...
+  depending on the language) will take as parameters t (maximum sum of distances,
+  integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances,
+  all distances are positive or null integers and this list has at least one element).
+  The function returns the "best" sum ie the biggest possible sum of k distances
+  less than or equal to the given limit t, if that sum exists, or otherwise null or None.
+* Difficulty: kyu5
+* Module: best_travel.py
+* Tests: test_best_travel.py
+* Link: https://www.codewars.com/kata/best-travel/train/python
+* Comments about most interesting solution/best practice: Nice use of default for
+Python version 3.4+
+```python
+def choose_best_sum(t, k, ls):
+    return max((s for s in (sum(dists) for dists in combinations(ls, k)) if s <= t), default=None)
+```
 
 
 ### Valid Braces
