@@ -29,6 +29,7 @@ translation.
 * Did I Finish my Sudoku?
 * Find the unique string
 * Best Travel
+*
 
 ## kyu4
 
@@ -379,7 +380,7 @@ letters except one. Try to find it!
 * Tests: test_find_unique_str.py
 * Link: https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3
 
-## Best Travel
+### Best Travel
 * Descripton of Kata: The function chooseBestSum (or choose_best_sum or ...
   depending on the language) will take as parameters t (maximum sum of distances,
   integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances,
@@ -395,6 +396,40 @@ Python version 3.4+
 ```python
 def choose_best_sum(t, k, ls):
     return max((s for s in (sum(dists) for dists in combinations(ls, k)) if s <= t), default=None)
+```
+
+### 1's, 0's and wildcards
+* Descripton of Kata: You are given a string containing 0's, 1's and one or more
+'?', where ? is a wildcard that can be 0 or 1. Return an array containing all the
+possibilities you can reach substituting the ? for a value.
+* Difficulty: kyu5
+* Module: possibilities.py
+* Tests: test_possibilities.py
+* Link: https://www.codewars.com/kata/1-s-0-s-and-wildcards/python
+* Comments about most interesting solution/best practice: Top voted and recursive
+solutions shouldn't have passed actually as they are both slow. the codegolf solution
+is only slightly slower than my submitted solution.
+Highest voted:
+```python
+from itertools import product
+
+def possibilities(pattern):
+    pattern_format = pattern.replace('?', '{}')
+    return [pattern_format.format(*values) for values in product('10', repeat=pattern.count('?'))]
+```
+
+recursive:
+```python
+def possibilities(s):
+    return [s] if '?' not in s else possibilities(s.replace('?', '0', 1)) + possibilities(s.replace('?', '1', 1))
+```
+
+codegolf:
+```python
+from itertools import product
+
+def possibilities(s):
+    return list(map(''.join, product(*('01' if c == '?' else c for c in s))))
 ```
 
 

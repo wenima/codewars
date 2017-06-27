@@ -17,5 +17,5 @@ def possibilities(s):
             else:
                 d[idx].append(s[:idx] + '0')
                 d[idx].append(s[:idx] + '1')
-                last = idx
+            last = idx
     return d[len(s) - 1]
