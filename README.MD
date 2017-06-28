@@ -50,7 +50,7 @@ a negative-base binary system.
 * Difficulty: kyu5
 * Module: base_neg_2.py
 * Tests: test_base_neg_2.py
-* Link: https://www.codewars.com/kata/base-2/train/python
+* Link:(https://www.codewars.com/kata/base-2/train/python)
 * Comments about most interesting solution/best practice:
 I spent quite a bit reading up on this topic and came across a shortcut to convert
 from decimal to negabinary by using the Librik, Szudzik & Schroeppel algorithm
@@ -89,7 +89,7 @@ verbose and summed.
 * Difficulty: kyu5
 * Module: diceroller.py
 * Tests: test_diceroller.py
-* Link: https://www.codewars.com/kata/rpg-dice-roller
+* Link:(https://www.codewars.com/kata/rpg-dice-roller)
 * Comments about most interesting solution/best practice:
 I like the use of unpacking the match.groups() into the 3 variables.
 Not sure ```isinstance``` is a preferred solution though as it violates the
@@ -122,7 +122,7 @@ domain_name("https://www.cnet.com") == "cnet"
 * Difficulty: kyu5
 * Module: domain_name.py
 * Tests: test_domain_name.py
-* Link: https://www.codewars.com/kata/extract-the-domain-name-from-a-url-1/train/python
+* Link:(https://www.codewars.com/kata/extract-the-domain-name-from-a-url-1/train/python)
 * Comments about most interesting solution/best practice:
 Below solution is not the most up-voted one for this kata but in my view the one
 which solves the problem description the best.
@@ -146,7 +146,7 @@ The string has the following conditions to be alphanumeric:
 * Difficulty: kyu5
 * Module: not_secure.py
 * Tests: test_not_secure.py
-* Link: https://www.codewars.com/kata/not-very-secure/train/python
+* Link:(https://www.codewars.com/kata/not-very-secure/train/python)
 * Comments about most interesting solution/best practice:
 ```python
 import re
@@ -175,7 +175,7 @@ rounding issues associated with floats.
 * Difficulty: kyu5
 * Module: basic_excel.py
 * Tests: test_basic_excel.py
-* Link: https://www.codewars.com/kata/56055244356dc5c45c00001e
+* Link:(https://www.codewars.com/kata/56055244356dc5c45c00001e)
 * Comments about most interesting solution/best practice:
 Not many solutions which didn't use eval or simply checked for the parameters
 given in the test. I feel this should be solved programmatically. I like the
@@ -218,7 +218,7 @@ you do it with Regex?
 * Difficulty: kyu5
 * Module: mod4regex.py
 * Tests: test_mod4regex.py
-* Link: https://www.codewars.com/kata/mod4-regex
+* Link:(https://www.codewars.com/kata/mod4-regex)
 * Comments about most interesting solution/best practice:
 Not the highest voted but best solution nonetheless
 ```python
@@ -235,7 +235,7 @@ capitalized only if the original word was capitalized.
 * Difficulty: kyu5
 * Module: camelcase.py
 * Tests: test_camelcase.py
-* Link: https://www.codewars.com/kata/convert-string-to-camel-case/python
+* Link:(https://www.codewars.com/kata/convert-string-to-camel-case/python)
 * Comments about most interesting solution/best practice:
 ```python
 def to_camel_case(s):
@@ -249,7 +249,7 @@ returning a list of integer pairs sorted in descending order.
 * Difficulty: kyu5
 * Module: fib_digit_occurence.py
 * Tests: test_fib_digit_occurence.py
-* Link: https://www.codewars.com/kata/calculate-fibonacci-return-count-of-digit-occurrences
+* Link:(https://www.codewars.com/kata/calculate-fibonacci-return-count-of-digit-occurrences)
 * Comments about most interesting solution/best practice:
 ```python
 from collections import Counter
@@ -268,7 +268,7 @@ def fib_digits(n):
 * Difficulty: kyu4
 * Module: sudoku_validator.py
 * Tests: test_sudoku_validator.py
-* Link: https://www.codewars.com/kata/validate-sudoku-with-size-nxn
+* Link:(https://www.codewars.com/kata/validate-sudoku-with-size-nxn)
 
 ### Primes with Even Digits
 * Descripton of Kata: Find the closest prime number under a certain integer n
@@ -276,7 +276,7 @@ that has the maximum possible amount of even digits.
 * Difficulty: kyu5
 * Module: even_digit_primes.py
 * Tests: test_even_digit_primes.py
-* Link: https://www.codewars.com/kata/primes-with-even-digits
+* Link:(https://www.codewars.com/kata/primes-with-even-digits)
 * Comments about most interesting solution/best practice:
 I checked a few of the solutions at the top but most of them seem to time out and
 are not optimized.
@@ -287,7 +287,7 @@ are not optimized.
 * Difficulty: kyu5
 * Module: primes.py
 * Tests: test_primes.py
-* Link: https://www.codewars.com/kata/first-n-prime-numbers
+* Link:(https://www.codewars.com/kata/first-n-prime-numbers)
 * Comments about most interesting solution/best practice:
 Not the most pythonic code but interesting Python2 solution
 ```python
@@ -321,7 +321,7 @@ where the keys are prime numbers and the values are the multiplicities.
 * Difficulty: kyu5
 * Module: prime_factorization.py
 * Tests: test_prime_factorization.py
-* Link: https://www.codewars.com/kata/prime-factorization
+* Link:(https://www.codewars.com/kata/prime-factorization)
 
 ### Valid Parentheses
 * Descripton of Kata: Write a function called validParentheses that takes
@@ -331,7 +331,7 @@ and false if it's invalid.
 * Difficulty: kyu5
 * Module: valid_parentheses.py
 * Tests: test_valid_parentheses.py
-* Link: https://www.codewars.com/kata/valid-parentheses/python
+* Link:(https://www.codewars.com/kata/valid-parentheses/python)
 
 ### Simple Fun #81: Digits Product
 * Descripton of Kata: Given an integer product, find the smallest positive integer
@@ -340,7 +340,7 @@ return -1 instead.
 * Difficulty: kyu5
 * Module: digits_product.py
 * Tests: test_digits_product.py
-* Link: https://www.codewars.com/kata/simple-fun-number-81-digits-product
+* Link:(https://www.codewars.com/kata/simple-fun-number-81-digits-product)
 * Comments about most interesting solution/best practice:
 ```python
 def digits_product(product):
@@ -361,7 +361,7 @@ staircases provided to reach the exit. You may not jump over the edge of the lev
 * Difficulty: kyu5
 * Module: carpark.py
 * Tests: test_carpark.py
-* Link: https://www.codewars.com/kata/car-park-escape/
+* Link:(https://www.codewars.com/kata/car-park-escape/)
 
 ### Did I Finish my Sudoku?
 * Descripton of Kata: Write a function done_or_not passing a board (list[list_lines])
@@ -369,7 +369,7 @@ as parameter. If the board is valid return 'Finished!', otherwise return 'Try ag
 * Difficulty: kyu5
 * Module: sud_validator.py
 * Tests: test_sud_validator.py
-* Link: https://www.codewars.com/kata/did-i-finish-my-sudoku/
+* Link:(https://www.codewars.com/kata/did-i-finish-my-sudoku/)
 
 ### Find the unique string
 * Descripton of Kata: There is an array of strings. All strings contains similar
@@ -377,7 +377,7 @@ letters except one. Try to find it!
 * Difficulty: kyu5
 * Module: find_unique_str.py
 * Tests: test_find_unique_str.py
-* Link: https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3
+* Link:(https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3)
 
 ## Best Travel
 * Descripton of Kata: The function chooseBestSum (or choose_best_sum or ...
@@ -389,7 +389,7 @@ letters except one. Try to find it!
 * Difficulty: kyu5
 * Module: best_travel.py
 * Tests: test_best_travel.py
-* Link: https://www.codewars.com/kata/best-travel/train/python
+* Link:(https://www.codewars.com/kata/best-travel/train/python)
 * Comments about most interesting solution/best practice: Nice use of default for
 Python version 3.4+
 ```python
@@ -405,7 +405,7 @@ return true if the string is valid, and false if it's invalid.
 * Difficulty: kyu4
 * Module: valid_braces.py
 * Tests: test_valid_braces.py
-* Link: https://www.codewars.com/kata/valid-braces
+* Link:(https://www.codewars.com/kata/valid-braces)
 
 ### Next Bigger Number
 * Descripton of Kata: You have to create a function that takes a positive integer
@@ -413,7 +413,7 @@ number and returns the next bigger number formed by the same digits:
 * Difficulty: kyu4
 * Module: next_bigger.py
 * Tests: test_next_bigger.py
-* Link: https://www.codewars.com/kata/next-bigger-number-with-the-same-digits
+* Link:(https://www.codewars.com/kata/next-bigger-number-with-the-same-digits)
 * Comments about most interesting solution/best practice:
 Some of the solutions are short but are basically brute-forcing it. The below
 solution is 2nd highest voted but I like it better than the top voted one due to
@@ -440,7 +440,7 @@ at least once), and the code length should less than 55 characters
 * Difficulty: kyu4
 * Module: palindrome_one_liner.py
 * Tests: test_palindrome_one_liner.py
-* Link: https://www.codewars.com/kata/one-line-task-palindrome-string
+* Link:(https://www.codewars.com/kata/one-line-task-palindrome-string)
 * Comments about most interesting solution/best practice: Didn't know about method
 center, nice use here.
 ```python
@@ -454,7 +454,7 @@ Removes any query string parameters specified within the 2nd argument (optional 
 * Difficulty: kyu4
 * Module: url_strip_params.py
 * Tests: test_palindrome_one_liner.py
-* Link: https://www.codewars.com/kata/strip-url-params
+* Link:(https://www.codewars.com/kata/strip-url-params)
 
 
 ### Sudoku Solver
@@ -464,7 +464,7 @@ function will take one argument consisting of the 2D puzzle array, with the valu
 * Difficulty: kyu3
 * Module: sudoku_solver.py
 * Tests: test_sudoku_solver.py
-* Link: https://www.codewars.com/kata/sudoku-solver
+* Link:(https://www.codewars.com/kata/sudoku-solver)
 * Comments about most interesting solution/best practice:
 ```python
 import numpy as np
