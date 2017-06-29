@@ -45,7 +45,7 @@ translation.
 ## Details for each kata completed
 
 ### Base -2
-* Descripton of Kata: In this Kata you must convert integers numbers from and to
+* Description of Kata: In this Kata you must convert integers numbers from and to
 a negative-base binary system.
 * Difficulty: kyu5
 * Module: base_neg_2.py
@@ -82,7 +82,7 @@ def negabinary_to_int(s):
 ```
 
 ### RPG dice roller
-* Descripton of Kata: Your task in this kata is to write a "dice roller" that
+* Description of Kata: Your task in this kata is to write a "dice roller" that
 interprets a subset of [dice notation] (https://en.wikipedia.org/wiki/Dice_notation)
 Your function must support two types of output depending on the second argument;
 verbose and summed.
@@ -112,7 +112,7 @@ def roll(desc, verbose=False):
 ```
 
 ### Extract the domain name from a URL
-* Descripton of Kata: Write a function that when given a URL as a string, parses
+* Description of Kata: Write a function that when given a URL as a string, parses
 out just the domain name and returns it as a string. For example:
 ```
 domain_name("http://github.com/carbonfive/raygun") == "github"
@@ -133,7 +133,7 @@ def domain_name(url):
 ```
 
 ### Not very secure
-* Descripton of Kata: In this example you have to validate if a user input
+* Description of Kata: In this example you have to validate if a user input
 string is alphanumeric. The given string is not nil, so you don't have to check
 that.
 
@@ -155,7 +155,7 @@ def alphanumeric(string):
 ```
 
 ### Excel's COUNTIF, SUMIF and AVERAGEIF functions
-* Descripton of Kata: Microsoft Excel provides a number of useful functions for
+* Description of Kata: Microsoft Excel provides a number of useful functions for
 counting, summing, and averaging values if they meet a certain criteria. Your
 task is to write three functions that work similarly to Excel's COUNTIF, SUMIF
 and AVERAGEIF functions.
@@ -211,7 +211,7 @@ def average_if(values, criteria):
 ```
 
 ### Mod4 Regex
-* Descripton of Kata: You are to write a Regular Expression that matches any
+* Description of Kata: You are to write a Regular Expression that matches any
 string with at least one number divisible by 4 (with no remainder). In most
 languages, you could do this easily by using ```number % 4 == 0```. How would
 you do it with Regex?
@@ -229,7 +229,7 @@ class Mod:
 ```
 
 ### Convert string to camel case
-* Descripton of Kata: Complete the method/function so that it converts dash/underscore
+* Description of Kata: Complete the method/function so that it converts dash/underscore
 delimited words into camel casing. The first word within the output should be
 capitalized only if the original word was capitalized.
 * Difficulty: kyu5
@@ -243,7 +243,7 @@ def to_camel_case(s):
 ```
 
 ### Calculate Fibonacci return count of digit occurrences
-* Descripton of Kata: Your task is to efficiently calculate the nth element in
+* Description of Kata: Your task is to efficiently calculate the nth element in
 the Fibonacci sequence and then count the occurrence of each digit in the number
 returning a list of integer pairs sorted in descending order.
 * Difficulty: kyu5
@@ -263,7 +263,7 @@ def fib_digits(n):
 ```
 
 ### Validate Sudoku with size `NxN`
-* Descripton of Kata: Given a Sudoku data structure with size NxN, N > 0 and
+* Description of Kata: Given a Sudoku data structure with size NxN, N > 0 and
 √N == integer, write a method to validate if it has been filled out correctly.
 * Difficulty: kyu4
 * Module: sudoku_validator.py
@@ -271,7 +271,7 @@ def fib_digits(n):
 * Link:(https://www.codewars.com/kata/validate-sudoku-with-size-nxn)
 
 ### Primes with Even Digits
-* Descripton of Kata: Find the closest prime number under a certain integer n
+* Description of Kata: Find the closest prime number under a certain integer n
 that has the maximum possible amount of even digits.
 * Difficulty: kyu5
 * Module: even_digit_primes.py
@@ -282,7 +282,7 @@ I checked a few of the solutions at the top but most of them seem to time out an
 are not optimized.
 
 ### First n Prime Numbers
-* Descripton of Kata: Write your own Primes class with class method Primes.first(n)
+* Description of Kata: Write your own Primes class with class method Primes.first(n)
  that returns an array of the first n prime numbers.
 * Difficulty: kyu5
 * Module: primes.py
@@ -307,7 +307,7 @@ class Primes:
 ```
 
 ### Prime Factorization
-* Descripton of Kata: The prime factorization of a positive integer is a list of
+* Description of Kata: The prime factorization of a positive integer is a list of
  the integer's prime factors, together with their multiplicities; the process of
  determining these factors is called integer factorization. The fundamental theorem
  of arithmetic says that every positive integer has a single unique prime factorization.
@@ -324,7 +324,7 @@ where the keys are prime numbers and the values are the multiplicities.
 * Link:(https://www.codewars.com/kata/prime-factorization)
 
 ### Valid Parentheses
-* Descripton of Kata: Write a function called validParentheses that takes
+* Description of Kata: Write a function called validParentheses that takes
 a string of parentheses, and determines if the order of the parentheses
 is valid. validParentheses should return true if the string is valid,
 and false if it's invalid.
@@ -334,7 +334,7 @@ and false if it's invalid.
 * Link:(https://www.codewars.com/kata/valid-parentheses/python)
 
 ### Simple Fun #81: Digits Product
-* Descripton of Kata: Given an integer product, find the smallest positive integer
+* Description of Kata: Given an integer product, find the smallest positive integer
 the product of whose digits is equal to product. If there is no such integer,
 return -1 instead.
 * Difficulty: kyu5
@@ -355,7 +355,7 @@ def digits_product(product):
 ```
 
 ### Car Park Escape
-* Descripton of Kata: Your task is to escape from the carpark using only the
+* Description of Kata: Your task is to escape from the carpark using only the
 staircases provided to reach the exit. You may not jump over the edge of the levels
 (you’re not Superman!) and the exit is always on the far right of the ground floor.
 * Difficulty: kyu5
@@ -364,7 +364,7 @@ staircases provided to reach the exit. You may not jump over the edge of the lev
 * Link:(https://www.codewars.com/kata/car-park-escape/)
 
 ### Did I Finish my Sudoku?
-* Descripton of Kata: Write a function done_or_not passing a board (list[list_lines])
+* Description of Kata: Write a function done_or_not passing a board (list[list_lines])
 as parameter. If the board is valid return 'Finished!', otherwise return 'Try again!'
 * Difficulty: kyu5
 * Module: sud_validator.py
@@ -372,7 +372,7 @@ as parameter. If the board is valid return 'Finished!', otherwise return 'Try ag
 * Link:(https://www.codewars.com/kata/did-i-finish-my-sudoku/)
 
 ### Find the unique string
-* Descripton of Kata: There is an array of strings. All strings contains similar
+* Description of Kata: There is an array of strings. All strings contains similar
 letters except one. Try to find it!
 * Difficulty: kyu5
 * Module: find_unique_str.py
@@ -380,7 +380,7 @@ letters except one. Try to find it!
 * Link:(https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3)
 
 ## Best Travel
-* Descripton of Kata: The function chooseBestSum (or choose_best_sum or ...
+* Description of Kata: The function chooseBestSum (or choose_best_sum or ...
   depending on the language) will take as parameters t (maximum sum of distances,
   integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances,
   all distances are positive or null integers and this list has at least one element).
@@ -399,7 +399,7 @@ def choose_best_sum(t, k, ls):
 
 
 ### Valid Braces
-* Descripton of Kata: Write a function called validBraces that takes a string of
+* Description of Kata: Write a function called validBraces that takes a string of
 braces, and determines if the order of the braces is valid. validBraces should
 return true if the string is valid, and false if it's invalid.
 * Difficulty: kyu4
@@ -408,7 +408,7 @@ return true if the string is valid, and false if it's invalid.
 * Link:(https://www.codewars.com/kata/valid-braces)
 
 ### Next Bigger Number
-* Descripton of Kata: You have to create a function that takes a positive integer
+* Description of Kata: You have to create a function that takes a positive integer
 number and returns the next bigger number formed by the same digits:
 * Difficulty: kyu4
 * Module: next_bigger.py
@@ -434,7 +434,7 @@ def next_bigger(n):
 ```
 
 ### One Line Task: Palindrome String
-* Descripton of Kata: Your task is to generate a palindrome string, using the
+* Description of Kata: Your task is to generate a palindrome string, using the
 specified length n, the specified characters c(all characters in c must be used
 at least once), and the code length should less than 55 characters
 * Difficulty: kyu4
@@ -448,7 +448,7 @@ palindrome=lambda n,s:(s+s[-1-n%2::-1]).center(n,s[0])
 ```
 
 ### Strip Url Params
-* Descripton of Kata: Write a method that
+* Description of Kata: Write a method that
 Removes any duplicate query string parameters from the url
 Removes any query string parameters specified within the 2nd argument (optional array)
 * Difficulty: kyu4
@@ -458,7 +458,7 @@ Removes any query string parameters specified within the 2nd argument (optional 
 
 
 ### Sudoku Solver
-* Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
+* Description of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
 function will take one argument consisting of the 2D puzzle array, with the value
 0 representing an unknown square.
 * Difficulty: kyu3
