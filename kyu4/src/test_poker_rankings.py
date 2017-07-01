@@ -28,7 +28,15 @@ TEST_STRAIGHT = [
     ("2H 3H 5H 6H 7H", False),
     ("KS AS TS QS JS", True),
     ("8H 9H QS JS TH", True),
+]
 
+TEST_FLUSH = [
+    ("2H 3H 4H 5H 6H", True),
+    ("AS AH 2H AD AC", False),
+    ("2H 3H 5H 6H 7H", True),
+    ("KS AS TS QS JS", True),
+    ("8H 9H QS JS TH", False),
+    ("AS 3S 4S 8S 2S", True),
 ]
 
 
@@ -38,3 +46,10 @@ def test_hand_is_straight(hand, result):
     from poker_rankings import PokerHand
     heros_hand = PokerHand(hand)
     assert heros_hand._is_straight() == result
+
+@pytest.mark.parametrize('hand, result', TEST_FLUSH)
+def test_hand_is_flush(hand, result):
+    """Test that hand has a made hand value of flush."""
+    from poker_rankings import PokerHand
+    heros_hand = PokerHand(hand)
+    assert heros_hand._is_flush() == result
