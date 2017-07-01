@@ -93,3 +93,7 @@ class PokerHand(object):
             if previous_card + 1 != card[1]: return False
             previous_card = card[1]
         return True
+
+    def _is_flush(self):
+        """Return True if hand is a flush."""
+        return True if len(set(self.suits)) == 1 else False
