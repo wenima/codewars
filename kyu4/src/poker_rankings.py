@@ -1,6 +1,7 @@
 """Solution for https://www.codewars.com/kata/ranking-poker-hands/train/python."""
 
 from operator import itemgetter
+from collections import defaultdict
 
 RESULT = ["Loss", "Tie", "Win"]
 
@@ -80,6 +81,7 @@ class PokerHand(object):
         self.vals = [c for c in hand if c in RANKS.keys()]
         self.suits = [c for c in hand if c in SUITS.keys()]
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
+        self.val_cnt = defaultdict(int)
 
 
     def compare_with(self, other):
@@ -97,3 +99,14 @@ class PokerHand(object):
     def _is_flush(self):
         """Return True if hand is a flush."""
         return True if len(set(self.suits)) == 1 else False
+
+    def get_card_values(self):
+        """Fill dict val_cnt with card combinations to determine 4 of a kinds,
+        full houses, sets, 2pairs and pairs."""
+        for card in self.vals:
+            self.val_cnt[card] += 1
+
+    def get_made_hand_value(self):
+        """Set a value for overall hand value of all summed up individual made
+        hands."""
+        pass

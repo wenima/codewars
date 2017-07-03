@@ -54,8 +54,18 @@ def test_hand_is_flush(hand, result):
     heros_hand = PokerHand(hand)
     assert heros_hand._is_flush() == result
 
-def test_hand_is_4_of_a_kind():
+def test_hand_has_4_of_a_kind():
     """Test that hand has made hand value of 4 of a kind."""
     from poker_rankings import PokerHand
     heroes_hand = PokerHand('AS AH 2H AD AC')
-    assert len(set(heroes_hand.vals)) == 2
+    heroes_hand.get_card_values()
+    assert sorted(heroes_hand.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 4
+
+
+def test_hand_has_set():
+    """Test that hand has made hand value of a set."""
+    from poker_rankings import PokerHand
+    from collections import defaultdict
+    heroes_hand = PokerHand("AH AC 5H 6H AS")
+    heroes_hand.get_card_values()
+    assert sorted(heroes_hand.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 3
