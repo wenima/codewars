@@ -69,3 +69,10 @@ def test_hand_has_set():
     heroes_hand = PokerHand("AH AC 5H 6H AS")
     heroes_hand.get_card_values()
     assert sorted(heroes_hand.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 3
+
+def test_hand_has_2pair():
+    """Test that hand has made hand value of 2 pair."""
+    from poker_rankings import PokerHand
+    from collections import defaultdict
+    heroes_hand = PokerHand("AH AC 5H 5C 2S")
+    assert heroes_hand._has_2pair() == 3
