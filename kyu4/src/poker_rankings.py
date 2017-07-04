@@ -110,3 +110,11 @@ class PokerHand(object):
         """Set a value for overall hand value of all summed up individual made
         hands."""
         pass
+
+    def _has_2pair(self):
+        """Return value for 2pair if hand has made hand value of 2pair, else return 0."""
+        if not self.val_cnt: self.get_card_values()
+        if sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 2:
+            if sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 2:
+                return 3
+        return 0
