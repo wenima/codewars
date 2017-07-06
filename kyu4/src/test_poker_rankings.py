@@ -61,7 +61,6 @@ def test_hand_has_4_of_a_kind():
     heroes_hand.get_card_values()
     assert sorted(heroes_hand.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 4
 
-
 def test_hand_has_set():
     """Test that hand has made hand value of a set."""
     from poker_rankings import PokerHand
