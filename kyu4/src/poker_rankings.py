@@ -36,8 +36,8 @@ MADE_HANDS = {
     'straight': 5,
     'set': 4,
     'two pair': 3,
-    'one pair': 2,
-    'high card': 1
+    'one pair': 1,
+    'high card': 0
 }
 
 class PokerHand(object):
@@ -82,6 +82,8 @@ class PokerHand(object):
         self.suits = [c for c in hand if c in SUITS.keys()]
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
         self.val_cnt = defaultdict(int)
+        self.two_pair = []
+        self.hand_value = 0
 
 
     def compare_with(self, other):
@@ -109,12 +111,35 @@ class PokerHand(object):
     def get_made_hand_value(self):
         """Set a value for overall hand value of all summed up individual made
         hands."""
-        pass
+        self.hand_value += self._has_2pair()
+        if self.hand_value: return
+        while True:
+            try:
+                pair_plus = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1]
+            except IndexError:
+                break
+            if pair_plus == 4:
+                self.hand_value = 8
+            elif pair_plus == 3:
+                self.hand_value = 4
+            elif pair_plus == 2:
+                if self.hand_value == 4:
+                    self.hand_value = 7
+                else:
+                    self.hand_value = 1
+
 
     def _has_2pair(self):
         """Return value for 2pair if hand has made hand value of 2pair, else return 0."""
         if not self.val_cnt: self.get_card_values()
-        if sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 2:
-            if sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 2:
+        sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+        pair = sorted_d.pop(0)
+        if pair[1] == 2:
+            self.two_pair.append(pair[0])
+            pair = sorted_d.pop(0)
+            if pair[1] == 2:
+                self.two_pair.append(pair[0])
                 return 3
+            else:
+                self.two_pair = []
         return 0
