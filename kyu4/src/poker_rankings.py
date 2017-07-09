@@ -113,9 +113,10 @@ class PokerHand(object):
         hands."""
         self.hand_value += self._has_2pair()
         if self.hand_value: return
+        sorted_d = sorted(d.items(), key=lambda x: x[1], reverse=True)
         while True:
             try:
-                pair_plus = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1]
+                pair_plus = sorted_d.pop(0)[1]
             except IndexError:
                 break
             if pair_plus == 4:
