@@ -39,6 +39,14 @@ TEST_FLUSH = [
     ("AS 3S 4S 8S 2S", True),
 ]
 
+TEST_VALUES = [
+    ("2H 2S 4H 5H 6H", 1),
+    ("AS AH 2H 2D KC", 3),
+    ("AS AH AC 2D KC", 4),
+    ("AH AC 6S 6H AS", 7),
+    ("8H 9H QS JS KH", 0),
+]
+
 
 @pytest.mark.parametrize('hand, result', TEST_STRAIGHT)
 def test_hand_is_straight(hand, result):
@@ -54,42 +62,12 @@ def test_hand_is_flush(hand, result):
     heros_hand = PokerHand(hand)
     assert heros_hand._is_flush() == result
 
-def test_hand_has_4_of_a_kind():
-    """Test that hand has made hand value of 4 of a kind."""
-    from poker_rankings import PokerHand
-    heroes_hand = PokerHand('AS AH 2H AD AC')
-    heroes_hand.get_card_values()
-    assert sorted(heroes_hand.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 4
-
-def test_hand_has_set():
-    """Test that hand has made hand value of a set."""
+@pytest.mark.parametrize('hand, result', TEST_VALUES)
+def test_hand_values(hand, result):
+    """Test that hand has a made hand value of flush."""
     from poker_rankings import PokerHand
     from collections import defaultdict
-    heroes_hand = PokerHand("AH AC 5H 6H AS")
-    heroes_hand.get_card_values()
-    assert sorted(heroes_hand.val_cnt.items(), key=lambda x: x[1], reverse=True).pop(0)[1] == 3
-
-def test_hand_has_2pair():
-    """Test that hand has made hand value of 2 pair."""
-    from poker_rankings import PokerHand
-    from collections import defaultdict
-    heroes_hand = PokerHand("AH AC 5H 5C 2S")
-    assert heroes_hand._has_2pair() == 3
-
-def test_hand_value_is_full_house():
-    """Test that hand has made hand value of full house."""
-    from poker_rankings import PokerHand
-    from collections import defaultdict
-    heroes_hand = PokerHand("AH AC 6S 6H AS")
+    heroes_hand = PokerHand(hand)
     heroes_hand.get_card_values()
     heroes_hand.get_made_hand_value()
-    assert heroes_hand.hand_value == 7
-
-def test_hand_value_is_set():
-    """Test that hand has made hand value of set."""
-    from poker_rankings import PokerHand
-    from collections import defaultdict
-    heroes_hand = PokerHand("AH AC 6S 5H AS")
-    heroes_hand.get_card_values()
-    heroes_hand.get_made_hand_value()
-    assert heroes_hand.hand_value == 4
+    assert heroes_hand.hand_value == result
