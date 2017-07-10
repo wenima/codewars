@@ -84,3 +84,12 @@ def test_hand_value_is_full_house():
     heroes_hand.get_card_values()
     heroes_hand.get_made_hand_value()
     assert heroes_hand.hand_value == 7
+
+def test_hand_value_is_set():
+    """Test that hand has made hand value of set."""
+    from poker_rankings import PokerHand
+    from collections import defaultdict
+    heroes_hand = PokerHand("AH AC 6S 5H AS")
+    heroes_hand.get_card_values()
+    heroes_hand.get_made_hand_value()
+    assert heroes_hand.hand_value == 4
