@@ -77,7 +77,7 @@ class PokerHand(object):
         5 cards.
         """
         hand = hand.replace(' ', '')
-        # self.high_card =
+        self.high_card = []
         self.vals = [c for c in hand if c in RANKS.keys()]
         self.suits = [c for c in hand if c in SUITS.keys()]
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
@@ -144,3 +144,8 @@ class PokerHand(object):
             else:
                 self.two_pair = []
         return 0
+
+    def get_high_cards(self):
+        """Sets and returns high cards of the hand."""
+        if not self.val_cnt: self.get_card_values()
+        self.high_card = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
