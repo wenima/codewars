@@ -71,3 +71,10 @@ def test_hand_values(hand, result):
     heroes_hand.get_card_values()
     heroes_hand.get_made_hand_value()
     assert heroes_hand.hand_value == result
+
+def test_hand_has_correct_high_card():
+    from poker_rankings import PokerHand
+    heroes_hand = PokerHand("8H 9H QS JS KH")
+    from collections import defaultdict
+    heroes_hand.get_high_cards()
+    assert heroes_hand.high_card.pop(0) == "K"
