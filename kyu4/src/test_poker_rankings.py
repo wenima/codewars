@@ -78,3 +78,4 @@ def test_hand_has_correct_high_card():
     from collections import defaultdict
     heroes_hand.get_high_cards()
     assert heroes_hand.high_card.pop(0) == "K"
+    assert heroes_hand.high_card.pop(0) == "Q"
