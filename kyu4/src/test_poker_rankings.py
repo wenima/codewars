@@ -77,8 +77,8 @@ def test_hand_has_correct_high_card():
     heroes_hand = PokerHand("8H 9H QS JS KH")
     from collections import defaultdict
     heroes_hand.get_high_cards()
-    assert heroes_hand.high_card.pop(0) == "K"
-    assert heroes_hand.high_card.pop(0) == "Q"
+    assert heroes_hand.high_card.pop(0)[0] == "K"
+    assert heroes_hand.high_card.pop(0)[0] == "Q"
 
 @pytest.mark.parametrize('hand, other, result', TEST_INPUT)
 def test_compare_hero_to_villain(hand, other, result):

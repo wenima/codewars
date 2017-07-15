@@ -88,7 +88,19 @@ class PokerHand(object):
 
     def compare_with(self, other):
         """Return one of 3 outcomes from result const."""
-        pass
+        if self.hand_value > other.hand_value:
+            return 'Win'
+        elif self.hand_value < other.hand_value:
+            return 'Loss'
+        else:
+            self.get_high_cards
+            other.get_high_cards
+            for idx, card in enumerate(self.high_card):
+                if card[1] > other.high_card[1]:
+                    return 'Win'
+                elif card[1] < other.high[1]:
+                    return 'Loss'
+
 
     def _is_straight(self):
         """Return True if hand is a straight."""
