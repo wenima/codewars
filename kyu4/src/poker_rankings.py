@@ -125,6 +125,15 @@ class PokerHand(object):
         hands."""
         self.hand_value += self._has_2pair()
         if self.hand_value: return
+        if self._is_straight():
+            if self._is_flush():
+                self.hand_value = 9
+            else:
+                self.hand_value = 5
+            return
+        if self._is_flush():
+            self.hand_value = 6
+            return
         sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
         while True:
             try:
