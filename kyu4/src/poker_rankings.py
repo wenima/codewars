@@ -159,5 +159,4 @@ class PokerHand(object):
 
     def get_high_cards(self):
         """Sets and returns high cards of the hand."""
-        if not self.val_cnt: self.get_card_values()
-        self.high_card = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+        self.high_card = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
