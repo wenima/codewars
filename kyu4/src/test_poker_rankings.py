@@ -45,6 +45,7 @@ TEST_VALUES = [
     ("AS AH AC 2D KC", 4),
     ("AH AC 6S 6H AS", 7),
     ("8H 9H QS JS KH", 0),
+    ("2H 3H 4H 5H 6H", 9),
 ]
 
 
