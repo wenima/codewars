@@ -93,13 +93,14 @@ class PokerHand(object):
         elif self.hand_value < other.hand_value:
             return 'Loss'
         else:
-            self.get_high_cards
-            other.get_high_cards
+            self.get_high_cards()
+            other.get_high_cards()
             for idx, card in enumerate(self.high_card):
-                if card[1] > other.high_card[1]:
+                if card[1] > other.high_card[idx][1]:
                     return 'Win'
-                elif card[1] < other.high[1]:
+                elif card[1] < other.high_card[idx][1]:
                     return 'Loss'
+            return 'Tie'
 
 
     def _is_straight(self):
@@ -124,7 +125,7 @@ class PokerHand(object):
         """Set a value for overall hand value of all summed up individual made
         hands."""
         self.hand_value += self._has_2pair()
-        if self.hand_value: return
+        if self.hand_value > 0: return
         if self._is_straight():
             if self._is_flush():
                 self.hand_value = 9
