@@ -37,6 +37,7 @@ translation.
 * Next Bigger Number with same digits
 * One Line Task: Palindrome String
 * Strip Url Params
+* Ranking Poker Hands
 
 ## kyu3
 
@@ -456,6 +457,15 @@ Removes any query string parameters specified within the 2nd argument (optional 
 * Tests: test_palindrome_one_liner.py
 * Link: https://www.codewars.com/kata/strip-url-params
 
+### Ranking Poker Hands
+* Descripton of Kata: Create a poker hand that has a method to compare itself to another poker hand:
+    compare_with(self, other_hand)
+A poker hand has a constructor that accepts a string containing 5 cards:
+    PokerHand(hand)
+* Difficulty: kyu4
+* Module: poker_rankings.py
+* Tests: test_poker_rankings.py
+* Link: https://www.codewars.com/kata/ranking-poker-hands/python
 
 ### Sudoku Solver
 * Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
