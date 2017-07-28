@@ -1,7 +1,7 @@
 -- Solution to codewars kata http://www.codewars.com/kata/calculating-running-total/
 
-WITH CTE AS (SELECT created_at::date as date FROM posts)
+WITH cte AS (SELECT created_at::date as date FROM posts)
 
-select date, count(date)
-from cte
-group by date;
+SELECT date, count(date), SUM(count(date)) OVER (ORDER BY date)::integer as total
+FROM cte
+GROUP BY date;
