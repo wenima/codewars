@@ -14,6 +14,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Simple View
 * Group By Day
 * Relational Division
+* Calculating Running Total
 
 ## beta
 
@@ -73,6 +74,15 @@ database find all movies both Sidney Crowe (actor_id = 105) and Salma Nolte
 * Difficulty: kyu5
 * Module: relational_division_of_actors.sql
 * [Link](https://www.codewars.com/kata/relational-division-find-all-movies-two-actors-cast-in-together/sql)
+
+### Calculating Running Total
+* Description of Kata: Given a posts table that contains a created_at timestamp
+column write a query that returns date (without time component), a number of
+posts for a given date and a running (cumulative) total number of posts up until
+a given date
+* Difficulty: kyu5
+* Module: running_total.sql
+* [Link](https://www.codewars.com/kata/calculating-running-total/)
 
 ### Using Window Functions To Get Top N per Group
 * Description of Kata: Given the schema presented below write a query, which
