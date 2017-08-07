@@ -1,0 +1,1 @@
+-- Solution to codewars kata https://www.codewars.com/kata/calculating-month-over-month-percentage-growth-rate
