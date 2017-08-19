@@ -13,7 +13,7 @@ namespace PokerRankingsSolution
         [Test]
         public void TestHandIsAStraight()
         {
-            var heros_hand = new PokerHand<string> { "2H 3H 4H 5H 6S" };
+            var heros_hand = new PokerHand("2H 3H 4H 5H 6S");
             Assert.That(delegate { PokerHand.IsStraight(); }, Is.EqualTo(true));
         }
     }
