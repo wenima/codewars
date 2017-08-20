@@ -36,9 +36,13 @@ namespace PokerRankingsSolution
         [Test]
         public void TestCompareHeroToVillain()
         {
-            var HeoresHand = new PokerHand("2H 3H 4H 5H 6H");
+            var HeroesHand = new PokerHand("2H 3H 4H 5H 6H");
             var VillainsHand = new PokerHand("KS AS TS QS JS");
-
+            HeroesHand.getCardValues();
+            VillainsHand.getCardValues();
+            HeroesHand.getMadeHandValue();
+            VillainsHand.getMadeHandValue();
+            Assert.That(delegate { HeroesHand.compareWith(VillainsHand); }, Is.EqualTo(true));
         }
     }
 }
