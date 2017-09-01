@@ -7,7 +7,7 @@ namespace PokerRankingsSolution
 
     class Constants
     {
-        private readonly Dictionary<string, Tuple<string, int>> ranks = new Dictionary<string, Tuple<string, int>>()
+        private readonly Dictionary<string, Tuple<string, int>> Ranks = new Dictionary<string, Tuple<string, int>>()
         {
             { "A", new Tuple<string, int>("Ace", 14) },
             { "K", new Tuple<string, int>("King", 13) },
@@ -23,17 +23,53 @@ namespace PokerRankingsSolution
             { "3", new Tuple<string, int>("Three", 3) },
             { "2", new Tuple<string, int>("Two", 2) },
         };
+        private readonly Dictionary<string, Tuple<string, int>> Suits = new Dictionary<string, Tuple<string, int>>()
+        {
+            { "S": ('Spades', 1) },
+            { "H": ('Hearts', 1) },
+            { "D": ('Diamonds', 1) },
+            { "C": ('Clubs') }
+        };
+        private readonly Dictionary<string, int> MadeHands = new Dictionary<string, int>()
+        {
+            { "Straight Flush", 9 },
+            { "4 of a Kind", 8 },
+            { "Full House", 7 },
+            { "Flush", 6 },
+            { "Straight", 5 },
+            { "Set", 4 },
+            { "Two Pair", 3 },
+            { "One Pair", 1 },
+            { "High Car", 0 }
+        };
     }
     class PokerHand
     {
-        public string hand { get; set; }
+        public string Hand { get; set; }
         private TupleList<string, int> HighCards { get; set; }
-        public string[] vals { get; set; }
+        public string[] Vals { get; set; }
+        public string[] Suits {get; set; }
+        
 
         public PokerHand(string hand)
         {
-            hand = hand.Trim();
+            Hand = Hand.Trim();
             HighCards = new TupleList<string, int>();
+            foreach (var Card in Hand)
+            {
+                if (Ranks.ContainsKey(Card))
+                    {
+                        Vals.Add(Ranks[Card]);
+                    }
+            }
+            foreach (var Card in Hand)
+            {
+                if (Suits.ContainsKey(Card))
+                {
+                    Suits.Add(Suits[Card])
+                }
+            }
+
         }
 
     }
