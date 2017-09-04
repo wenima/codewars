@@ -100,7 +100,7 @@ namespace PokerRankingsSolution
                     suits.Add(card);
                 }
             }
-            this.hand.Sort((x, y) => y.Item1.CompareTo(x.Item1));
+            this.hand.Sort((x, y) => y.Item2.CompareTo(x.Item2));
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
             val_cnt = groups.ToDictionary( g => g.Vals, g => g.Count);
