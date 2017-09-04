@@ -52,6 +52,18 @@ namespace PokerRankingsSolution
         public Dictionary<char, int> val_cnt { get; set; }
         public List<int> twopair { get; set; }
         public int handvalue { get; set; }
+        public bool isFlush 
+        public bool isFlush 
+        {
+            get 
+            {
+                if (suits.Distinct().Count() == 1) 
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
 
         public PokerHand(string hand)
         {
