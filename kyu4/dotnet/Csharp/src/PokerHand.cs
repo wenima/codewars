@@ -53,7 +53,6 @@ namespace PokerRankingsSolution
         public List<int> twopair { get; set; }
         public int handvalue { get; set; }
         public bool isFlush 
-        public bool isFlush 
         {
             get 
             {
@@ -64,6 +63,23 @@ namespace PokerRankingsSolution
                 return false;
             }
         }
+        public bool isStraight
+        {
+            get
+            {   
+                int prev_card = this.hand[0].Item2 + 1;
+                foreach (var card in this.hand)
+                {
+                    if ((prev_card -= 1) != card.Item2)
+                    {
+                        return false;
+                    }
+                    prev_card = card.Item2;
+                }
+                return true;
+            }
+        }
+
 
         public PokerHand(string hand)
         {
