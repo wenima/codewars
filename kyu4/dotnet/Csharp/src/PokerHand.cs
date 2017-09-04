@@ -50,7 +50,7 @@ namespace PokerRankingsSolution
         public List<char> vals { get; set; } = new List<char>();
         public List<char> suits {get; set; } = new List<char>();
         public Dictionary<char, int> val_cnt { get; set; }
-        public List<int> twopair { get; set; }
+        rivate List<char> twoPair { get; }
         public int handvalue { get; set; }
         public bool isFlush 
         {
@@ -105,6 +105,21 @@ namespace PokerRankingsSolution
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
             val_cnt = groups.ToDictionary( g => g.Vals, g => g.Count);
             handvalue = 0;
+            his.twoPair = new List<char>();
+            var ordered_val_cnt = val_cnt.OrderBy(x => x.Value);
+            foreach (KeyValuePair<char, int>card in ordered_val_cnt)
+            {
+                if (card.Value == 2) 
+                {
+                    if (this.twoPair.Count  == 1)
+                    {
+                        this.twoPair.Add(card.Key);
+                        this.handvalue += 3;
+                        break;
+                    }
+                    this.twoPair.Add(card.Key);
+                }
+            }
         }
     }
 }
