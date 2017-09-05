@@ -124,14 +124,7 @@ namespace PokerRankingsSolution
             {
                 if (this.isStraight)
                 {
-                    if (this.isFlush)
-                    {
-                        this.handvalue = 9;
-                    }
-                    else
-                    {
-                        this.handvalue = 5;
-                    }
+                    this.handvalue = (this.isFlush) ? 9 : 5;
                 }
                 if (this.handvalue == 0 && this.isFlush)
                 {
