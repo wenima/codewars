@@ -4,6 +4,13 @@ using System.Text;
 
 namespace PokerRankingsSolution
 {
+    public static class Helper
+    {
+        public static IEnumerable<KeyValuePair<int, T>> Enumerate<T>(this IEnumerable<T> collection, int startIndex=0)
+        {
+            foreach (var item in collection) { yield return new KeyValuePair<int, T>(startIndex++, item); }
+        }
+    }
 
     class Constants
     {
@@ -78,11 +85,6 @@ namespace PokerRankingsSolution
                 }
                 return true;
             }
-        }
-
-        public static IEnumerable<KeyValuePair<int, T>> Enumerate<T>(this IEnumerable<T> collection, int startIndex=0)
-        {
-            foreach (var item in collection) { yield return new KeyValuePair<int, T>(startIndex++, item); }
         }
 
         public string CompareWith(PokerHand hand)
