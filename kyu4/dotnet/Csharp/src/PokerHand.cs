@@ -50,7 +50,7 @@ namespace PokerRankingsSolution
         public List<char> vals { get; set; } = new List<char>();
         public List<char> suits {get; set; } = new List<char>();
         public Dictionary<char, int> val_cnt { get; set; }
-        rivate List<char> twoPair { get; }
+        private List<char> twoPair { get; }
         public int handvalue { get; set; }
         public bool isFlush 
         {
@@ -80,6 +80,26 @@ namespace PokerRankingsSolution
             }
         }
 
+        public static IEnumerable<KeyValuePair<int, T>> Enumerate<T>(this IEnumerable<T> collection, int startIndex=0)
+        {
+            foreach (var item in collection) { yield return new KeyValuePair<int, T>(startIndex++, item); }
+        }
+
+        public string CompareWith(PokerHand hand)
+        {
+            if (this.handvalue > hand.handvalue) { return "Win"; }
+            else if (this.handvalue < hand.handvalue) { return "Loss"; }
+            else
+            {
+                foreach (var idx_card in Helper.Enumerate(this.hand))
+                {
+                    int idx = idx_card.Key;
+                    if (idx_card.Value.Item2 > hand.hand[idx].Item2) { return "Win "; }
+                    else if (idx_card.Value.Item2 < hand.hand[idx].Item2) { return "Loss"; }
+                 }
+                 return "Tie";
+            }
+        }
 
         public PokerHand(string hand)
         {
@@ -122,14 +142,8 @@ namespace PokerRankingsSolution
             }
             if (this.handvalue != 3) 
             {
-                if (this.isStraight)
-                {
-                    this.handvalue = (this.isFlush) ? 9 : 5;
-                }
-                if (this.handvalue == 0 && this.isFlush)
-                {
-                    this.handvalue = 6;
-                }
+                if (this.isStraight) { this.handvalue = (this.isFlush) ? 9 : 5; }
+                if (this.handvalue == 0 && this.isFlush) { this.handvalue = 6; }
                 foreach (KeyValuePair<char, int>card in ordered_val_cnt)
                 {
                     switch(card.Value)
