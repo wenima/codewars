@@ -52,40 +52,15 @@ namespace PokerRankingsSolution
     }
     class PokerHand
     {
-        public TupleList<string, int> hand { get; set; } = new TupleList<string, int>();
-        public TupleList<string, int> HighCards { get; set; }
-        public List<char> vals { get; set; } = new List<char>();
-        public List<char> suits {get; set; } = new List<char>();
-        public Dictionary<char, int> val_cnt { get; set; }
+        private TupleList<string, int> hand { get; } = new TupleList<string, int>();
+        private List<char> vals { get; } = new List<char>();
+        private static List<char> suits {get; } = new List<char>();
+        private Dictionary<char, int> val_cnt { get; }
+        private int handvalue { get; }
         private List<char> twoPair { get; }
-        public int handvalue { get; set; }
-        public bool isFlush 
-        {
-            get 
-            {
-                if (suits.Distinct().Count() == 1) 
-                {
-                    return true;
-                }
-                return false;
-            }
-        }
-        public bool isStraight
-        {
-            get
-            {   
-                int prev_card = this.hand[0].Item2 + 1;
-                foreach (var card in this.hand)
-                {
-                    if ((prev_card -= 1) != card.Item2)
-                    {
-                        return false;
-                    }
-                    prev_card = card.Item2;
-                }
-                return true;
-            }
-        }
+        private bool isFlush { get; } = (suits.Distinct().Count() == 1);
+        private bool isStraight { get; }
+        
 
         public string CompareWith(PokerHand hand)
         {
@@ -106,7 +81,7 @@ namespace PokerRankingsSolution
         public PokerHand(string hand)
         {
             hand = hand.Trim();
-            this.HighCards = new TupleList<string, int>();
+            this.handvalue = 0;
             foreach (var card in hand)
             {
                 if (Constants.Ranks.ContainsKey(card))
@@ -122,12 +97,24 @@ namespace PokerRankingsSolution
                     suits.Add(card);
                 }
             }
+            // initializing isStraight property
+            int prev_card = this.hand[0].Item2 + 1;
+                foreach (var card in this.hand)
+                {
+                    if ((prev_card -= 1) != card.Item2)
+                    {
+                        this.isStraight =  false;
+                    }
+                    prev_card = card.Item2;
+                }
+            if (this.isStraight != false) { this.isStraight = true; }
             this.hand.Sort((x, y) => y.Item2.CompareTo(x.Item2));
+            // count how often a card appears to get all pairs, sets and quads
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
             val_cnt = groups.ToDictionary( g => g.Vals, g => g.Count);
-            handvalue = 0;
-            his.twoPair = new List<char>();
+            // checking if hand contains 2pair
+            this.twoPair = new List<char>();
             var ordered_val_cnt = val_cnt.OrderBy(x => x.Value);
             foreach (KeyValuePair<char, int>card in ordered_val_cnt)
             {
@@ -142,10 +129,17 @@ namespace PokerRankingsSolution
                     this.twoPair.Add(card.Key);
                 }
             }
+            // setting final handvalue
             if (this.handvalue != 3) 
             {
-                if (this.isStraight) { this.handvalue = (this.isFlush) ? 9 : 5; }
-                if (this.handvalue == 0 && this.isFlush) { this.handvalue = 6; }
+                if (this.isStraight)
+                {
+                    this.handvalue = (this.isFlush) ? 9 : 5;
+                }
+                if (this.handvalue == 0 && this.isFlush)
+                {
+                    this.handvalue = 6;
+                }
                 foreach (KeyValuePair<char, int>card in ordered_val_cnt)
                 {
                     switch(card.Value)
@@ -168,6 +162,7 @@ namespace PokerRankingsSolution
                     }   
                 }
             }
+
         }
     }
 }
