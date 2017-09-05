@@ -120,6 +120,45 @@ namespace PokerRankingsSolution
                     this.twoPair.Add(card.Key);
                 }
             }
+            if (this.handvalue != 3) 
+            {
+                if (this.isStraight)
+                {
+                    if (this.isFlush)
+                    {
+                        this.handvalue = 9;
+                    }
+                    else
+                    {
+                        this.handvalue = 5;
+                    }
+                }
+                if (this.handvalue == 0 && this.isFlush)
+                {
+                    this.handvalue = 6;
+                }
+                foreach (KeyValuePair<char, int>card in ordered_val_cnt)
+                {
+                    switch(card.Value)
+                    {
+                        case 4:
+                            this.handvalue = 8;
+                            break;
+                        case 3:
+                            this.handvalue = 4;
+                            break;
+                        case 2:
+                            if (this.handvalue == 4)
+                            {
+                                this.handvalue = 7;
+                            }
+                            this.handvalue = 1;
+                            break;
+                        default:
+                            break;
+                    }   
+                }
+            }
         }
     }
 }
