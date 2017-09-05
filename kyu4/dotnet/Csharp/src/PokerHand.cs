@@ -94,21 +94,22 @@ namespace PokerRankingsSolution
             {
                 if (Constants.Suits.ContainsKey(card))
                 {
-                    suits.Add(card);
+                    this.suits.Add(card);
                 }
             }
-            // initializing isStraight property
+            // initializing isFlush property
+            this.isFlush = (this.suits.Distinct().Count() == 1) ? true : false;
+            // initializing isStraight property; default value is true
+            this.hand.Sort((x, y) => y.Item2.CompareTo(x.Item2));
             int prev_card = this.hand[0].Item2 + 1;
-                foreach (var card in this.hand)
+                foreach (Tuple<string, int>card in this.hand)
                 {
-                    if ((prev_card -= 1) != card.Item2)
+                    if (prev_card - 1 != card.Item2)
                     {
                         this.isStraight =  false;
                     }
                     prev_card = card.Item2;
                 }
-            if (this.isStraight != false) { this.isStraight = true; }
-            this.hand.Sort((x, y) => y.Item2.CompareTo(x.Item2));
             // count how often a card appears to get all pairs, sets and quads
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
