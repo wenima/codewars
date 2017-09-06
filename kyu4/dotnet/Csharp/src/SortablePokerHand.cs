@@ -50,17 +50,22 @@ namespace PokerRankingsSolution
             { "High Car", 0 }
         };
     }
-    class PokerHand : IComparable<PokerHand>
+    public class PokerHand : IComparable<PokerHand>
     {
-        public string hand { get; }
-        public TupleList<string, int> cards { get; } = new TupleList<string, int>();
+        private string hand { get; }
+        private TupleList<string, int> cards { get; } = new TupleList<string, int>();
         private List<char> vals { get; } = new List<char>();
         private List<char> suits {get; } = new List<char>();
         private Dictionary<char, int> val_cnt { get; }
-        public int handvalue { get; }
+        private int handvalue { get; }
         private List<char> twoPair { get; }
         private bool isFlush { get; }
         private bool isStraight { get; } = true;
+
+        public override string ToString()
+        {
+            return this.hand;
+        }
 
         public PokerHand(string hand)
         {
