@@ -54,27 +54,26 @@ namespace PokerRankingsSolution
     {
         private TupleList<string, int> hand { get; } = new TupleList<string, int>();
         private List<char> vals { get; } = new List<char>();
-        private static List<char> suits {get; } = new List<char>();
+        private List<char> suits {get; } = new List<char>();
         private Dictionary<char, int> val_cnt { get; }
         private int handvalue { get; }
         private List<char> twoPair { get; }
-        private bool isFlush { get; } = (suits.Distinct().Count() == 1);
-        private bool isStraight { get; }
-        
+        private bool isFlush { get; }
+        private bool isStraight { get; } = true;
 
-        public string CompareWith(PokerHand hand)
+        public Result CompareWith(PokerHand hand)
         {
-            if (this.handvalue > hand.handvalue) { return "Win"; }
-            else if (this.handvalue < hand.handvalue) { return "Loss"; }
+            if (this.handvalue > hand.handvalue) { return Result.Win; }
+            else if (this.handvalue < hand.handvalue) { return Result.Loss; }
             else
             {
                 foreach (var idx_card in Helper.Enumerate(this.hand))
                 {
                     int idx = idx_card.Key;
-                    if (idx_card.Value.Item2 > hand.hand[idx].Item2) { return "Win "; }
-                    else if (idx_card.Value.Item2 < hand.hand[idx].Item2) { return "Loss"; }
+                    if (idx_card.Value.Item2 > hand.hand[idx].Item2) { return Result.Win; }
+                    else if (idx_card.Value.Item2 < hand.hand[idx].Item2) { return Result.Loss; }
                  }
-                 return "Tie";
+                 return Result.Tie;
             }
         }
 
@@ -116,7 +115,7 @@ namespace PokerRankingsSolution
             val_cnt = groups.ToDictionary( g => g.Vals, g => g.Count);
             // checking if hand contains 2pair
             this.twoPair = new List<char>();
-            var ordered_val_cnt = val_cnt.OrderBy(x => x.Value);
+            var ordered_val_cnt = val_cnt.OrderByDescending(x => x.Value);
             foreach (KeyValuePair<char, int>card in ordered_val_cnt)
             {
                 if (card.Value == 2) 
@@ -152,11 +151,7 @@ namespace PokerRankingsSolution
                             this.handvalue = 4;
                             break;
                         case 2:
-                            if (this.handvalue == 4)
-                            {
-                                this.handvalue = 7;
-                            }
-                            this.handvalue = 1;
+                            this.handvalue = (this.handvalue == 4) ? 7 : 1;
                             break;
                         default:
                             break;
