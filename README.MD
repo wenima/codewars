@@ -1,12 +1,8 @@
 # Summary
 
 the repository *codewars* includes all of my completed code-katas from the
-[CodeWars Python challenges](http://wwww.codewars.com) with a difficulty of
+[CodeWars challenges](http://wwww.codewars.com) with a difficulty of
 kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)
-
-*Update*: Decided to put all of my C# completed katas here too, even if they are
-lower than kyu5, as well as the equivalent solution for Python if codewars has a
-translation.
 
 # Python coding challenges:
 
@@ -42,6 +38,13 @@ translation.
 ## kyu3
 
 * Sudoku Solver
+
+# C# coding challenges:
+
+##kyu4
+
+* Poker Rankings
+* Sortable Poker Hands
 
 ## Details for each kata completed
 
