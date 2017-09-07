@@ -60,9 +60,14 @@ namespace PokerRankingsSolution
         private List<char> twoPair { get; }
         private bool isFlush { get; }
         private bool isStraight { get; } = true;
+        private int sumOfAllCardValues { get; }
 
         public Result CompareWith(PokerHand hand)
         {
+            if (this.isStraight && other.isStraight) 
+                {
+                    if (this.sumOfAllCardValues == 28) {return Result.Loss; } else { Result.Loss; }
+                }
             if (this.handvalue > hand.handvalue) { return Result.Win; }
             else if (this.handvalue < hand.handvalue) { return Result.Loss; }
             else
@@ -109,12 +114,13 @@ namespace PokerRankingsSolution
                     }
                     prev_card = card.Item2;
                 }
+            // handle special case for 5-high straight
             List<int> numericHandValue = new List<int>();
             foreach (char card in this.vals)
             {
                 numericHandValue.Add(Constants.Ranks[card].Item2);
             }
-            if (numericHandValue.Sum() == 28) { this.isStraight = true; };
+            this.sumOfAllCardValues = numericHandValue.Sum();
             // count how often a card appears to get all pairs, sets and quads
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
