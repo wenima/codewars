@@ -61,6 +61,7 @@ namespace PokerRankingsSolution
         private List<char> twoPair { get; }
         private bool isFlush { get; }
         private bool isStraight { get; } = true;
+        private int sumOfAllCardValues { get; }
 
         public override string ToString()
         {
@@ -105,7 +106,8 @@ namespace PokerRankingsSolution
             {
                 numericHandValue.Add(Constants.Ranks[card].Item2);
             }
-            if (numericHandValue.Sum() == 28) { this.isStraight = true; };
+            this.sumOfAllCardValues = numericHandValue.Sum();
+            if (this.sumOfAllCardValues == 28) { this.isStraight = true; };
             // count how often a card appears to get all pairs, sets and quads
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
@@ -162,6 +164,10 @@ namespace PokerRankingsSolution
             // for same absolute handvalue, all cards need to be compared, starting with highest card in descending order
             if (this.handvalue == other.handvalue)
             {
+                if (this.isStraight && other.isStraight) 
+                {
+                    if (this.sumOfAllCardValues == 28) {return 1; } else { return -1; }
+                }
                 foreach (var idx_card in Helper.Enumerate(this.cards))
                 {
                     int idx = idx_card.Key;
