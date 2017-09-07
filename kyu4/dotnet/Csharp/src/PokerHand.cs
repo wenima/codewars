@@ -109,6 +109,12 @@ namespace PokerRankingsSolution
                     }
                     prev_card = card.Item2;
                 }
+            List<int> numericHandValue = new List<int>();
+            foreach (char card in this.vals)
+            {
+                numericHandValue.Add(Constants.Ranks[card].Item2);
+            }
+            if (numericHandValue.Sum() == 28) { this.isStraight = true; };
             // count how often a card appears to get all pairs, sets and quads
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
