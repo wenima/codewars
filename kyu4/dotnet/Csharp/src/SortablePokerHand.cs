@@ -164,9 +164,10 @@ namespace PokerRankingsSolution
             // for same absolute handvalue, all cards need to be compared, starting with highest card in descending order
             if (this.handvalue == other.handvalue)
             {
-                if (this.isStraight && other.isStraight) 
+                // special case to handle any comparison involving 5 high straights
+                if (this.isStraight && other.isStraight && (this.sumOfAllCardValues == 28 || other.sumOfAllCardValues == 28)) 
                 {
-                    if (this.sumOfAllCardValues == 28) {return 1; } else { return -1; }
+                    if (this.sumOfAllCardValues == 28) { return 1; } else { return -1; }
                 }
                 foreach (var idx_card in Helper.Enumerate(this.cards))
                 {
