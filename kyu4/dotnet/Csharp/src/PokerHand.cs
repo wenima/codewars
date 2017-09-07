@@ -64,10 +64,11 @@ namespace PokerRankingsSolution
 
         public Result CompareWith(PokerHand hand)
         {
-            if (this.isStraight && other.isStraight) 
-                {
-                    if (this.sumOfAllCardValues == 28) {return Result.Loss; } else { Result.Loss; }
-                }
+            // special case to handle any comparison involving 5 high straights
+            if (this.isStraight && other.isStraight && (this.sumOfAllCardValues == 28 || other.sumOfAllCardValues == 28)) 
+            {
+                if (this.sumOfAllCardValues == 28) { return Result.Loss; } else { Result.Win; }
+            }
             if (this.handvalue > hand.handvalue) { return Result.Win; }
             else if (this.handvalue < hand.handvalue) { return Result.Loss; }
             else
