@@ -52,13 +52,13 @@ namespace PokerRankingsSolution
     }
     public class PokerHand : IComparable<PokerHand>
     {
-        private string hand { get; }
-        private TupleList<string, int> cards { get; } = new TupleList<string, int>();
+        public string hand { get; }
+        private TupleList<char, int> cards { get; } = new TupleList<char, int>();
         private List<char> vals { get; } = new List<char>();
         private List<char> suits {get; } = new List<char>();
         private Dictionary<char, int> val_cnt { get; }
-        private int handvalue { get; }
-        private List<char> twoPair { get; }
+        public int handvalue { get; }
+        private List<char> twoPair { get; } = new List<char>();
         private bool isFlush { get; }
         private bool isStraight { get; } = true;
         private int sumOfAllCardValues { get; }
@@ -77,7 +77,7 @@ namespace PokerRankingsSolution
                 if (Constants.Ranks.ContainsKey(card))
                     {
                         this.vals.Add(card);
-                        this.cards.Add(card.ToString(), Constants.Ranks[card].Item2);
+                        this.cards.Add(card, Constants.Ranks[card].Item2);
                     }
             }
             foreach (var card in this.hand.Trim())
@@ -92,11 +92,11 @@ namespace PokerRankingsSolution
             // initializing isStraight property; default value is true
             this.cards.Sort((x, y) => y.Item2.CompareTo(x.Item2));
             int prev_card = this.cards[0].Item2 + 1;
-                foreach (Tuple<string, int>card in this.cards)
+                foreach (Tuple<char, int>card in this.cards)
                 {
                     if (prev_card - 1 != card.Item2)
                     {
-                        this.isStraight =  false;
+                        this.isStraight = false;
                     }
                     prev_card = card.Item2;
                 }
@@ -113,7 +113,6 @@ namespace PokerRankingsSolution
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
             val_cnt = groups.ToDictionary( g => g.Vals, g => g.Count);
             // checking if hand contains 2pair
-            this.twoPair = new List<char>();
             var ordered_val_cnt = val_cnt.OrderByDescending(x => x.Value);
             foreach (KeyValuePair<char, int>card in ordered_val_cnt)
             {
@@ -169,13 +168,54 @@ namespace PokerRankingsSolution
                 {
                     if (this.sumOfAllCardValues == 28) { return 1; } else { return -1; }
                 }
+                // compare quads, sets and one pair hands
+                var ordered_val_cnt = this.val_cnt.OrderByDescending(x => x.Value);
+                var other_ordered_val_cnt = other.val_cnt.OrderByDescending(x => x.Value);
+                if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 > Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2 && this.twoPair.Count == 0)
+                {
+                    return -1;
+                }
+                else
+                if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 < Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2)
+                {
+                    return 1;
+                }
+                // compare 2 pair hands
+                if (this.twoPair.Count == 2)
+                {
+                    // higher twopair wins
+                    if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 > Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2)
+                    {
+                        return -1;
+                    }
+                    else if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 < Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2)
+                    {
+                        return 1;
+                    }
+                    // higher pair of 2 pair is the same, comparing 2nd pair
+                    else if (Constants.Ranks[ordered_val_cnt.ElementAt(1).Key].Item2 > Constants.Ranks[other_ordered_val_cnt.ElementAt(1).Key].Item2)
+                    {
+                        return -1;
+                    }
+                    else if (Constants.Ranks[ordered_val_cnt.ElementAt(1).Key].Item2 < Constants.Ranks[other_ordered_val_cnt.ElementAt(1).Key].Item2)
+                    {
+                        return 1;
+                    }
+                    // still tied so we need to compare high cards 
+                }
                 foreach (var idx_card in Helper.Enumerate(this.cards))
                 {
+                    // ignoring all pairs, sets, quads
+                    if (val_cnt[idx_card.Value.Item1] > 1) { continue ;}
                     int idx = idx_card.Key;
-                    if (idx_card.Value.Item2 > other.cards[idx].Item2) { return -1; }
+                    if (idx_card.Value.Item2 > other.cards[idx].Item2) 
+                    {   
+                        Console.WriteLine(String.Format("Comparing {0} to {1}", idx_card.Value.Item2.ToString(), other.cards[idx].Item2.ToString()));
+                        return -1; 
+                    }
                     else if (idx_card.Value.Item2 < other.cards[idx].Item2) { return 1; }
                  }
-                 return 0;;
+                 return 0;
             }
             else if (this.handvalue > other.handvalue)
             {
