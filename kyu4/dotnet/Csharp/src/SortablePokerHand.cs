@@ -99,6 +99,13 @@ namespace PokerRankingsSolution
                     }
                     prev_card = card.Item2;
                 }
+            // handle special case for 5-high straight
+            List<int> numericHandValue = new List<int>();
+            foreach (char card in this.vals)
+            {
+                numericHandValue.Add(Constants.Ranks[card].Item2);
+            }
+            if (numericHandValue.Sum() == 28) { this.isStraight = true; };
             // count how often a card appears to get all pairs, sets and quads
             var groups = vals.GroupBy(c => c )
                             .Select(c => new { Vals = c.Key, Count = c.Count() });
@@ -152,10 +159,16 @@ namespace PokerRankingsSolution
 
         int IComparable<PokerHand>.CompareTo(PokerHand other)
         {
-            // PokerHand hand = obj as PokerHand;
+            // for same absolute handvalue, all cards need to be compared, starting with highest card in descending order
             if (this.handvalue == other.handvalue)
             {
-                return 0;
+                foreach (var idx_card in Helper.Enumerate(this.cards))
+                {
+                    int idx = idx_card.Key;
+                    if (idx_card.Value.Item2 > other.cards[idx].Item2) { return -1; }
+                    else if (idx_card.Value.Item2 < other.cards[idx].Item2) { return 1; }
+                 }
+                 return 0;;
             }
             else if (this.handvalue > other.handvalue)
             {
