@@ -52,12 +52,12 @@ namespace PokerRankingsSolution
     }
     public class PokerHand : IComparable<PokerHand>
     {
-        public string hand { get; }
+        private string hand { get; }
         private TupleList<char, int> cards { get; } = new TupleList<char, int>();
         private List<char> vals { get; } = new List<char>();
         private List<char> suits {get; } = new List<char>();
         private Dictionary<char, int> val_cnt { get; }
-        public int handvalue { get; }
+        private int handvalue { get; }
         private List<char> twoPair { get; } = new List<char>();
         private bool isFlush { get; }
         private bool isStraight { get; } = true;
