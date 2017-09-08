@@ -20,6 +20,8 @@ TEST_INPUT = [
     ("2S 3H 6H 7S 9C", "7H 3C TH 6H 9S", 'Loss'),
     ("4S 5H 6H TS AC", "3S 5H 6H TS AC", 'Win'),
     ("2S AH 4H 5S 6C", "AD 4C 5H 6H 2C", 'Tie'),
+    ("AH AC 5H 5C QS", "AH AC 5H 5C KS", 'Loss'),
+    ("7C 7S KH 2H 7H", "3C 3S AH 2H 3H", 'Win')
 ]
 
 TEST_STRAIGHT = [
