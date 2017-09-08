@@ -171,12 +171,12 @@ namespace PokerRankingsSolution
                 // compare quads, sets and one pair hands
                 var ordered_val_cnt = this.val_cnt.OrderByDescending(x => x.Value);
                 var other_ordered_val_cnt = other.val_cnt.OrderByDescending(x => x.Value);
-                if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 > Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2 && this.twoPair.Count == 0)
+                if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 > Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2 && ordered_val_cnt.ElementAt(0).Value > 1 && this.twoPair.Count != 2)
                 {
                     return -1;
                 }
                 else
-                if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 < Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2)
+                if (Constants.Ranks[ordered_val_cnt.ElementAt(0).Key].Item2 < Constants.Ranks[other_ordered_val_cnt.ElementAt(0).Key].Item2 && ordered_val_cnt.ElementAt(0).Value > 1 && this.twoPair.Count != 2)
                 {
                     return 1;
                 }
@@ -205,12 +205,9 @@ namespace PokerRankingsSolution
                 }
                 foreach (var idx_card in Helper.Enumerate(this.cards))
                 {
-                    // ignoring all pairs, sets, quads
-                    if (val_cnt[idx_card.Value.Item1] > 1) { continue ;}
                     int idx = idx_card.Key;
                     if (idx_card.Value.Item2 > other.cards[idx].Item2) 
                     {   
-                        Console.WriteLine(String.Format("Comparing {0} to {1}", idx_card.Value.Item2.ToString(), other.cards[idx].Item2.ToString()));
                         return -1; 
                     }
                     else if (idx_card.Value.Item2 < other.cards[idx].Item2) { return 1; }
