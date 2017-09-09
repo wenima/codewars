@@ -57,7 +57,9 @@ class PokerHand(object):
         hand: a sorted list of tuples representing face value and card value ordered
         by highest card in descending order
 
-        hand_value: the sum of all made hands
+        hand_value: the hand value according to MADE_HANDS
+
+        has_two_pair: True if hand is a 2 pair hand, else False
 
     Methods:
         compare_with(self, villain): takes in Hero's Hand (self) and Villain's
@@ -69,7 +71,6 @@ class PokerHand(object):
         _is_flush(self): returns True if hand is a flush
         _has_set(self): returns True if hand contains a set
         _has_two_pair(self): returns True if hand is a 2 pair hand
-        _has_pair(self): returns True if hand is a one pair hand
         """
 
     def __init__(self, hand):
@@ -82,12 +83,29 @@ class PokerHand(object):
         self.suits = [c for c in hand if c in SUITS.keys()]
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
         self.val_cnt = defaultdict(int)
-        self.two_pair = []
-        self.hand_value = 0
+        self.two_pair = self._has_two_pair()
+        self.hand_value = self_get_made_hand_value()
 
+        self.high_card = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
+
+        for card in self.vals:
+            self.val_cnt[card] += 1
+
+        self.hand_value = self._get_made_hand_value()
 
     def compare_with(self, other):
         """Return one of 3 outcomes from result const."""
+        for i in range(1):
+            sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+            other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
+            card, value = sorted_d.pop(0)
+            other_card, other_value = other_sorted_d.pop(0)
+            print(card, value)
+            print(other_card, other_value)
+            if RANKS[card][1] > RANKS[other_card][1]:
+                return 'Win'
+            elif RANKS[card](1) < RANKS[other_card](1):
+                return 'Loss'
         if self.hand_value > other.hand_value:
             return 'Win'
         elif self.hand_value < other.hand_value:
@@ -102,7 +120,6 @@ class PokerHand(object):
                     return 'Loss'
             return 'Tie'
 
-
     def _is_straight(self):
         """Return True if hand is a straight."""
         previous_card = sorted(self.hand, key=itemgetter(1))[0][1] - 1
@@ -115,17 +132,11 @@ class PokerHand(object):
         """Return True if hand is a flush."""
         return True if len(set(self.suits)) == 1 else False
 
-    def get_card_values(self):
-        """Fill dict val_cnt with card combinations to determine 4 of a kinds,
-        full houses, sets, 2pairs and pairs."""
-        for card in self.vals:
-            self.val_cnt[card] += 1
-
-    def get_made_hand_value(self):
+    def _get_made_hand_value(self):
         """Set a value for overall hand value of all summed up individual made
         hands."""
-        self.hand_value += self._has_2pair()
-        if self.hand_value > 0: return
+        hand_value = 0
+        if self.has_two_pair: return 3
         if self._is_straight():
             if self._is_flush():
                 self.hand_value = 9
@@ -162,11 +173,7 @@ class PokerHand(object):
             pair = sorted_d.pop(0)
             if pair[1] == 2:
                 self.two_pair.append(pair[0])
-                return 3
+                return True
             else:
                 self.two_pair = []
-        return 0
-
-    def get_high_cards(self):
-        """Sets and returns high cards of the hand."""
-        self.high_card = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
+        return False
