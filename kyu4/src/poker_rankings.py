@@ -92,12 +92,8 @@ class PokerHand(object):
             self.val_cnt[card] += 1
 
     @property
-    def _sum_of_card_values(self):
-        return sum([c[1] for c in self.hand])
-
-    @property
     def _is_five_high_straight(self):
-        if self._sum_of_card_values == 28:
+        if sum([c[1] for c in self.hand]) == 28:
             return True
 
     @property
