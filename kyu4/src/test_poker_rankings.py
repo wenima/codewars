@@ -26,7 +26,8 @@ TEST_INPUT = [
     ("6H 5H 4H 3H 2H", "5H 4H 3H 2H AH", "Win"),
     ("5H 4H 3H 2H AH", "5H 4H 3H 2H AH", "Tie"),
     ("5H 4H 3H 2H AH", "6H 5H 4H 3H 2H", "Loss"),
-    ("AS 3S 4S 8S 2S", "2H 3H 5H 6H 7H", "Win")
+    ("AS 3S 4S 8S 2S", "2H 3H 5H 6H 7H", "Win"),
+    ("2S 3H 6H 7S 9C", "7H 3C TH 6H 9S", "Loss")
 ]
 
 TEST_STRAIGHT = [
@@ -54,7 +55,6 @@ TEST_VALUES = [
     ("8H 9H QS JS KH", 0),
     ("2H 3H 4H 5H 6H", 9),
 ]
-
 
 @pytest.mark.parametrize('hand, result', TEST_STRAIGHT)
 def test_hand_is_straight(hand, result):
