@@ -21,7 +21,8 @@ TEST_INPUT = [
     ("4S 5H 6H TS AC", "3S 5H 6H TS AC", 'Win'),
     ("2S AH 4H 5S 6C", "AD 4C 5H 6H 2C", 'Tie'),
     ("AH AC 5H 5C QS", "AH AC 5H 5C KS", 'Loss'),
-    ("7C 7S KH 2H 7H", "3C 3S AH 2H 3H", 'Win')
+    ("7C 7S KH 2H 7H", "3C 3S AH 2H 3H", 'Win'),
+    ("6H 5H 4H 3H 2H", "5H 4H 3H 2H AH", "Win")
 ]
 
 TEST_STRAIGHT = [
@@ -65,31 +66,32 @@ def test_hand_is_flush(hand, result):
     heros_hand = PokerHand(hand)
     assert heros_hand._is_flush() == result
 
+def test_hand_is_straightflush():
+    """Test that hand has a made hand value of flush."""
+    from poker_rankings import PokerHand
+    heroes_hand = PokerHand("5H 4H 3H 2H AH")
+    assert heroes_hand._is_flush() == True
+    assert heroes_hand._is_straight() == True
+    assert heroes_hand.hand_value == 9
+
 @pytest.mark.parametrize('hand, result', TEST_VALUES)
 def test_hand_values(hand, result):
     """Test that hand has a made hand value of flush."""
     from poker_rankings import PokerHand
     from collections import defaultdict
     heroes_hand = PokerHand(hand)
-    heroes_hand.get_card_values()
-    heroes_hand.get_made_hand_value()
     assert heroes_hand.hand_value == result
 
 def test_hand_has_correct_high_card():
     from poker_rankings import PokerHand
     heroes_hand = PokerHand("8H 9H QS JS KH")
     from collections import defaultdict
-    heroes_hand.get_high_cards()
-    assert heroes_hand.high_card.pop(0)[0] == "K"
-    assert heroes_hand.high_card.pop(0)[0] == "Q"
+    assert heroes_hand.high_cards.pop(0)[0] == "K"
+    assert heroes_hand.high_cards.pop(0)[0] == "Q"
 
 @pytest.mark.parametrize('hand, other, result', TEST_INPUT)
 def test_compare_hero_to_villain(hand, other, result):
     from poker_rankings import PokerHand
     from collections import defaultdict
     hero, villain = PokerHand(hand), PokerHand(other)
-    hero.get_card_values()
-    villain.get_card_values()
-    hero.get_made_hand_value()
-    villain.get_made_hand_value()
     assert hero.compare_with(villain) == result
