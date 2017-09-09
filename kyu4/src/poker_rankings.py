@@ -86,7 +86,6 @@ class PokerHand(object):
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
         self.val_cnt = defaultdict(int)
         self.has_two_pair = False
-        self.hand_value = 0
 
         self.high_cards = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
 
@@ -95,49 +94,32 @@ class PokerHand(object):
 
         self.has_two_pair = self._has_two_pair()
 
-        self.hand_value = self._get_made_hand_value()
+    @property
+    def _sum_of_card_values(self):
+        return sum([c[1] for c in self.hand])
 
-    def compare_with(self, other):
-        """Return one of 3 outcomes from result const."""
-        if self.hand_value > other.hand_value:
-            return 'Win'
-        elif self.hand_value < other.hand_value:
-            return 'Loss'
-        else:
-            for i in range(1):
-                sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
-                other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
-                card, value = sorted_d.pop(0)
-                other_card, other_value = other_sorted_d.pop(0)
-                if RANKS[card][1] > RANKS[other_card][1]:
-                    return 'Win'
-                elif RANKS[card][1] < RANKS[other_card][1]:
-                    return 'Loss'
-            for idx, card in enumerate(self.high_cards):
-                if card[1] > other.high_cards[idx][1]:
-                    return 'Win'
-                elif card[1] < other.high_cards[idx][1]:
-                    return 'Loss'
-            return 'Tie'
+    @property
+    def _is_five_high_straight(self):
+        if self._sum_of_card_values == 28:
+            return True
 
+    @property
     def _is_straight(self):
         """Return True if hand is a straight."""
+        if self._is_five_high_straight: return True
         previous_card = sorted(self.hand, key=itemgetter(1))[0][1] - 1
         for card in sorted(self.hand, key=itemgetter(1)):
             if previous_card + 1 != card[1]: return False
             previous_card = card[1]
         return True
 
-    def _is_flush(self):
-        """Return True if hand is a flush."""
-        return True if len(set(self.suits)) == 1 else False
-
-    def _get_made_hand_value(self):
+    @property
+    def _hand_value(self):
         """Set a value for overall hand value of all summed up individual made
         hands."""
         hand_value = 0
         if self.has_two_pair: return 3
-        if self._is_straight():
+        if self._is_straight:
             if self._is_flush():
                 return 9
             else:
@@ -160,6 +142,51 @@ class PokerHand(object):
                 else:
                     return 1
         return hand_value
+
+    def compare_with(self, other):
+        """Return one of 3 outcomes from result const."""
+        if self._hand_value > other._hand_value:
+            return 'Win'
+        elif self._hand_value < other._hand_value:
+            return 'Loss'
+        else:
+            if self._is_straight:
+                if self._is_five_high_straight and other._is_five_high_straight: return 'Tie'
+                elif self._is_five_high_straight and not other._is_five_high_straight:
+                    return 'Loss'
+                elif other._is_five_high_straight:
+                    return 'Win'
+            for i in range(1):
+                sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+                other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
+                card, value = sorted_d.pop(0)
+                other_card, other_value = other_sorted_d.pop(0)
+                if RANKS[card][1] > RANKS[other_card][1]:
+                    return 'Win'
+                elif RANKS[card][1] < RANKS[other_card][1]:
+                    return 'Loss'
+            for idx, card in enumerate(self.high_cards):
+                if card[1] > other.high_cards[idx][1]:
+                    return 'Win'
+                elif card[1] < other.high_cards[idx][1]:
+                    return 'Loss'
+            return 'Tie'
+
+    # def _is_straight(self):
+    #     """Return True if hand is a straight."""
+    #     previous_card = sorted(self.hand, key=itemgetter(1))[0][1] - 1
+    #     for card in sorted(self.hand, key=itemgetter(1)):
+    #         if previous_card + 1 != card[1]: return False
+    #         previous_card = card[1]
+    #     sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+    #     if sorted_d[0][0] == "A" and sorted_d[-1][0] == "2": self._is_five_high_straight = True
+    #     return True
+
+    def _is_flush(self):
+        """Return True if hand is a flush."""
+        return True if len(set(self.suits)) == 1 else False
+
+
 
 
     def _has_two_pair(self):
