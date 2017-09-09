@@ -57,22 +57,22 @@ def test_hand_is_straight(hand, result):
     """Test that hand has a made hand value of straight."""
     from poker_rankings import PokerHand
     heros_hand = PokerHand(hand)
-    assert heros_hand._is_straight() == result
+    assert heros_hand._is_straight == result
 
 @pytest.mark.parametrize('hand, result', TEST_FLUSH)
 def test_hand_is_flush(hand, result):
     """Test that hand has a made hand value of flush."""
     from poker_rankings import PokerHand
     heros_hand = PokerHand(hand)
-    assert heros_hand._is_flush() == result
+    assert heros_hand._is_flush == result
 
 def test_hand_is_straightflush():
     """Test that hand has a made hand value of flush."""
     from poker_rankings import PokerHand
     heroes_hand = PokerHand("5H 4H 3H 2H AH")
-    assert heroes_hand._is_flush() == True
-    assert heroes_hand._is_straight() == True
-    assert heroes_hand.hand_value == 9
+    assert heroes_hand._is_flush == True
+    assert heroes_hand._is_straight == True
+    assert heroes_hand._hand_value == 9
 
 @pytest.mark.parametrize('hand, result', TEST_VALUES)
 def test_hand_values(hand, result):
@@ -80,7 +80,7 @@ def test_hand_values(hand, result):
     from poker_rankings import PokerHand
     from collections import defaultdict
     heroes_hand = PokerHand(hand)
-    assert heroes_hand.hand_value == result
+    assert heroes_hand._hand_value == result
 
 def test_hand_has_correct_high_card():
     from poker_rankings import PokerHand
