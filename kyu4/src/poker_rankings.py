@@ -41,7 +41,7 @@ MADE_HANDS = {
 }
 
 class PokerHand(object):
-    """Create an object representing a Poker Hand based on an input of a 5 char
+    """Create an object representing a Poker Hand based on an input of a
     string which represents the best 5 card combination from the player's hand
     and board cards.
 
@@ -57,19 +57,21 @@ class PokerHand(object):
         hand: a sorted list of tuples representing face value and card value ordered
         by highest card in descending order
 
-        hand_value: the hand value according to MADE_HANDS
+        val_cnt: a dict containing each card and the number of times it appears in the hand
 
         has_two_pair: True if hand is a 2 pair hand, else False
 
+        hand_value: the hand value according to MADE_HANDS
+
+
     Methods:
         compare_with(self, villain): takes in Hero's Hand (self) and Villain's
-        Hand (villain) and compares both hands according to rules of Texas Hold'em.
-        Returns one of 3 strings (Win, Loss, Tie) based on wether Hero's hand
-        is better than villain's hand.
+            Hand (villain) and compares both hands according to rules of Texas Hold'em.
+            Returns one of 3 strings (Win, Loss, Tie) based on wether Hero's hand
+            is better than villain's hand.
     Helper Methods:
         _is_straight(self): returns True if hand is a straight
         _is_flush(self): returns True if hand is a flush
-        _has_set(self): returns True if hand contains a set
         _has_two_pair(self): returns True if hand is a 2 pair hand
         """
 
