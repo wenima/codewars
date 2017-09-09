@@ -22,7 +22,9 @@ TEST_INPUT = [
     ("2S AH 4H 5S 6C", "AD 4C 5H 6H 2C", 'Tie'),
     ("AH AC 5H 5C QS", "AH AC 5H 5C KS", 'Loss'),
     ("7C 7S KH 2H 7H", "3C 3S AH 2H 3H", 'Win'),
-    ("6H 5H 4H 3H 2H", "5H 4H 3H 2H AH", "Win")
+    ("6H 5H 4H 3H 2H", "5H 4H 3H 2H AH", "Win"),
+    ("5H 4H 3H 2H AH", "5H 4H 3H 2H AH", "Tie"),
+    ("5H 4H 3H 2H AH", "6H 5H 4H 3H 2H", "Loss")
 ]
 
 TEST_STRAIGHT = [
@@ -67,12 +69,19 @@ def test_hand_is_flush(hand, result):
     assert heros_hand._is_flush == result
 
 def test_hand_is_straightflush():
-    """Test that hand has a made hand value of flush."""
+    """Test that hand has a made hand value of straight flush."""
     from poker_rankings import PokerHand
     heroes_hand = PokerHand("5H 4H 3H 2H AH")
     assert heroes_hand._is_flush == True
     assert heroes_hand._is_straight == True
     assert heroes_hand._hand_value == 9
+
+def test_tie_when_both_hands_are_straightflush():
+    """Test that if both hands are 5 high straight flushes, result is Tie."""
+    from poker_rankings import PokerHand
+    heroes_hand = PokerHand("5H 4H 3H 2H AH")
+    villains_hand = PokerHand("5H 4H 3H 2H AH")
+    heroes_hand.compare_with(villains_hand) == 'Tie'
 
 @pytest.mark.parametrize('hand, result', TEST_VALUES)
 def test_hand_values(hand, result):
