@@ -46,7 +46,7 @@ class PokerHand(object):
     and board cards.
 
     Attributes:
-        high_card: a list of high cards in play in sorted order, highest card first
+        high_cards: a list of high cards in play in sorted order, highest card first
         In play means that if a hand contins a pair of Aces, the Ace is no longer
         in play for the high card.
 
@@ -78,45 +78,45 @@ class PokerHand(object):
         5 cards.
         """
         hand = hand.replace(' ', '')
-        self.high_card = []
+        self.high_cards = []
         self.vals = [c for c in hand if c in RANKS.keys()]
         self.suits = [c for c in hand if c in SUITS.keys()]
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
         self.val_cnt = defaultdict(int)
-        self.two_pair = self._has_two_pair()
-        self.hand_value = self_get_made_hand_value()
+        self.has_two_pair = False
+        self.hand_value = 0
 
-        self.high_card = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
+        self.high_cards = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
 
         for card in self.vals:
             self.val_cnt[card] += 1
+
+        self.has_two_pair = self._has_two_pair()
 
         self.hand_value = self._get_made_hand_value()
 
     def compare_with(self, other):
         """Return one of 3 outcomes from result const."""
-        for i in range(1):
-            sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
-            other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
-            card, value = sorted_d.pop(0)
-            other_card, other_value = other_sorted_d.pop(0)
-            print(card, value)
-            print(other_card, other_value)
-            if RANKS[card][1] > RANKS[other_card][1]:
-                return 'Win'
-            elif RANKS[card](1) < RANKS[other_card](1):
-                return 'Loss'
         if self.hand_value > other.hand_value:
             return 'Win'
         elif self.hand_value < other.hand_value:
             return 'Loss'
         else:
-            self.get_high_cards()
-            other.get_high_cards()
-            for idx, card in enumerate(self.high_card):
-                if card[1] > other.high_card[idx][1]:
+            for i in range(1):
+                sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+                other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
+                card, value = sorted_d.pop(0)
+                other_card, other_value = other_sorted_d.pop(0)
+                print(card, value)
+                print(other_card, other_value)
+                if RANKS[card][1] > RANKS[other_card][1]:
                     return 'Win'
-                elif card[1] < other.high_card[idx][1]:
+                elif RANKS[card][1] < RANKS[other_card][1]:
+                    return 'Loss'
+            for idx, card in enumerate(self.high_cards):
+                if card[1] > other.high_cards[idx][1]:
+                    return 'Win'
+                elif card[1] < other.high_cards[idx][1]:
                     return 'Loss'
             return 'Tie'
 
@@ -139,13 +139,11 @@ class PokerHand(object):
         if self.has_two_pair: return 3
         if self._is_straight():
             if self._is_flush():
-                self.hand_value = 9
+                return 9
             else:
-                self.hand_value = 5
-            return
+                return 5
         if self._is_flush():
-            self.hand_value = 6
-            return
+            return 6
         sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
         while True:
             try:
@@ -153,27 +151,26 @@ class PokerHand(object):
             except IndexError:
                 break
             if pair_plus == 4:
-                self.hand_value = 8
+                return 8
             elif pair_plus == 3:
-                self.hand_value = 4
+                hand_value = 4
             elif pair_plus == 2:
-                if self.hand_value == 4:
-                    self.hand_value = 7
+                if hand_value == 4:
+                    return 7
                 else:
-                    self.hand_value = 1
+                    return 1
+        return hand_value
 
 
-    def _has_2pair(self):
+    def _has_two_pair(self):
         """Return value for 2pair if hand has made hand value of 2pair, else return 0."""
-        if not self.val_cnt: self.get_card_values()
+        two_pair = []
         sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
         pair = sorted_d.pop(0)
         if pair[1] == 2:
-            self.two_pair.append(pair[0])
+            two_pair.append(pair[0])
             pair = sorted_d.pop(0)
             if pair[1] == 2:
-                self.two_pair.append(pair[0])
+                two_pair.append(pair[0])
                 return True
-            else:
-                self.two_pair = []
         return False
