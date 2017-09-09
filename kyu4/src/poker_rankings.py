@@ -107,8 +107,6 @@ class PokerHand(object):
                 other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
                 card, value = sorted_d.pop(0)
                 other_card, other_value = other_sorted_d.pop(0)
-                print(card, value)
-                print(other_card, other_value)
                 if RANKS[card][1] > RANKS[other_card][1]:
                     return 'Win'
                 elif RANKS[card][1] < RANKS[other_card][1]:
@@ -164,13 +162,5 @@ class PokerHand(object):
 
     def _has_two_pair(self):
         """Return value for 2pair if hand has made hand value of 2pair, else return 0."""
-        two_pair = []
         sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
-        pair = sorted_d.pop(0)
-        if pair[1] == 2:
-            two_pair.append(pair[0])
-            pair = sorted_d.pop(0)
-            if pair[1] == 2:
-                two_pair.append(pair[0])
-                return True
-        return False
+        return True if sorted_d[0][1] == 2 and sorted_d[1][1] == 2 else False
