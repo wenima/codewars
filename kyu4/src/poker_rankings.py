@@ -119,8 +119,7 @@ class PokerHand(object):
 
     @property
     def _hand_value(self):
-        """Set a value for overall hand value of all summed up individual made
-        hands."""
+        """Return a value based on hand strength."""
         hand_value = 0
         if self._has_two_pair: return 3
         if self._is_straight:
@@ -130,6 +129,7 @@ class PokerHand(object):
                 return 5
         if self._is_flush:
             return 6
+        if len(set(self.val_cnt.values())) == 1: return hand_value
         sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
         while True:
             try:
@@ -149,6 +149,8 @@ class PokerHand(object):
 
     def compare_with(self, other):
         """Return one of 3 outcomes from result const."""
+        print(self._hand_value)
+        print(other._hand_value)
         if self._hand_value > other._hand_value:
             return 'Win'
         elif self._hand_value < other._hand_value:
@@ -161,8 +163,11 @@ class PokerHand(object):
                 elif other._is_five_high_straight:
                     return 'Win'
             for i in range(1):
+                if self._hand_value in [0, 5, 6]: break
                 sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
                 other_sorted_d = sorted(other.val_cnt.items(), key=lambda x: x[1], reverse=True)
+                print(sorted_d)
+                print(other_sorted_d)
                 card, value = sorted_d.pop(0)
                 other_card, other_value = other_sorted_d.pop(0)
                 if RANKS[card][1] > RANKS[other_card][1]:
