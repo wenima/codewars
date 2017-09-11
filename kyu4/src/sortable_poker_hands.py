@@ -173,4 +173,7 @@ class PokerHand(object):
     def _total_value(self):
         """Return a tuple containing of an int representing hand value and a tuple
         of sorted high card values."""
+        if self._is_five_high_straight:
+            del self.high_card_vals[0]
+            self.high_card_vals.append(1)
         return (self._hand_value, tuple(self.high_card_vals))
