@@ -9,37 +9,37 @@ SORTED_POKER_HANDS = [
 "AS AD AC AH JD",
 "JS JD JC JH 3D",
 "2S AH 2H AS AC",
+"KH KC 3S 3H 3D",
+"2H 2C 3S 3H 3D",
+"3D 2H 3H 2C 2D",
 "AS 3S 4S 8S 2S",
 "2H 3H 5H 6H 7H",
 "2S 3H 4H 5S 6C",
 "2D AC 3H 4H 5S",
-"AH AC 5H 6H AS",
-"2S 2H 4H 5S 4C",
-"AH AC 5H 6H 7S",
-"AH AC 5H 5C KS",
-"AH AC 5H 5C QS",
-"AH AC 4H 6H 7S",
-"2S AH 4H 5S KC",
-"2S 3H 6H 7S 9C",
 "AC KH QH AH AS",
+"AH AC 5H 6H AS",
 "7C 7S KH 2H 7H",
 "7C 7S QH 2S 7D",
 "7C 7S TH 2S 7D",
-"2H 2C 3S 3H 3D",
-"3D 2H 3H 2C 2D",
-"KH KC 3S 3H 3D",
-"2H 2C 3S 3H 3D",
-"AC KH QH AH AS",
-"7C 7S KH 2H 7H"
+"AH AC 4H 5S 4C",
+"2S 2H 4H 5S 4C",
+"AH AC 5H 5C KS",
+"AH AC 5H 5C QS",
+"AH AC 5H 6H 7S",
+"AH AC 4H 6H 7S",
+"2S AH 4H 5S KC",
+"2S 3H 6H 7S 9C",
 ]
 
 def test_custom_sort():
     """Test the output of sort matches list."""
-    from poker_rankings import PokerHand
+    from sortable_poker_hands import PokerHand
     pokerhands = []
     for hand in SORTED_POKER_HANDS:
-        pokerhands.append(Pokerhand(hand))
+        pokerhands.append(PokerHand(hand))
     shuffle(pokerhands)
     pokerhands.sort(reverse=True)
-    for i, hand in enumerate(pokerhands)
-        assert hand == SORTED_POKER_HANDS[i]
+    for i, hand in enumerate(pokerhands):
+        print(hand.passed_hand)
+        print(hand._total_value)
+        assert hand.passed_hand == SORTED_POKER_HANDS[i]
