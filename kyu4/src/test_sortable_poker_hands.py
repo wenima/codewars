@@ -31,6 +31,15 @@ SORTED_POKER_HANDS = [
 "2S 3H 6H 7S 9C",
 ]
 
+def test_custom_sort_5high_straight():
+    """Test that 5 high straights are compared correctly."""
+    from sortable_poker_hands import PokerHand
+    pokerhands = []
+    pokerhands.append(PokerHand("2D AC 3H 4H 5S"))
+    pokerhands.append(PokerHand("2S 3H 4H 5S 6C"))
+    pokerhands.sort(reverse=True)
+    assert pokerhands[0].passed_hand == "2S 3H 4H 5S 6C"
+
 def test_custom_sort():
     """Test the output of sort matches list."""
     from sortable_poker_hands import PokerHand
