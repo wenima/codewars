@@ -130,9 +130,7 @@ class PokerHand(object):
         """Check if hand is pair plus"""
         if len(set(self.val_cnt.values())) > 1:
             if self._has_two_pair: return 3
-            sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1])
-            while True:
-                pair_plus = sorted_d.pop()[1]
+            for pair_plus in sorted(self.val_cnt.values(), reverse = True):
                 if pair_plus == 1: return hand_value
                 elif pair_plus == 4:
                     return 8
