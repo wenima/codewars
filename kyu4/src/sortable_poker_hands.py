@@ -71,7 +71,6 @@ class PokerHand(object):
     Helper Methods:
         _is_straight(self): returns True if hand is a straight
         _is_flush(self): returns True if hand is a flush
-        _has_two_pair(self): returns True if hand is a 2 pair hand
         """
 
     def __repr__(self):  return repr(self.passed_hand)
@@ -118,19 +117,14 @@ class PokerHand(object):
         return True if len(set(self.suits)) == 1 else False
 
     @property
-    def _has_two_pair(self):
-        """Return value for 2pair if hand has made hand value of 2pair, else return 0."""
-        sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
-        return True if sorted_d[0][1] == 2 and sorted_d[1][1] == 2 else False
-
-    @property
     def _hand_value(self):
         """Return a value based on hand strength."""
         hand_value = 0
         """Check if hand is pair plus"""
         if len(set(self.val_cnt.values())) > 1:
-            if self._has_two_pair: return 3
-            for pair_plus in sorted(self.val_cnt.values(), reverse = True):
+            sorted_d = sorted(self.val_cnt.values(), reverse = True)
+            if sorted_d[0] == 2 and sorted_d[1] == 2: return 3
+            for pair_plus in sorted_d:
                 if pair_plus == 1: return hand_value
                 elif pair_plus == 4:
                     return 8
