@@ -74,10 +74,13 @@ class PokerHand(object):
         _has_two_pair(self): returns True if hand is a 2 pair hand
         """
 
-    def __repr__(self):  return self.passed_hand
+    def __repr__(self):  return repr(self.passed_hand)
 
     def __lt__(self, other):
         return self._total_value < other._total_value
+
+    def __eq__(self, other):
+        return self.passed_hand == other
 
     def __init__(self, hand):
         """Initialize a poker hand based on a 10 character string input representing
