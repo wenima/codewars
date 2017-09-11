@@ -136,10 +136,10 @@ class PokerHand(object):
         if self._is_flush:
             return 6
         if len(set(self.val_cnt.values())) == 1: return hand_value
-        sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1], reverse=True)
+        sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1])
         while True:
             try:
-                pair_plus = sorted_d.pop(0)[1]
+                pair_plus = sorted_d.pop()[1]
             except IndexError:
                 break
             if pair_plus == 4:
