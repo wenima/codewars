@@ -5,6 +5,7 @@ from random import shuffle
 
 SORTED_POKER_HANDS = [
 "KS AS TS QS JS",
+"KS AS TS QS JS",
 "2H 3H 4H 5H 6H",
 "AS AD AC AH JD",
 "JS JD JC JH 3D",
@@ -40,6 +41,12 @@ def test_custom_sort_5high_straight():
     pokerhands.sort(reverse=True)
     assert pokerhands[0].passed_hand == "2S 3H 4H 5S 6C"
 
+def test_repr():
+    """Test that repr of PokerHand class returns a string."""
+    from sortable_poker_hands import PokerHand
+    hand = PokerHand("2D AC 3H 4H 5S")
+    assert hand == '2D AC 3H 4H 5S'
+
 def test_custom_sort():
     """Test the output of sort matches list."""
     from sortable_poker_hands import PokerHand
@@ -49,6 +56,4 @@ def test_custom_sort():
     shuffle(pokerhands)
     pokerhands.sort(reverse=True)
     for i, hand in enumerate(pokerhands):
-        print(hand.passed_hand)
-        print(hand._total_value)
-        assert hand.passed_hand == SORTED_POKER_HANDS[i]
+        assert hand == SORTED_POKER_HANDS[i]
