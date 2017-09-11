@@ -79,21 +79,6 @@ class PokerHand(object):
     def __lt__(self, other):
         return self._total_value < other._total_value
 
-    def __le__(self, other):
-        return self._total_value <= other._total_value
-
-    def __gt__(self, other):
-        return self._total_value > other._total_value
-
-    def __ge__(self,other):
-        return self._total_vlue >= other._total_value
-
-    def __eq__(self, other):
-        return self._total_value == other._total_value
-
-    def __ne__(self, other):
-        return self._total_value != other._total_value
-
     def __init__(self, hand):
         """Initialize a poker hand based on a 10 character string input representing
         5 cards.
