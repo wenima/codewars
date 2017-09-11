@@ -46,9 +46,7 @@ class PokerHand(object):
     and board cards.
 
     Attributes:
-        high_cards: a list of high cards in play in sorted order, highest card first
-        In play means that if a hand contins a pair of Aces, the Ace is no longer
-        in play for the high card.
+        high_card_vals: a list of card values sorted highest to lowest
 
         vals: a list of card's values
 
@@ -62,6 +60,8 @@ class PokerHand(object):
         has_two_pair: True if hand is a 2 pair hand, else False
 
         hand_value: the hand value according to MADE_HANDS
+
+        total_value: a tuple of int representing the value of the hand and a tuple of high cards
 
     Methods:
         compare_with(self, villain): takes in Hero's Hand (self) and Villain's
@@ -85,14 +85,11 @@ class PokerHand(object):
         """
         self.passed_hand = hand
         hand = hand.replace(' ', '')
-        self.high_cards = []
         self.high_card_vals = []
         self.vals = [c for c in hand if c in RANKS.keys()]
         self.suits = [c for c in hand if c in SUITS.keys()]
         self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
         self.val_cnt = defaultdict(int)
-
-        self.high_cards = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
         self.high_card_vals = sorted([RANKS[c][1] for c in self.vals], reverse=True)
 
         for card in self.vals:
