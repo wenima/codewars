@@ -127,7 +127,22 @@ class PokerHand(object):
     def _hand_value(self):
         """Return a value based on hand strength."""
         hand_value = 0
-        if self._has_two_pair: return 3
+        """Check if hand is pair plus"""
+        if len(set(self.val_cnt.values())) > 1:
+            if self._has_two_pair: return 3
+            sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1])
+            while True:
+                pair_plus = sorted_d.pop()[1]
+                if pair_plus == 1: return hand_value
+                elif pair_plus == 4:
+                    return 8
+                elif pair_plus == 3:
+                    hand_value = 4
+                elif pair_plus == 2:
+                    if hand_value == 4:
+                        return 7
+                    else:
+                        return 1
         if self._is_straight:
             if self._is_flush:
                 return 9
@@ -136,22 +151,6 @@ class PokerHand(object):
         if self._is_flush:
             return 6
         if len(set(self.val_cnt.values())) == 1: return hand_value
-        sorted_d = sorted(self.val_cnt.items(), key=lambda x: x[1])
-        while True:
-            try:
-                pair_plus = sorted_d.pop()[1]
-            except IndexError:
-                break
-            if pair_plus == 4:
-                return 8
-            elif pair_plus == 3:
-                hand_value = 4
-            elif pair_plus == 2:
-                if hand_value == 4:
-                    return 7
-                else:
-                    return 1
-        return hand_value
 
     @property
     def _total_value(self):
