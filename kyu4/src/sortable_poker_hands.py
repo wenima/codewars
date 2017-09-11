@@ -12,19 +12,19 @@ SUITS = {
 }
 
 RANKS = {
-    'A': ('Ace', 14),
-    '2': ('Two', 2),
-    '3': ('Three', 3),
-    '4': ('Four', 4),
-    '5': ('Five', 5),
-    '6': ('Six', 6),
-    '7': ('Seven', 7),
-    '8': ('Eight', 8),
-    '9': ('Nine', 9),
-    'T': ('Ten', 10),
-    'J': ('Jack', 11),
-    'Q': ('Queen', 12),
-    'K': ('King', 13)
+    'A': 14,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+    'T': 10,
+    'J': 11,
+    'Q': 12,
+    'K': 13
 }
 
 MADE_HANDS = {
@@ -91,26 +91,25 @@ class PokerHand(object):
         self.high_card_vals = []
         self.vals = [c for c in hand if c in RANKS.keys()]
         self.suits = [c for c in hand if c in SUITS.keys()]
-        self.hand = sorted([(c, RANKS[c][1]) for c in self.vals], key=itemgetter(1), reverse=True)
+        self.hand = sorted([RANKS[c] for c in self.vals], reverse=True)
         self.val_cnt = defaultdict(int)
-        self.high_card_vals = sorted([RANKS[c][1] for c in self.vals], reverse=True)
 
         for card in self.vals:
             self.val_cnt[card] += 1
 
     @property
     def _is_five_high_straight(self):
-        if sum([c[1] for c in self.hand]) == 28:
+        if sum(self.hand) == 28:
             return True
 
     @property
     def _is_straight(self):
         """Return True if hand is a straight."""
         if self._is_five_high_straight: return True
-        previous_card = sorted(self.hand, key=itemgetter(1))[0][1] - 1
-        for card in sorted(self.hand, key=itemgetter(1)):
-            if previous_card + 1 != card[1]: return False
-            previous_card = card[1]
+        previous_card = self.hand[-1] - 1
+        for card in sorted(self.hand):
+            if previous_card + 1 != card: return False
+            previous_card = card
         return True
 
     @property
@@ -159,6 +158,6 @@ class PokerHand(object):
         """Return a tuple containing of an int representing hand value and a tuple
         of sorted high card values."""
         if self._is_five_high_straight:
-            del self.high_card_vals[0]
-            self.high_card_vals.append(1)
-        return (self._hand_value, tuple(self.high_card_vals))
+            del self.hand[0]
+            self.hand.append(1)
+        return (self._hand_value, tuple(self.hand))
