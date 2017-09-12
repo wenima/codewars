@@ -1,12 +1,8 @@
 # Summary
 
 the repository *codewars* includes all of my completed code-katas from the
-[CodeWars Python challenges](http://wwww.codewars.com) with a difficulty of
+[CodeWars challenges](http://wwww.codewars.com) with a difficulty of
 kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)
-
-*Update*: Decided to put all of my C# completed katas here too, even if they are
-lower than kyu5, as well as the equivalent solution for Python if codewars has a
-translation.
 
 # Python coding challenges:
 
@@ -37,10 +33,18 @@ translation.
 * Next Bigger Number with same digits
 * One Line Task: Palindrome String
 * Strip Url Params
+* Ranking Poker Hands
 
 ## kyu3
 
 * Sudoku Solver
+
+# C# coding challenges:
+
+##kyu4
+
+* Poker Rankings
+* Sortable Poker Hands
 
 ## Details for each kata completed
 
@@ -456,6 +460,15 @@ Removes any query string parameters specified within the 2nd argument (optional 
 * Tests: test_palindrome_one_liner.py
 * Link:(https://www.codewars.com/kata/strip-url-params)
 
+### Ranking Poker Hands
+* Descripton of Kata: Create a poker hand that has a method to compare itself to another poker hand:
+    compare_with(self, other_hand)
+A poker hand has a constructor that accepts a string containing 5 cards:
+    PokerHand(hand)
+* Difficulty: kyu4
+* Module: poker_rankings.py
+* Tests: test_poker_rankings.py
+* Link: https://www.codewars.com/kata/ranking-poker-hands/python
 
 ### Sudoku Solver
 * Description of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The

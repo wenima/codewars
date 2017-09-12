@@ -12,7 +12,9 @@ In addition, some of the challenges will be translated in VB.net
 
 * Directions Reduction
 
-## Best Travel
+## beta
+
+* Sortable Poker Hands
 
 ### Best Travel
 * Descripton of Kata: The function chooseBestSum (or choose_best_sum or ...
@@ -25,3 +27,12 @@ In addition, some of the challenges will be translated in VB.net
 * Module: best_travel.cs
 * Tests:
 * Link: https://www.codewars.com/kata/best-travel/train/csharp
+
+### Sortable Poker Hands
+* Descripton of Kata: A famous casino is suddenly faced with a sharp decline of
+their revenues. They decide to offer Texas hold'em also online. Can you help them
+by writing an algorithm that can rank poker hands?
+* Difficulty: beta
+* Module: sortable_poker_hands.cs
+* Tests:
+* Link: https://www.codewars.com/kata/sortable-poker-hands

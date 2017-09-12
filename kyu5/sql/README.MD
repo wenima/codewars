@@ -67,6 +67,16 @@ happened on.
 * Module: group_by_day.sql
 * [Link](https://www.codewars.com/kata/sql-basics-group-by-day/sql)
 
+### Calculating Running Total
+* Description of Kata: Given a posts table that contains a created_at timestamp
+column write a query that returns date (without time component), a number of
+posts for a given date and a running (cumulative) total number of posts up until
+a given date. The resulting set should be ordered chronologically by date.
+* Difficulty: kyu5
+* Module: running_total.sql
+* [Link](https://www.codewars.com/kata/calculating-running-total)
+* Comments: 
+
 ### Relational Divison
 * Description of Kata: Given film_actor and film tables from the DVD Rental sample
 database find all movies both Sidney Crowe (actor_id = 105) and Salma Nolte
