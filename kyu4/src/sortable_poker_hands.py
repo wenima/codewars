@@ -1,4 +1,4 @@
-"""Solution for https://www.codewars.com/kata/ranking-poker-hands/train/python."""
+"""Solution for https://www.codewars.com/kata/sortable-poker-hands/"""
 
 from operator import itemgetter
 from collections import defaultdict
