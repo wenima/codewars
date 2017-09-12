@@ -7,6 +7,7 @@ TEST_INPUT = [
     ("2H 3H 4H 5H 6H", "KS AS TS QS JS", 'Loss'),
     ("2H 3H 4H 5H 6H", "AS AD AC AH JD", 'Win'),
     ("AS AH 2H AD AC", "JS JD JC JH 3D", 'Win'),
+    ("AS AH 3H AD AC", "AS AH 2H AD AC", 'Win'),
     ("2S AH 2H AS AC", "JS JD JC JH AD", 'Loss'),
     ("2S AH 2H AS AC", "2H 3H 5H 6H 7H", 'Win'),
     ("AS 3S 4S 8S 2S", "2H 3H 5H 6H 7H", 'Win'),
@@ -21,6 +22,7 @@ TEST_INPUT = [
     ("4S 5H 6H TS AC", "3S 5H 6H TS AC", 'Win'),
     ("2S AH 4H 5S 6C", "AD 4C 5H 6H 2C", 'Tie'),
     ("AH AC 5H 5C QS", "AH AC 5H 5C KS", 'Loss'),
+    ("AH AC 5H 5C QS", "KH KC 5H 5C QS", 'Win'),
     ("7C 7S KH 2H 7H", "3C 3S AH 2H 3H", 'Win'),
     ("3C 3S AH 2H 3H", "7C 7S KH 2H 7H", 'Loss'),
     ("6H 5H 4H 3H 2H", "5H 4H 3H 2H AH", "Win"),
@@ -97,12 +99,14 @@ def test_hand_has_correct_high_card():
     from poker_rankings import PokerHand
     heroes_hand = PokerHand("8H 9H QS JS KH")
     from collections import defaultdict
-    assert heroes_hand.high_cards.pop(0)[0] == "K"
-    assert heroes_hand.high_cards.pop(0)[0] == "Q"
+    assert heroes_hand.hand.pop(0) == 13
+    assert heroes_hand.hand.pop(0) == 12
 
 @pytest.mark.parametrize('hand, other, result', TEST_INPUT)
 def test_compare_hero_to_villain(hand, other, result):
     from poker_rankings import PokerHand
     from collections import defaultdict
     hero, villain = PokerHand(hand), PokerHand(other)
+    print(hero._total_value)
+    print(villain._total_value)
     assert hero.compare_with(villain) == result
