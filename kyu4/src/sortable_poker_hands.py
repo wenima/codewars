@@ -95,6 +95,15 @@ class PokerHand(object):
 
         for card in self.vals:
             self.val_cnt[card] += 1
+        self._total_value = self._total_value()
+
+    def _total_value(self):
+        """Return a tuple containing of an int representing hand value and a tuple
+        of sorted high card values."""
+        if self._is_five_high_straight:
+            del self.hand[0]
+            self.hand.append(1)
+        return (self._hand_value, tuple(self.hand))
 
     @property
     def _is_five_high_straight(self):
@@ -143,12 +152,3 @@ class PokerHand(object):
         if self._is_flush:
             return 6
         if len(set(self.val_cnt.values())) == 1: return hand_value
-
-    @property
-    def _total_value(self):
-        """Return a tuple containing of an int representing hand value and a tuple
-        of sorted high card values."""
-        if self._is_five_high_straight:
-            del self.hand[0]
-            self.hand.append(1)
-        return (self._hand_value, tuple(self.hand))
