@@ -238,3 +238,130 @@ def fib_digits(n):
     counts = Counter(str(b))
     return sorted(((count, int(digit)) for digit, count in counts.items()), reverse=True)
 ```
+
+### Primes with Even Digits
+* Description of Kata: Find the closest prime number under a certain integer n
+that has the maximum possible amount of even digits.
+* Difficulty: kyu5
+* Module: even_digit_primes.py
+* Tests: test_even_digit_primes.py
+* Link:(https://www.codewars.com/kata/primes-with-even-digits)
+* Comments about most interesting solution/best practice:
+I checked a few of the solutions at the top but most of them seem to time out and
+are not optimized.
+
+### First n Prime Numbers
+* Description of Kata: Write your own Primes class with class method Primes.first(n)
+ that returns an array of the first n prime numbers.
+* Difficulty: kyu5
+* Module: primes.py
+* Tests: test_primes.py
+* Link:(https://www.codewars.com/kata/first-n-prime-numbers)
+* Comments about most interesting solution/best practice:
+Not the most pythonic code but interesting Python2 solution
+```python
+primes = [2, 3, 5, 7, 11, 13] + \
+[n for n in xrange(15, 10**6, 2) if n%3 and n%5 and n%7 and n%11 and n%13 and pow(2, n-1, n) == 1]
+i = False
+while i < len(primes):
+    n = primes[i]
+    for x in primes:
+        if x**2 > n: i += 1; break
+        if not n%x: del primes[i]; break
+
+class Primes:
+    @staticmethod
+    def first(n):
+        return primes[:n]
+```
+
+### Prime Factorization
+* Description of Kata: The prime factorization of a positive integer is a list of
+ the integer's prime factors, together with their multiplicities; the process of
+ determining these factors is called integer factorization. The fundamental theorem
+ of arithmetic says that every positive integer has a single unique prime factorization.
+
+The prime factorization of 24, for instance, is ```(2^3) * (3^1)```.
+
+Without using the prime library, write a class called PrimeFactorizer that takes
+in an integer greater than 1 and has a method called factor which returns a hash
+where the keys are prime numbers and the values are the multiplicities.
+
+* Difficulty: kyu5
+* Module: prime_factorization.py
+* Tests: test_prime_factorization.py
+* Link:(https://www.codewars.com/kata/prime-factorization)
+
+### Valid Parentheses
+* Description of Kata: Write a function called validParentheses that takes
+a string of parentheses, and determines if the order of the parentheses
+is valid. validParentheses should return true if the string is valid,
+and false if it's invalid.
+* Difficulty: kyu5
+* Module: valid_parentheses.py
+* Tests: test_valid_parentheses.py
+* Link:(https://www.codewars.com/kata/valid-parentheses/python)
+
+### Simple Fun #81: Digits Product
+* Description of Kata: Given an integer product, find the smallest positive integer
+the product of whose digits is equal to product. If there is no such integer,
+return -1 instead.
+* Difficulty: kyu5
+* Module: digits_product.py
+* Tests: test_digits_product.py
+* Link:(https://www.codewars.com/kata/simple-fun-number-81-digits-product)
+* Comments about most interesting solution/best practice:
+```python
+def digits_product(product):
+    if product < 10:
+        return 10 + product
+    n = ''
+    for d in range(9, 1, -1):
+        while not product % d:
+            n += str(d)
+            product //= d
+    return int(n[::-1]) if product == 1 else -1
+```
+
+### Car Park Escape
+* Description of Kata: Your task is to escape from the carpark using only the
+staircases provided to reach the exit. You may not jump over the edge of the levels
+(you’re not Superman!) and the exit is always on the far right of the ground floor.
+* Difficulty: kyu5
+* Module: carpark.py
+* Tests: test_carpark.py
+* Link:(https://www.codewars.com/kata/car-park-escape/)
+
+### Did I Finish my Sudoku?
+* Description of Kata: Write a function done_or_not passing a board (list[list_lines])
+as parameter. If the board is valid return 'Finished!', otherwise return 'Try again!'
+* Difficulty: kyu5
+* Module: sud_validator.py
+* Tests: test_sud_validator.py
+* Link:(https://www.codewars.com/kata/did-i-finish-my-sudoku/)
+
+### Find the unique string
+* Description of Kata: There is an array of strings. All strings contains similar
+letters except one. Try to find it!
+* Difficulty: kyu5
+* Module: find_unique_str.py
+* Tests: test_find_unique_str.py
+* Link:(https://www.codewars.com/kata/585d8c8a28bc7403ea0000c3)
+
+### Best Travel
+* Description of Kata: The function chooseBestSum (or choose_best_sum or ...
+  depending on the language) will take as parameters t (maximum sum of distances,
+  integer >= 0), k (number of towns to visit, k >= 1) and ls (list of distances,
+  all distances are positive or null integers and this list has at least one element).
+  The function returns the "best" sum ie the biggest possible sum of k distances
+  less than or equal to the given limit t, if that sum exists, or otherwise null or None.
+* Difficulty: kyu5
+* Module: best_travel.py
+* Tests: test_best_travel.py
+* Link:(https://www.codewars.com/kata/best-travel/train/python)
+* Comments about most interesting solution/best practice: Nice use of default for
+Python version 3.4+
+```python
+def choose_best_sum(t, k, ls):
+    return max((s for s in (sum(dists) for dists in combinations(ls, k)) if s <= t), default=None)
+```
