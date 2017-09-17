@@ -8,6 +8,7 @@
 * One Line Task: Palindrome String
 * Strip Url Params
 * Ranking Poker Hands
+* Sortable Poker Hands
 
 ## Details for each kata completed
 
