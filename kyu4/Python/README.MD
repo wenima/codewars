@@ -17,7 +17,7 @@
 * Difficulty: kyu4
 * Module: sudoku_validator.py
 * Tests: test_sudoku_validator.py
-* [Link]https://www.codewars.com/kata/validate-sudoku-with-size-nxn)
+* [Link]https://www.codewars.com/kata/validate-sudoku-with-size-nxn
 
 ### Valid Braces
 * Description of Kata: Write a function called validBraces that takes a string of
@@ -26,7 +26,7 @@ return true if the string is valid, and false if it's invalid.
 * Difficulty: kyu4
 * Module: valid_braces.py
 * Tests: test_valid_braces.py
-* [Link]https://www.codewars.com/kata/valid-braces)
+* [Link]https://www.codewars.com/kata/valid-braces
 
 ### Next Bigger Number
 * Description of Kata: You have to create a function that takes a positive integer
@@ -34,7 +34,7 @@ number and returns the next bigger number formed by the same digits:
 * Difficulty: kyu4
 * Module: next_bigger.py
 * Tests: test_next_bigger.py
-* [Link]https://www.codewars.com/kata/next-bigger-number-with-the-same-digits)
+* [Link]https://www.codewars.com/kata/next-bigger-number-with-the-same-digits
 * Comments about most interesting solution/best practice:
 Some of the solutions are short but are basically brute-forcing it. The below
 solution is 2nd highest voted but I like it better than the top voted one due to
@@ -61,7 +61,7 @@ at least once), and the code length should less than 55 characters
 * Difficulty: kyu4
 * Module: palindrome_one_liner.py
 * Tests: test_palindrome_one_liner.py
-* [Link]https://www.codewars.com/kata/one-line-task-palindrome-string)
+* [Link]https://www.codewars.com/kata/one-line-task-palindrome-string
 * Comments about most interesting solution/best practice: Didn't know about method
 center, nice use here.
 ```python
@@ -75,7 +75,7 @@ Removes any query string parameters specified within the 2nd argument (optional 
 * Difficulty: kyu4
 * Module: url_strip_params.py
 * Tests: test_palindrome_one_liner.py
-* [Link]https://www.codewars.com/kata/strip-url-params)
+* [Link]https://www.codewars.com/kata/strip-url-params
 
 ### Ranking Poker Hands
 * Descripton of Kata: Create a poker hand that has a method to compare itself to another poker hand:
@@ -85,11 +85,11 @@ A poker hand has a constructor that accepts a string containing 5 cards:
 * Difficulty: kyu4
 * Module: poker_rankings.py
 * Tests: test_poker_rankings.py
-* [Link]https://www.codewars.com/kata/ranking-poker-hands/python)
+* [Link]https://www.codewars.com/kata/ranking-poker-hands/python
 
 ### Sortable Poker Hands
 * Descripton of Kata: Write an algorithm which sorts Texas Hold'em poker hands.
 * Difficulty: kyu4
 * Module: sortable_poker_hands.py
 * Tests: test_sortable_poker_hands.py
-* [Link]https://www.codewars.com/kata/sortable-poker-hands/python)
+* [Link]https://www.codewars.com/kata/sortable-poker-hands/python
