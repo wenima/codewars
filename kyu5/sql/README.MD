@@ -2,7 +2,7 @@
 
 this repository includes all of my completed code-katas from the
 [CodeWars SQL challenges](http://wwww.codewars.com) with a difficulty of
-kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)
+kyu5. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB)
 
 # SQL coding challenges:
 
@@ -15,6 +15,7 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * Group By Day
 * Relational Division
 * Calculating Running Total
+* SQLonacci sequence
 
 ## beta
 
@@ -75,7 +76,7 @@ a given date. The resulting set should be ordered chronologically by date.
 * Difficulty: kyu5
 * Module: running_total.sql
 * [Link](https://www.codewars.com/kata/calculating-running-total)
-* Comments: 
+* Comments:
 
 ### Relational Divison
 * Description of Kata: Given film_actor and film tables from the DVD Rental sample
@@ -93,6 +94,13 @@ a given date
 * Difficulty: kyu5
 * Module: running_total.sql
 * [Link](https://www.codewars.com/kata/calculating-running-total/)
+
+### SQLonacci sequence
+* Description of Kata: You need to create a select statement which will produce
+first 90 Fibonnacci numbers.
+* Difficulty: kyu5
+* Module: sqlonacci.sql
+* [Link](https://www.codewars.com/kata/sqlonacci-sequence/)
 
 ### Using Window Functions To Get Top N per Group
 * Description of Kata: Given the schema presented below write a query, which
