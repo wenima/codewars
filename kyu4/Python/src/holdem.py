@@ -1,6 +1,7 @@
 """Solution for https://www.codewars.com/kata/texas-holdem-poker/python."""
 
 from collections import Counter, defaultdict
+from operator import itemgetter
 
 CARDS = list("23456789TJQKA")
 
@@ -13,7 +14,7 @@ class PokerHand(object):
         for card in self.values:
             self.val_cnt[card] += 1
 
-        self.groups = sorted(self.val_cnt.items(), reverse=True)
+        self.groups = sorted(self.val_cnt.items(), key=itemgetter(1, 0), reverse=True)
 
     @property
     def score(self):
