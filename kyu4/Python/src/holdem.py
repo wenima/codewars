@@ -16,23 +16,18 @@ class PokerHand(object):
 
     def __init__(self, hand):
         self.values = sorted(map(lambda x: CARDS.index(x[0]), hand), reverse=True)
-        self.groups = []
-        for i in sorted(list(set(Counter(self.values).values())), reverse=True):
-            self.groups += sorted([x for x in Counter(self.values).items() if x[1] == i], key=lambda x: x[0], reverse=True)
 
         self.val_cnt = defaultdict(int)
-
         for card in self.values:
             self.val_cnt[card] += 1
+
+        self.groups = sorted(self.val_cnt.items(), reverse=True)
 
     @property
     def score(self):
         points = 0.0
         for k, v in self.val_cnt.items():
             points += v ** 2
-        # for i in range(0, len(self.groups)):
-        #     points += self.groups[i][1] ** 2
-
         if self._is_straight:
             points += 7
         return points
@@ -40,12 +35,16 @@ class PokerHand(object):
     @property
     def _is_straight(self):
         """Return True if combination of board and hole cards make a straight."""
-        hand = [k for k in self.val_cnt.keys()]
-        for x in range(2):
-            hand = sorted(hand[x:], reverse=True)
-            if sum(hand) == 18: return True
+        cards = [k for k in self.val_cnt.keys()]
+        for x in range(3):
+            hand = sorted(cards[x:], reverse=True)
             if len(hand) < 5: return False
-            if len([i for i in range(4) if hand[i] - 1 == hand[i + 1]]) == 4: return True
+            if len([i for i in range(4) if hand[i] - 1 == hand[i + 1]]) == 4 or sum(hand) == 18:
+                diff = [c for c in self.val_cnt.keys() if c not in hand]
+                for c in diff:
+                    del self.val_cnt[c]
+                    self.groups = sorted(self.val_cnt.items(), reverse=True)
+                return True
         return False
 
     def compare_with(self, villain):
