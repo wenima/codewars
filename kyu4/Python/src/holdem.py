@@ -26,12 +26,14 @@ class PokerHand(object):
             self.val_cnt[card] += 1
 
     @property
-    def _score(self):
+    def score(self):
         points = 0.0
-        for i in range(0, len(self.groups)):
-            points += self.groups[i][1] ** 2
+        for k, v in self.val_cnt.items():
+            points += v ** 2
+        # for i in range(0, len(self.groups)):
+        #     points += self.groups[i][1] ** 2
 
-        if self._is_straight():
+        if self._is_straight:
             points += 7
         return points
 
@@ -45,3 +47,25 @@ class PokerHand(object):
             if len(hand) < 5: return False
             if len([i for i in range(4) if hand[i] - 1 == hand[i + 1]]) == 4: return True
         return False
+
+    def compare_with(self, villain):
+        print(self.score)
+        print(villain.score)
+        print(self.groups)
+        print(villain.groups)
+        if villain.score > self.score:
+            return 'B'
+        elif villain.score < self.score:
+            return 'A'
+        else:
+            for i in range(0, len(self.groups)):
+                if villain.groups[i][0] > self.groups[i][0]:
+                    return 'B'
+                elif villain.groups[i][0] < self.groups[i][0]:
+                    return 'A'
+            return 'AB'
+
+def texasHoldem(board, hole_cards_hero, hole_cards_villain):
+    hero = PokerHand(board + hole_cards_hero)
+    villain = PokerHand(board + hole_cards_villain)
+    return hero.compare_with(villain)
