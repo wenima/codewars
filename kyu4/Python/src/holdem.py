@@ -48,10 +48,7 @@ class PokerHand(object):
         return False
 
     def compare_with(self, villain):
-        print(self.score)
-        print(villain.score)
-        print(self.groups)
-        print(villain.groups)
+        """Return the winner given 2 pokerhand objects or return tie."""
         if villain.score > self.score:
             return 'B'
         elif villain.score < self.score:
@@ -65,6 +62,7 @@ class PokerHand(object):
             return 'AB'
 
 def texasHoldem(board, hole_cards_hero, hole_cards_villain):
+    """Return the winning hand given board cards and 2 player's hands."""
     hero = PokerHand(board + hole_cards_hero)
     villain = PokerHand(board + hole_cards_villain)
     return hero.compare_with(villain)
