@@ -8,7 +8,7 @@ CARDS = list("23456789TJQKA")
 class PokerHand(object):
 
     def __init__(self, hand):
-        self.values = sorted(map(lambda x: CARDS.index(x[0]), hand), reverse=True)
+        self.values = sorted([CARDS.index(c) for c in hand], reverse=True)
 
         self.val_cnt = defaultdict(int)
         for card in self.values:
