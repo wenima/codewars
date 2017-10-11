@@ -4,14 +4,6 @@ from collections import Counter, defaultdict
 
 CARDS = list("23456789TJQKA")
 
-
-class Board(object):
-
-    def __init__(self, board):
-        self.board = ''.join(c for c in board)
-        self.values = sorted(map(lambda x: self.CARDS.index(x[0]), board.split()), reverse=True)
-
-
 class PokerHand(object):
 
     def __init__(self, hand):
