@@ -3,7 +3,7 @@
 from collections import Counter, defaultdict
 from operator import itemgetter
 
-CARDS = list("23456789TJQKA")
+CARDS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 class PokerHand(object):
 
@@ -19,10 +19,15 @@ class PokerHand(object):
     @property
     def score(self):
         points = 0.0
-        for k, v in self.val_cnt.items():
-            points += v ** 2
         if self._is_straight:
             points += 7
+            print("str8")
+        cards = 0
+        for k, v in self.groups:
+            if cards + v > 5: continue
+            cards += v
+            points += v ** 2
+            if cards == 5: return points
         return points
 
     @property
@@ -32,11 +37,15 @@ class PokerHand(object):
         for x in range(3):
             hand = sorted(cards[x:], reverse=True)
             if len(hand) < 5: return False
-            if len([i for i in range(4) if hand[i] - 1 == hand[i + 1]]) == 4 or sum(hand) == 18:
-                diff = [c for c in self.val_cnt.keys() if c not in hand]
-                for c in diff:
-                    del self.val_cnt[c]
-                    self.groups = sorted(self.val_cnt.items(), reverse=True)
+            straight = [hand[i] for i in range(4) if hand[i] - 1 == hand[i + 1]]
+            if len(straight) == 4:
+                last_card = hand.index(straight[-1]) + 1
+                straight.append(hand[last_card])
+                self.values = straight
+                self.val_cnt = defaultdict(int)
+                for card in self.values:
+                    self.val_cnt[card] += 1
+                    self.groups = sorted(self.val_cnt.items(), key=itemgetter(1, 0), reverse=True)
                 return True
         return False
 
