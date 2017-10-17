@@ -10,8 +10,8 @@ function calcIndex(cs,ss) {
   return v - (ss[0] == (ss[0]|ss[1]|ss[2]|ss[3]|ss[4])) * ((s == 0x7c00) ? -5 : 1);
 }
 
-function getCardStr(str) {
-  return str.replace(/A/g,"14").replace(/K/g,"13").replace(/Q/g,"12")
+function getCards(str) {
+  var cardStr =  str.replace(/A/g,"14").replace(/K/g,"13").replace(/Q/g,"12")
             .replace(/J/g,"11").replace(/♠|♣|♥|♦/g,",");
+  return cardStr.replace(/\s/g, '').slice(0, -1).split(",");
 }
-
