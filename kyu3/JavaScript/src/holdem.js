@@ -15,3 +15,7 @@ function getCards(str) {
             .replace(/J/g,"11").replace(/♠|♣|♥|♦/g,",");
   return cardStr.replace(/\s/g, '').slice(0, -1).split(",");
 }
+
+function getSuits(str) {
+  return str.match(/♠|♣|♥|♦/g);
+}
