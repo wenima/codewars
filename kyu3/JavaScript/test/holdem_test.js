@@ -8,4 +8,9 @@ suite('holdem_tests', function() {
         expect(getSuits('A♦A♣5♥5♣K♥Q♥K♦')).to.deep.equal([ '♦', '♣', '♥', '♣', '♥', '♥', '♦' ]);
     });
 
+    test('getCombinations returns an array of correct size', function() {
+        var c = getCombinations(5, 7);
+        expect(c.length).to.equal(21);
+    });
+
 });
