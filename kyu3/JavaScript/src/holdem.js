@@ -19,3 +19,17 @@ function getCards(str) {
 function getSuits(str) {
   return str.match(/♠|♣|♥|♦/g);
 }
+
+function getCombinations(k,n) {
+  var result = [], comb = [];
+      function next_comb(comb, k, n ,i) {
+          if (comb.length === 0) {for (i = 0; i < k; ++i) {comb[i] = i;} return true;}
+          i = k - 1; ++comb[i];
+          while ((i > 0) && (comb[i] >= n - k + 1 + i)) { --i; ++comb[i];}
+          if (comb[0] > n - k) {return false;} // No more combinations can be generated
+          for (i = i + 1; i < k; ++i) {comb[i] = comb[i-1] + 1;}
+          return true;
+      }
+  while (next_comb(comb, k, n)) { result.push(comb.slice());}
+  return result;
+}
