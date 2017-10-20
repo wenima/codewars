@@ -13,4 +13,8 @@ suite('holdem_tests', function() {
         expect(c.length).to.equal(21);
     });
 
+    test('getPokerScore returns correct integer score for given hand', function() {
+        expect(getPokerScore([14,14,5,5,12])).to.equal(976220);
+    });
+
 });
