@@ -1,6 +1,6 @@
 // Poker Hand Evaluator by Pat Wilson ©2012
-hands=["4 of a Kind", "Straight Flush", "Straight", "Flush", "High Card",
-"1 Pair", "2 Pair", "Royal Flush", "3 of a Kind", "Full House", "-Invalid-" ];
+hands=["four-of-a-kind", "straight-flush", "straight", "flush", "nothing",
+"pair", "two pair", "royal flush", "three-of-a-kind", "full house", "-Invalid-" ];
 handRanks = [8,9,5,6,1,2,3,10,4,7,0];
 
 function calcIndex(cs,ss) {
@@ -67,4 +67,13 @@ function rankHand(str) {
        }
   } 
   return winIndex;
+}
+
+function hand(holeCards, board) {
+  heroesHand = holeCards.concat(board).join('');
+  handIndex = rankHand(heroesHand);
+  var out = {};
+  out['type'] = hands[handIndex];
+  out['ranks'] = [];
+  return out;
 }
