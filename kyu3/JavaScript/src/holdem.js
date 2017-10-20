@@ -33,3 +33,38 @@ function getCombinations(k,n) {
   while (next_comb(comb, k, n)) { result.push(comb.slice());}
   return result;
 }
+
+function getPokerScore(cs) {
+  var a = cs.slice(), d={}, i;
+  for (i=0; i<5; i++) {d[a[i]] = (d[a[i]] >= 1) ? d[a[i]] + 1 : 1;}
+  a.sort(function(a,b){return (d[a] < d[b]) ? +1 : (d[a] > d[b]) ? -1 : (b - a);});
+  return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4];
+}
+
+function rankHand(str) {
+  cards = getCards(str);
+  suits = getSuits(str);
+  var index = 10, winCardIndexes, i ,e, wci;
+  for (i=0;i<cards.length;i++) { cards[i]-=0; }
+  for (i=0;i<suits.length;i++) 
+      { suits[i] = Math.pow(2, (suits[i].charCodeAt(0)%9824)); }
+  var c = getCombinations(5, cards.length);
+  var maxRank = 0, winIndex = 10;
+  for (i=0; i < c.length; i++) {
+       var cs = [cards[c[i][0]], cards[c[i][1]], cards[c[i][2]], cards[c[i][3]], cards[c[i][4]]];
+       var ss = [suits[c[i][0]], suits[c[i][1]], suits[c[i][2]], suits[c[i][3]], suits[c[i][4]]];
+       index = calcIndex(cs,ss);
+       if (handRanks[index] > maxRank) {
+           maxRank = handRanks[index];
+           winIndex = index; 
+           wci = c[i].slice();
+       } else if (handRanks[index] == maxRank) {
+           //If by chance we have a tie, find the best one
+           var score1 = getPokerScore(cs);
+           var score2 = getPokerScore([cards[wci[0]],cards[wci[1]],cards[wci[2]],
+                                       cards[wci[3]],cards[wci[4]]]);
+           if (score1 > score2) { wci= c[i].slice(); }
+       }
+  } 
+  return winIndex;
+}
