@@ -73,7 +73,6 @@ function rankHand(str) {
            maxRank = handRanks[index];
            winIndex = index; 
            wci = c[i].slice();
-           console.log('cs: ' + cs);
        } else if (handRanks[index] == maxRank) {
            //If by chance we have a tie, find the best one
           var other_hand = [cards[wci[0]],cards[wci[1]],cards[wci[2]], cards[wci[3]],cards[wci[4]]];
@@ -104,20 +103,19 @@ function hand(holeCards, board) {
       });
     console.log('filtered: ' + filtered);
   };
-  if (rankHandReturn[0] == 5) {
-    console.log('5');
+  if ([5, 8].includes(rankHandReturn[0])) {
+    console.log('5 or 8');
     var filtered = rankHandReturn[1].filter(function(el) {
-      return el !== rankHandReturn[1].includes(el);
+      return el !== pairs[0];
     });
   };
   filtered.sort((a, b) => (a - b)).reverse();
   pairs.sort((a, b) => (a - b)).reverse();
   console.log('filtered: ' + filtered);
   console.log('pairs: ' + pairs);
-  // if (rankHandReturn[0] == 8) { var highCards = hand.slice(0, 3); }
-  // if (rankHandReturn[0] == 5) { var highCards = hand.slice(0, 4); }
-  if (rankHandReturn[0] == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); }
-  if (rankHandReturn[0] == 6) { var highCards = pairs.concat(filtered.slice(0, 1)); }
+  if (rankHandReturn[0] == 8) { var highCards = pairs.concat(filtered.slice(0, 2)); } // three-of-a kind
+  if (rankHandReturn[0] == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); } // pairs
+  if (rankHandReturn[0] == 6) { var highCards = pairs.concat(filtered.slice(0, 1)); } // 2pair
   for (var i=0;i<highCards.length;i++) { 
     ranks.push(cardsLookup[highCards[i]]);
   }
