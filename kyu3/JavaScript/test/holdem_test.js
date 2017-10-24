@@ -18,15 +18,15 @@ suite('holdem_tests', function() {
     });
 
     test('rankHand returns correct index to lookup hand value for 2pair', function(){
-        expect(rankHand('A♦A♣5♥5♣K♥Q♥K♦')).to.equal(6);
+        expect(rankHand('A♦A♣5♥5♣K♥Q♥K♦')[0]).to.equal(6);
     });
 
     test('rankHand returns correct index to lookup hand value for 4 of a kind', function(){
-        expect(rankHand('A♦A♣A♥A♠5♣K♥Q♥')).to.equal(0);
+        expect(rankHand('A♦A♣A♥A♠5♣K♥Q♥')[0]).to.equal(0);
     });
 
     test('rankHand returns correct index to lookup hand value for a flush', function(){
-        expect(rankHand('A♠K♦J♥5♥10♥Q♥3♥')).to.equal(3);
+        expect(rankHand('A♠K♦J♥5♥10♥Q♥3♥')[0]).to.equal(3);
     });
 
     test('hand returns string nothing for high card hand', function() {
@@ -53,10 +53,33 @@ suite('holdem_tests', function() {
         expect(hero.ranks).to.deep.equal(['Q','J','9']);
     });
 
+    test('hand returns string four-of-a-kind', function() {
+        hero = hand(['Q♣','9♦'],['J♣','Q♥','Q♠','2♥','Q♦']);
+        expect(hero.type).to.equal('four-of-a-kind');
+        expect(hero.ranks).to.deep.equal(['Q', 'J']);
+    });
+
     test('hand returns string straight-flush', function() {
         hero = hand(['8♠','6♠'],['7♠','5♠','9♠','J♠','10♠']);
         expect(hero.type).to.equal('straight-flush');
         expect(hero.ranks).to.deep.equal(['J','10','9','8','7']);
     });
-    
+
+    test('hand returns string flush', function() {
+        hero = hand(['2♠','6♠'],['7♠','5♠','9♠','J♠','10♠']);
+        expect(hero.type).to.equal('flush');
+        expect(hero.ranks).to.deep.equal(['J','10','9','7','6']);
+    });
+
+    test('hand returns string full-house', function() {
+        hero = hand(['Q♣','J♦'],['J♣','2♥','Q♠','2♥','Q♦']);
+        expect(hero.type).to.equal('full house');
+        expect(hero.ranks).to.deep.equal(['Q', 'J']);
+    });
+
+    test('hand returns string full-house with correct order', function() {
+        hero = hand(['10♠', '10♦'],['K♣', 'K♥', '10♥', 'Q♥', '3♦']);
+        expect(hero.type).to.equal('full house');
+        expect(hero.ranks).to.deep.equal(['10', 'K']);
+    });
 });
