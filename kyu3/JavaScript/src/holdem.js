@@ -86,9 +86,20 @@ function rankHand(str) {
   return [ winIndex, cards ];
 }
 
+function filter(index, hand, pairs) {
+  var filtered = hand.filter(function(el) {
+    if (index == 6) {return el != pairs[0] && el != pairs[1]}
+    if (index == 5) {return el !== pairs[0]}
+    if (index == 8) {return el !== pairs[0]}
+    });
+  return filtered;
+};
+
 function hand(holeCards, board) {
   heroesHand = holeCards.concat(board).join('');
   rankHandReturn = rankHand(heroesHand);
+  var index = rankHandReturn[0];
+  var hand = rankHandReturn[1];
   console.log('return: ' + rankHandReturn[1]);
   var out = {};
   var ranks = [];
@@ -96,30 +107,30 @@ function hand(holeCards, board) {
     if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
   }, []);
   console.log('pairs: ' + pairs);
-  if (rankHandReturn[0] == 6) {
-    console.log('6');
-    var filtered = rankHandReturn[1].filter(function(el) {
-      return el != pairs[0] && el != pairs[1]
-      });
+  // if (rankHandReturn[0] == 6) {
+  //   console.log('6');
+  //   var filtered = rankHandReturn[1].filter(function(el) {
+  //     return el != pairs[0] && el != pairs[1]
+  //     });
+  //   console.log('filtered: ' + filtered);
+  // };
+  if ([5, 6, 8].includes(rankHandReturn[0])) {
+    console.log('5, 8 or 6');
+    var filtered = filter(index, hand, pairs)
+    filtered.sort((a, b) => (a - b)).reverse();
     console.log('filtered: ' + filtered);
   };
-  if ([5, 8].includes(rankHandReturn[0])) {
-    console.log('5 or 8');
-    var filtered = rankHandReturn[1].filter(function(el) {
-      return el !== pairs[0];
-    });
-  };
-  filtered.sort((a, b) => (a - b)).reverse();
+  hand.sort((a, b) => (a - b)).reverse();
   pairs.sort((a, b) => (a - b)).reverse();
-  console.log('filtered: ' + filtered);
   console.log('pairs: ' + pairs);
-  if (rankHandReturn[0] == 8) { var highCards = pairs.concat(filtered.slice(0, 2)); } // three-of-a kind
-  if (rankHandReturn[0] == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); } // pairs
-  if (rankHandReturn[0] == 6) { var highCards = pairs.concat(filtered.slice(0, 1)); } // 2pair
+  if (index == 4) { var highCards = hand.slice(0, 5); } // high card
+  if (index == 8) { var highCards = pairs.concat(filtered.slice(0, 2)); } // three-of-a kind
+  if (index == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); } // pairs
+  if (index == 6) { var highCards = pairs.concat(filtered.slice(0, 1)); } // 2pair
   for (var i=0;i<highCards.length;i++) { 
     ranks.push(cardsLookup[highCards[i]]);
   }
-  out['type'] = hands[rankHandReturn[0]];
+  out['type'] = hands[index];
   out['ranks'] = ranks;
   return out;
 }
