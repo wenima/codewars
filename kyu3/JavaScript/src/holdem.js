@@ -1,5 +1,5 @@
 hands=["four-of-a-kind", "straight-flush", "straight", "flush", "nothing",
-"pair", "two pair", "royal flush", "three-of-a-kind", "full house", "-Invalid-" ];
+"pair", "two pair", "straight-flush", "three-of-a-kind", "full house", "-Invalid-" ];
 handRanks = [8,9,5,6,1,2,3,10,4,7,0];
 var cardsLookup = {
   2: '2',
