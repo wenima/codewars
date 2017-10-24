@@ -16,7 +16,7 @@ var cardsLookup = {
   13: 'K',
   14: 'A'
 };
-// Algorithm to calculate the value of a hand taken from Poker Hand Evaluator by Pat Wilson ©2012
+// Algorithms to calculate the value of a hand taken from Poker Hand Evaluator by Pat Wilson ©2012
 function calcIndex(cs,ss) {
   var v,i,o,s; for (i=-1, v=o=0; i<5; i++, o=Math.pow(2,cs[i]*4)) {v += o*((v/o&15)+1);}
   if ((v%=15)!=5) {return v-1;} else {s = 1<<cs[0]|1<<cs[1]|1<<cs[2]|1<<cs[3]|1<<cs[4];}
@@ -62,7 +62,6 @@ function rankHand(str) {
   var hand = cards;
   for (i=0;i<cards.length;i++) { cards[i]-=0; }
   for (i=0;i<suits.length;i++) { suits[i] = Math.pow(2, (suits[i].charCodeAt(0)%9824)); }
-  // console.log('cards: ' + cards);
   var c = getCombinations(5, cards.length);
   var maxRank = 0, winIndex = 10;
   for (i=0; i < c.length; i++) {
@@ -77,7 +76,6 @@ function rankHand(str) {
        } else if (handRanks[index] == maxRank) {
            //If by chance we have a tie, find the best one
           var other_hand = [cards[wci[0]],cards[wci[1]],cards[wci[2]], cards[wci[3]],cards[wci[4]]];
-          console.log('cs: ' + cs);
           var score1 = getPokerScore(cs);
           var score2 = getPokerScore(other_hand);
           if (score1 > score2) {
@@ -91,10 +89,13 @@ function rankHand(str) {
 
 function filter(index, hand, pairs) {
   var filtered = hand.filter(function(el) {
-    if (index == 6 || index == 9) {return el != pairs[0] && el != pairs[1]}
-    if (index == 5) {return el !== pairs[0]}
-    if (index == 8) {return el !== pairs[0]}
-    if (index == 0) {return el !== pairs[0]}
+    switch (index) {
+      case 6:
+      case 9:
+        return el != pairs[0] && el != pairs[1];
+      default:
+        return el !== pairs[0];
+    }
     });
   return filtered;
 };
@@ -104,32 +105,18 @@ function hand(holeCards, board) {
   rankHandReturn = rankHand(heroesHand);
   var index = rankHandReturn[0];
   var hand = rankHandReturn[1];
-  console.log('index: ' + index);
-  console.log('hand: ' + hand);
   var out = {};
   var ranks = [];
-  var pairs = rankHandReturn[1].reduce(function(acc, el, i, arr) {
+  var pairs = hand.reduce(function(acc, el, i, arr) {
     if (arr.indexOf(el) !== i && acc.indexOf(el) < 0) acc.push(el); return acc;
   }, []);
-  console.log('pairs: ' + pairs);
-  // if (rankHandReturn[0] == 6) {
-  //   console.log('6');
-  //   var filtered = rankHandReturn[1].filter(function(el) {
-  //     return el != pairs[0] && el != pairs[1]
-  //     });
-  //   console.log('filtered: ' + filtered);
-  // };
   if ([0, 5, 6, 8, 9].includes(rankHandReturn[0])) {
-    console.log('5, 8 or 6');
     var filtered = filter(index, hand, pairs)
     filtered.sort((a, b) => (a - b)).reverse();
-    console.log('filtered: ' + filtered);
   };
   hand.sort((a, b) => (a - b)).reverse();
   pairs.sort((a, b) => (a - b)).reverse();
-  // console.log('pairs: ' + pairs);
-  if ([1, 2, 3, 7].includes(index)) { var highCards = hand.slice(0, 5); } // straights&flush
-  if (index == 4) { var highCards = hand.slice(0, 5); } // high card
+  if ([1, 2, 3, 4, 7].includes(index)) { var highCards = hand.slice(0, 5); } // straights&flush
   if (index == 8) { var highCards = pairs.concat(filtered.slice(0, 2)); } // three-of-a kind
   if (index == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); } // pairs
   if (index == 6 || index == 0) { var highCards = pairs.concat(filtered.slice(0, 1)); } // 2pair & four-of-a-kind
