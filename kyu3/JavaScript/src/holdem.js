@@ -1,4 +1,3 @@
-// Poker Hand Evaluator by Pat Wilson ©2012
 hands=["four-of-a-kind", "straight-flush", "straight", "flush", "nothing",
 "pair", "two pair", "royal flush", "three-of-a-kind", "full house", "-Invalid-" ];
 handRanks = [8,9,5,6,1,2,3,10,4,7,0];
@@ -17,7 +16,7 @@ var cardsLookup = {
   13: 'K',
   14: 'A'
 };
-
+// Algorithm to calculate the value of a hand taken from Poker Hand Evaluator by Pat Wilson ©2012
 function calcIndex(cs,ss) {
   var v,i,o,s; for (i=-1, v=o=0; i<5; i++, o=Math.pow(2,cs[i]*4)) {v += o*((v/o&15)+1);}
   if ((v%=15)!=5) {return v-1;} else {s = 1<<cs[0]|1<<cs[1]|1<<cs[2]|1<<cs[3]|1<<cs[4];}
@@ -92,7 +91,7 @@ function rankHand(str) {
 
 function filter(index, hand, pairs) {
   var filtered = hand.filter(function(el) {
-    if (index == 6) {return el != pairs[0] && el != pairs[1]}
+    if (index == 6 || index == 9) {return el != pairs[0] && el != pairs[1]}
     if (index == 5) {return el !== pairs[0]}
     if (index == 8) {return el !== pairs[0]}
     if (index == 0) {return el !== pairs[0]}
@@ -120,7 +119,7 @@ function hand(holeCards, board) {
   //     });
   //   console.log('filtered: ' + filtered);
   // };
-  if ([5, 6, 8, 0].includes(rankHandReturn[0])) {
+  if ([0, 5, 6, 8, 9].includes(rankHandReturn[0])) {
     console.log('5, 8 or 6');
     var filtered = filter(index, hand, pairs)
     filtered.sort((a, b) => (a - b)).reverse();
@@ -129,11 +128,12 @@ function hand(holeCards, board) {
   hand.sort((a, b) => (a - b)).reverse();
   pairs.sort((a, b) => (a - b)).reverse();
   // console.log('pairs: ' + pairs);
-  if ([1, 2, 7].includes(index)) { var highCards = hand.slice(0, 5); } // straights
+  if ([1, 2, 3, 7].includes(index)) { var highCards = hand.slice(0, 5); } // straights&flush
   if (index == 4) { var highCards = hand.slice(0, 5); } // high card
   if (index == 8) { var highCards = pairs.concat(filtered.slice(0, 2)); } // three-of-a kind
   if (index == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); } // pairs
   if (index == 6 || index == 0) { var highCards = pairs.concat(filtered.slice(0, 1)); } // 2pair & four-of-a-kind
+  if (index == 9) { var highCards = pairs; } // full-house
   for (var i=0;i<highCards.length;i++) { 
     ranks.push(cardsLookup[highCards[i]]);
   }
