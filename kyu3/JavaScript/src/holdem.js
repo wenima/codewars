@@ -100,11 +100,18 @@ function filter(index, hand, pairs) {
   return filtered;
 };
 
+function counter(array) {
+  var count = {};
+  array.forEach(val => count[val] = (count[val] || 0) + 1);
+  return count;
+}
+
 function hand(holeCards, board) {
   heroesHand = holeCards.concat(board).join('');
   rankHandReturn = rankHand(heroesHand);
   var index = rankHandReturn[0];
   var hand = rankHandReturn[1];
+  console.log('hand: ' + hand);
   var out = {};
   var ranks = [];
   var pairs = hand.reduce(function(acc, el, i, arr) {
@@ -120,7 +127,19 @@ function hand(holeCards, board) {
   if (index == 8) { var highCards = pairs.concat(filtered.slice(0, 2)); } // three-of-a kind
   if (index == 5) { var highCards = pairs.concat(filtered.slice(0, 3)); } // pairs
   if (index == 6 || index == 0) { var highCards = pairs.concat(filtered.slice(0, 1)); } // 2pair & four-of-a-kind
-  if (index == 9) { var highCards = pairs; } // full-house
+  // full-house - we need to get a weighted sorted to display the set first and then the pair
+  if (index == 9) { 
+    var fullHouse = counter(hand);
+    var weightedFullHouse = [];
+    for (var card in fullHouse) {
+        weightedFullHouse.push([card, fullHouse[card]]);
+      }
+    weightedFullHouse.sort((a, b) => (a[1] - b[1])).reverse();
+    var highCards = [];
+    weightedFullHouse.forEach(function(card){
+      highCards.push(card[0]);
+    });
+  } 
   for (var i=0;i<highCards.length;i++) { 
     ranks.push(cardsLookup[highCards[i]]);
   }
