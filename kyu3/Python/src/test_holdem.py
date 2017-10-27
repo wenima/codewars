@@ -11,7 +11,7 @@ HAND_STRENGTH = [
 def test_get_cards():
     """Test that get_cards returns a list of strings representing the numerical value of each card."""
     from holdem import get_cards
-    assert get_cards('A♦A♣5♥5♣K♥Q♥K♦') == ['14', '14', '5', '5', '13' ,'12', '13']
+    assert get_cards('A♦A♣5♥5♣K♥Q♥K♦') == [14, 14, 5, 5, 13 , 12, 13]
 
 def test_get_suits():
     """Test that get_suits returns a list of strings representing the suits."""

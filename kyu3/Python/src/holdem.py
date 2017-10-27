@@ -4,16 +4,16 @@ import re
 from collections import Counter
 
 LOOKUP = {
-    'A' : '14',
-    'K' : '13',
-    'Q' : '12',
-    'J' : '11',
+    'A' : 14,
+    'K' : 13,
+    'Q' : 12,
+    'J' : 11,
     }
 
 def get_cards(hand):
     """Return a list with string representation of a given 7 card hand."""
     card_str_no_suits = ''.join([c if ord(c) < 128 else '' for c in hand])
-    cards = [LOOKUP[c] if not c.isnumeric() else c for c in card_str_no_suits]
+    cards = [LOOKUP[c] if not c.isnumeric() else int(c) for c in card_str_no_suits]
     return cards
 
 def get_suits(hand):
@@ -26,3 +26,10 @@ def get_pokerscore(hand):
     c = Counter(hand)
     a = sorted(hand, key=lambda x: (c[x], x), reverse=True)
     return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4]
+
+def rank_hand(hand):
+    """Return a tuple with index representing hand strength and final 5 card hand."""
+    pass
+    
+
+
