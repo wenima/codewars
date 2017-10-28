@@ -30,6 +30,21 @@ def get_pokerscore(hand):
 def rank_hand(hand):
     """Return a tuple with index representing hand strength and final 5 card hand."""
     pass
+
+def calc_index(cs, ss):
+    """Return the integer index representing the strenght of the hand for a given 5 card hand and suits."""
+    v = 0
+    for card in enumerate(cs):
+        o = int(pow(2, card * 4))
+        v += o*((v // o & 15) + 1)
+    if v % 15 != 5:
+        v %= 15
+        return v - 1
+    else:
+        s = 1<<cs[0]|1<<cs[1]|1<<cs[2]|1<<cs[3]|1<<cs[4]
+    v -= 3 if (s/(s&-s) == 31) or (s == 0x403c) else 1
+    return v - -5 if ss[0] == ss[0]|ss[1]|ss[2]|ss[3]|ss[4] * s == 0x7c00 else 1
+
     
 
 
