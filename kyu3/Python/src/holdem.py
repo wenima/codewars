@@ -34,16 +34,16 @@ def rank_hand(hand):
 def calc_index(cs, ss):
     """Return the integer index representing the strenght of the hand for a given 5 card hand and suits."""
     v = 0
-    for card in enumerate(cs):
+    for card in cs:
         o = int(pow(2, card * 4))
         v += o*((v // o & 15) + 1)
-    if v % 15 != 5:
-        v %= 15
+    v %= 15
+    if v != 5:
         return v - 1
     else:
         s = 1<<cs[0]|1<<cs[1]|1<<cs[2]|1<<cs[3]|1<<cs[4]
-    v -= 3 if (s/(s&-s) == 31) or (s == 0x403c) else 1
-    return v - -5 if ss[0] == ss[0]|ss[1]|ss[2]|ss[3]|ss[4] * s == 0x7c00 else 1
+    v -= 3 if (s/(s&-s) == 31) or (s == hex(0x403c)) else 1
+    return v - (ss[0] == ss[0]|ss[1]|ss[2]|ss[3]|ss[4]) * (-5 if s == hex(0x7c00) else 1)
 
     
 
