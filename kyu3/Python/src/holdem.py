@@ -114,7 +114,6 @@ def hand(hole_cards, board):
     index, final_hand = rank_hand(heroes_hand)
     c = Counter(final_hand)
     pairs = [k for k, v in dict(c).items() if v > 1]
-    # if index in [0, 5, 6, 8, 9]:
     filtered = [n for n in final_hand if n not in pairs]
     sorted_hand = sorted(final_hand, reverse=True)
     pairs.sort(reverse=True)
