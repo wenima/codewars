@@ -14,6 +14,11 @@ HAND_RANK = [
     ('A♠K♦J♥5♥10♥Q♥3♥', 3),
 ]
 
+HAND_DICTS = [
+    (['K♠','Q♦'],['J♣','Q♥','9♥','2♥','3♦'], {'type': 'pair', 'ranks': ['Q','K','J','9']}),
+    (['K♠','A♦'],['J♣','Q♥','9♥','2♥','3♦'], {'type': 'nothing', 'ranks': ['A','K','Q','J','9']}),
+]
+
 def test_get_cards():
     """Test that get_cards returns a list of strings representing the numerical value of each card."""
     from holdem import get_cards
@@ -35,11 +40,19 @@ def test_calc_index(hand, result):
     from holdem import calc_index
     assert calc_index(hand) == result
 
-# @pytest.mark.parametrize('hand, result', HAND_RANK)
-# def test_rank_hand(hand, result):
-#     """Test that rank_hand returns the correct index from a list of hand strenght for a given hand."""
-#     from holdem import rank_hand
-#     assert rank_hand(hand)[0] == result
+@pytest.mark.parametrize('hand, result', HAND_RANK)
+def test_rank_hand(hand, result):
+    """Test that rank_hand returns the correct index from a list of hand strenght for a given hand."""
+    from holdem import rank_hand
+    assert rank_hand(hand)[0] == result
+
+@pytest.mark.parametrize('hole_cards, board, result', HAND_DICTS)
+def test_hand(hole_cards, board, result):
+    """Test that hand returns a dict with type of hand and high cards in order."""
+    from holdem import hand
+    assert hand(hole_cards, board) == result
+
+
 
 
     
