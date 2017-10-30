@@ -2,6 +2,7 @@
 
 import re
 from collections import Counter
+from itertools import combinations
 
 LOOKUP = {
     'A' : 14,
@@ -27,12 +28,20 @@ def get_pokerscore(hand):
     a = sorted(hand, key=lambda x: (c[x], x), reverse=True)
     return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4]
 
-def rank_hand(hand):
-    """Return a tuple with index representing hand strength and final 5 card hand."""
-    pass
+# def rank_hand(hand):
+#     """Return a tuple with index representing hand strength and final 5 card hand."""
+#     cards = get_cards(hand)
+#     suits = get_suits(hand)
+#     for i, s in enumerate(suits):
+#         suits[i] = int(pow(2, (ord(s) % 9824)))
+#     hand = [(cards[i], suits[i]) for i in range(7)])
+#     c = combinations(hand, 5)
+#     for combo in c:
+#         index = calc_index(combo)
 
-def calc_index(cs, ss):
+def calc_index(hand):
     """Return the integer index representing the strenght of the hand for a given 5 card hand and suits."""
+    cs, ss = zip(*hand)
     v = 0
     for card in cs:
         o = int(pow(2, card * 4))
