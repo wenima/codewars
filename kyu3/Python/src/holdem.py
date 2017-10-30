@@ -3,6 +3,12 @@
 import re
 from collections import Counter
 from itertools import combinations
+from operator import itemgetter
+
+HANDS = [
+    "four-of-a-kind", "straight-flush", "straight", "flush", "nothing",
+    "pair", "two pair", "straight-flush", "three-of-a-kind", "full house", "-Invalid-"
+    ]
 
 LOOKUP = {
     'A' : 14,
@@ -13,32 +19,47 @@ LOOKUP = {
 
 HANDRANKS = [8, 9, 5, 6, 1, 2, 3, 10, 4, 7, 0]
 
-def get_cards(hand):
+CARDSLOOKUP = {
+    2: '2',
+    3: '3',
+    4: '4',
+    5: '5',
+    6: '6',
+    7: '7',
+    8: '8',
+    9: '9',
+    10: '10',
+    11: 'J',
+    12: 'Q',
+    13: 'K',
+    14: 'A'
+}
+
+def get_cards(heroes_hand):
     """Return a list with string representation of a given 7 card hand."""
-    card_str_no_suits = ''.join([c if ord(c) < 128 else '' for c in hand])
+    card_str_no_suits = ''.join([c if ord(c) < 128 else '' for c in heroes_hand])
     cards = [LOOKUP[c] if not c.isnumeric() else int(c) for c in card_str_no_suits]
     return cards
 
-def get_suits(hand):
+def get_suits(heroes_hand):
     """Return a list with the suits of the hand."""
     pattern = re.compile('♠|♣|♥|♦')
-    return list(re.findall(pattern, hand))
+    return list(re.findall(pattern, heroes_hand))
 
-def get_pokerscore(hand):
+def get_pokerscore(heroes_hand):
     """Return a unique value representing overall hand strength."""
-    c = Counter(hand)
-    a = sorted(hand, key=lambda x: (c[x], x), reverse=True)
+    c = Counter(heroes_hand)
+    a = sorted(heroes_hand, key=lambda x: (c[x], x), reverse=True)
     return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4]
 
-def rank_hand(hand):
+def rank_hand(heroes_hand):
     """Return a tuple with index representing hand strength and final 5 card hand."""
-    cards = get_cards(hand)
-    suits = get_suits(hand)
+    cards = get_cards(heroes_hand)
+    suits = get_suits(heroes_hand)
     for i, s in enumerate(suits):
         suits[i] = int(pow(2, (ord(s) % 9824)))
-    hand = [(cards[i], suits[i]) for i in range(7)]
-    print(hand)
-    c = combinations(hand, 5)
+    heroes_hand = [(cards[i], suits[i]) for i in range(7)]
+    c = combinations(heroes_hand, 5)
     max_rank = 0
     win_index = 10
     for combo in c:
@@ -48,16 +69,16 @@ def rank_hand(hand):
             max_rank = HANDRANKS[index]
             win_index = index
             wci = combo
-            hand = cs
+            heroes_hand = cs
         # elif HANDRANKS[index] == max_rank:
         #     cs, ss = zip(*combo)
         #     score_1 = get_pokerscore(cs)
         #     score_2 = get_pokerscore()
-    return (win_index, hand)
+    return (win_index, heroes_hand)
 
-def calc_index(hand):
+def calc_index(heroes_hand):
     """Return the integer index representing the strenght of the hand for a given 5 card hand and suits."""
-    cs, ss = zip(*hand)
+    cs, ss = zip(*heroes_hand)
     v = 0
     for card in cs:
         o = int(pow(2, card * 4))
@@ -70,6 +91,29 @@ def calc_index(hand):
     v -= 3 if (s/(s&-s) == 31) or (s == hex(0x403c)) else 1
     return v - (ss[0] == ss[0]|ss[1]|ss[2]|ss[3]|ss[4]) * (-5 if s == hex(0x7c00) else 1)
 
-    
+def get_high_cards(index, heroes_hand, pairs, filtered):
+    """Return a list of high cards for a given hand."""
+    if index in [1, 2, 3, 4, 7]: return heroes_hand[:5] # straights&flushes
+    elif index == 8: return pairs + filtered[:2] # three-of-a kind
+    elif index == 5: return pairs + filtered[:3] # pairs
+    elif index == 6 or index == 0: return pairs + filtered[:1] # 2pair & four-of-a-kind
+    # full-house - we need to get a weighted sorted to display the set first and then the pair
+    elif index == 9:
+        fh = Counter(heroes_hand)
+        return [x[0] for x in sorted(fh.items(), key=itemgetter(1), reverse=True)]
 
 
+def hand(hole_cards, board):
+    """Return a dict with keys: 'type' and 'ranks' describing the type of hand and high cards."""
+    heroes_hand = ''.join(hole_cards + board)
+    index, final_hand = rank_hand(heroes_hand)
+    print(final_hand)
+    c = Counter(final_hand)
+    pairs = [k for k, v in dict(c).items() if v > 1]
+    # if index in [0, 5, 6, 8, 9]:
+    filtered = [n for n in final_hand if n not in pairs]
+    sorted_hand = sorted(final_hand, reverse=True)
+    pairs.sort(reverse=True)
+    high_cards = [CARDSLOOKUP[card] for card in get_high_cards(index, sorted_hand, pairs, filtered)]
+    out = {'type': HANDS[index], 'ranks': high_cards}
+    return out
