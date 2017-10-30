@@ -3,9 +3,9 @@
 import pytest
 
 HAND_STRENGTH_INDEX = [
-    ([14,5,5,13,13], [8,32,8,32,64], 6),
-    ([11,5,10,12,3], [32,32,32,32,32], 3),
-    ([14,14,14,14,13], [64,8,32,1,32], 0),
+    ([(14, 8), (5, 32), (5, 8), (13, 32), (13, 64)], 6),
+    ([(11, 32), (5, 32), (10, 32), (12, 32), (3, 32)], 3),
+    ([(14, 64), (14, 8), (14, 32), (14, 1), (13, 32)], 0),
 ]
 
 HAND_RANK = [
@@ -29,11 +29,11 @@ def test_get_pokerscore():
     from holdem import get_pokerscore
     assert get_pokerscore([14,14,5,5,12]) == 976220
 
-@pytest.mark.parametrize('cards, suits, result', HAND_STRENGTH_INDEX)
-def test_calc_index(cards, suits, result):
+@pytest.mark.parametrize('hand, result', HAND_STRENGTH_INDEX)
+def test_calc_index(hand, result):
     """Test that calc_index returns the correct index for a given hand and suits."""
     from holdem import calc_index
-    assert calc_index(cards, suits)== result
+    assert calc_index(hand) == result
 
 # @pytest.mark.parametrize('hand, result', HAND_RANK)
 # def test_rank_hand(hand, result):
