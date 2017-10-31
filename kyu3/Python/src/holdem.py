@@ -65,15 +65,14 @@ def rank_hand(heroes_hand):
     max_rank = 0
     win_index = 10
     for combo in c:
+        cs, ss = zip(*combo)
         index = calc_index(combo)
         if HANDRANKS[index] > max_rank:
-            cs, ss = zip(*combo)
             max_rank = HANDRANKS[index]
             win_index = index
             wci = cs
             heroes_hand = cs
         elif HANDRANKS[index] == max_rank:
-            cs, ss = zip(*combo)
             score_1 = get_pokerscore(cs)
             score_2 = get_pokerscore(wci)
             if (score_1 > score_2):
@@ -119,5 +118,4 @@ def hand(hole_cards, board):
     pairs.sort(reverse=True)
     filtered.sort(reverse=True)
     ordered_hand = get_ordered_hand(index, sorted_hand, pairs, filtered)
-    out = {'type': HANDS[index], 'ranks': [CARDSLOOKUP[card] for card in ordered_hand]}
-    return out
+    return {'type': HANDS[index], 'ranks': [CARDSLOOKUP[card] for card in ordered_hand]}
