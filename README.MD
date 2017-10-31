@@ -34,17 +34,43 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 * One Line Task: Palindrome String
 * Strip Url Params
 * Ranking Poker Hands
+* Sortable Poker Hands
 
 ## kyu3
 
 * Sudoku Solver
+* Texas Holdem
 
 # C# coding challenges:
 
-##kyu4
+## kyu4
 
-* Poker Rankings
+* Ranking Poker Hands
 * Sortable Poker Hands
+
+# SQL coding challenges:
+
+## kyu5
+
+* SQL Tuning: Function Calls
+* Simple Hierarchical structure
+* Simple PIVOTING data
+* Simple View
+* Group By Day
+* Relational Division
+* Calculating Running Total
+* SQLonacci sequence
+
+## beta
+
+* Using Window Functions To Get Top N per Group
+* SQL Data: Company Data - totals per day
+* Count Weekdays
+
+# JavaScript coding challenges:
+
+## kyu3
+* Texas Holdem
 
 ## Details for each kata completed
 
@@ -59,7 +85,7 @@ a negative-base binary system.
 I spent quite a bit reading up on this topic and came across a shortcut to convert
 from decimal to negabinary by using the Librik, Szudzik & Schroeppel algorithm
 which is mentioned [here] (https://en.wikipedia.org/wiki/Negative_base). A more
-detailed explanation happend in this SO thread:
+detailed explanation happened in this SO thread:
 http://stackoverflow.com/questions/37637781/calculating-the-negabinary-representation-of-a-given-number-without-loops
 Solution using Librik, Szudzik & Schroeppel algo:
 ```python
