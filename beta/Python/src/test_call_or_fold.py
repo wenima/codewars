@@ -33,6 +33,35 @@ INPUT = [
     ('2D AH 4H 5S KC', '2♦A♥4♥5♠K♣'),
 ]
 
+HERO_VS_VILLAIN = [
+    ("2H 3H 4H 5H 6H", "KS AS TS QS JS", 'Loss'),
+    ("2H 3H 4H 5H 6H", "AS AD AC AH JD", 'Win'),
+    ("AS AH 2H AD AC", "JS JD JC JH 3D", 'Win'),
+    ("AS AH 3H AD AC", "AS AH 2H AD AC", 'Win'),
+    ("2S AH 2H AS AC", "JS JD JC JH AD", 'Loss'),
+    ("2S AH 2H AS AC", "2H 3H 5H 6H 7H", 'Win'),
+    ("AS 3S 4S 8S 2S", "2H 3H 5H 6H 7H", 'Win'),
+    ("2H 3H 5H 6H 7H", "2S 3H 4H 5S 6C", 'Win'),
+    ("2S 3H 4H 5S 6C", "3D 4C 5H 6H 2S", 'Tie'),
+    ("2S 3H 4H 5S 6C", "AH AC 5H 6H AS", 'Win'),
+    ("2S 2H 4H 5S 4C", "AH AC 5H 6H AS", 'Loss'),
+    ("2S 2H 4H 5S 4C", "AH AC 5H 6H 7S", 'Win'),
+    ("6S AD 7H 4S AS", "AH AC 5H 6H 7S", 'Loss'),
+    ("2S AH 4H 5S KC", "AH AC 5H 6H 7S", 'Loss'),
+    ("2S 3H 6H 7S 9C", "7H 3C TH 6H 9S", 'Loss'),
+    ("4S 5H 6H TS AC", "3S 5H 6H TS AC", 'Win'),
+    ("2S AH 4H 5S 6C", "AD 4C 5H 6H 2C", 'Tie'),
+    ("AH AC 5H 5C QS", "AH AC 5H 5C KS", 'Loss'),
+    ("AH AC 5H 5C QS", "KH KC 5H 5C QS", 'Win'),
+    ("7C 7S KH 2H 7H", "3C 3S AH 2H 3H", 'Win'),
+    ("3C 3S AH 2H 3H", "7C 7S KH 2H 7H", 'Loss'),
+    ("6H 5H 4H 3H 2H", "5H 4H 3H 2H AH", "Win"),
+    ("5H 4H 3H 2H AH", "5H 4H 3H 2H AH", "Tie"),
+    ("5H 4H 3H 2H AH", "6H 5H 4H 3H 2H", "Loss"),
+    ("AS 3S 4S 8S 2S", "2H 3H 5H 6H 7H", "Win"),
+    ("2S 3H 6H 7S 9C", "7H 3C TH 6H 9S", "Loss")
+]
+
 @pytest.fixture
 def deck():
     from call_or_fold import new_deck
@@ -84,6 +113,12 @@ def test_get_best_hand(board, runout, hole_cards, result):
     from call_or_fold import get_best_hand
     best_hand = get_best_hand(board + runout + hole_cards)
     assert Counter(best_hand) == Counter(result)
+
+@pytest.mark.parametrize('hero, villain, result', HERO_VS_VILLAIN)
+def test_compare_hands(hero, villain, result):
+    """Test that given 2 hands, the outcome for hero is correctly returned."""
+    from call_or_fold import compare_hands
+    assert compare_hands(hero, villain) == result
 
 
 
