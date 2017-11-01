@@ -1,24 +1,34 @@
 import pytest
 from random import Random
 
-INPUT = [
-    ('KS AS TS QS JS', 'K♠A♠T♠Q♠J♠'),
-    ('2D AH 4H 5S KC', '2♦A♥4♥5♠K♣'),
-]
-
 BOARD_RUNOUTS = [
     (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 5),
     ([], ['AS', '3S'], ['KS', 'KD'], 5),
 ]
 
 DETERMINISTIC_DRAWS = [
-    ['9S', '6H'], 
-    ['8D', '4H'],
-    ['KD', '4C'],
-    ['2C', 'AC'],
-    ['8C', '3H'],
-    ['6D', '4D'],
-    ['JD', '2H']
+    ['TH', '7C'],
+    ['3H', '6S'],
+    ['6D', '6C'],
+    ['8H', 'JC'],
+    ['2C', '6D'],
+    ['2H', 'QS'],
+    ['8C', 'QS']
+]
+
+FINAL_HAND = [
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[0], ['AS', '3S'], [14, 13, 11, 10, 9]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[1], ['AS', '3S'], [14, 11, 9, 3, 3]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[2], ['AS', '3S'], [14, 13, 11, 6, 6]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[3], ['AS', '3S'], [14, 13, 11, 11, 9]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[4], ['AS', '3S'], [14, 13, 11, 10, 9]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[5], ['AS', '3S'], [14, 13, 12, 11, 3]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[6], ['AS', '3S'], [14, 13, 12, 11, 3]),
+]
+
+INPUT = [
+    ('KS AS TS QS JS', 'K♠A♠T♠Q♠J♠'),
+    ('2D AH 4H 5S KC', '2♦A♥4♥5♠K♣'),
 ]
 
 @pytest.fixture
@@ -49,12 +59,14 @@ def test_draw_cards(deck):
 
 def test_draw_cards_deterministic(deck):
     """Test that same cards are drawn passing in a seed."""
-    from call_or_fold import draw_cards
+    from call_or_fold import draw_cards, new_deck
     random = Random(333)
+    dead = ['JS', '9S', 'KH', 'AS', '3S']
     out = []
     for _ in range(7):
-        out.append(draw_cards(2, deck, random=random))
+        out.append(draw_cards(2, deck, dead, random=random))
     for idx, draw in enumerate(out):
+        deck = new_deck()
         assert draw == DETERMINISTIC_DRAWS[idx]
 
 @pytest.mark.parametrize('board, hero, villain, result', BOARD_RUNOUTS)
@@ -63,4 +75,12 @@ def test_complete_board(deck, board, hero, villain, result):
     from call_or_fold import complete_board
     board = complete_board(deck, board, hero, villain)
     assert len(board) == result
+
+@pytest.mark.parametrize('board, runout, hole_cards, result', FINAL_HAND)
+def test_get_best_hand(board, runout, hole_cards, result):
+    """Test that given a board, a runout and hole_cards, the best 5 card combination is returned."""
+    from call_or_fold import get_best_hand
+    assert get_best_hand(board + runout, hole_cards) == result
+
+
 
