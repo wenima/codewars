@@ -5,26 +5,41 @@ INPUT = [
     ('2D AH 4H 5S KC', '2♦A♥4♥5♠K♣'),
 ]
 
+BOARD_RUNOUTS = [
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 5),
+    ([], ['AS', '3S'], ['KS', 'KD'], 5),
+]
+
+@pytest.fixture
+def deck():
+    from call_or_fold import new_deck
+    deck = new_deck()
+    return deck
+
 @pytest.mark.parametrize('hand, result', INPUT)
 def test_convert_suits(hand, result):
     """Test that convert_suits returns a string with actual suits in place of characters representing the suit."""
     from call_or_fold import convert_suits
     assert convert_suits(hand) == result
 
-def test_new_deck():
+def test_new_deck(deck):
     """Test that a new deck with 52 cards is returned and all suits are correct."""
-    from call_or_fold import new_deck
-    deck = new_deck()
     for suit in ['C', 'H', 'S', 'D']:
         assert len([c for c in deck if c[1] == suit]) == 13
 
-def test_draw_cards():
+def test_draw_cards(deck):
     """Test that dead cards are handled correctly when drawing cards from a shuffled deck."""
-    from call_or_fold import draw_cards, new_deck
-    deck = new_deck()
+    from call_or_fold import draw_cards
     dead = ['AS', 'AH']
     drawn = draw_cards(50, deck, dead=dead)
     assert 'AS' not in drawn
     assert len(drawn) == 50
     assert not deck
-    
+
+@pytest.mark.parametrize('board, hero, villain, result', BOARD_RUNOUTS)
+def test_complete_board(deck, board, hero, villain, result):
+    """Test that complete_board returns a board of 5 unique cards."""
+    from call_or_fold import complete_board
+    board = complete_board(deck, board, hero, villain)
+    assert len(board) == result
+
