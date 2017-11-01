@@ -5,12 +5,15 @@ def new_deck():
     rs = [rank + suit for rank in "A23456789TJQK" for suit in "CDHS"]
     return rs
 
-def draw_cards(n, deck, dead=[]):
+def draw_cards(n, deck, dead=[], random=None):
     """Return n cards from a shuffled deck."""
     for card in dead:
         pos = deck.index(card)
         del deck[pos]
-    shuffle(deck)
+    if random:
+        random.shuffle(deck)
+    else:
+        shuffle(deck)
     return [deck.pop() for _ in range(n)]
 
 def convert_suits(hand):
