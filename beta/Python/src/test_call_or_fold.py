@@ -17,3 +17,14 @@ def test_new_deck():
     deck = new_deck()
     for suit in ['C', 'H', 'S', 'D']:
         assert len([c for c in deck if c[1] == suit]) == 13
+
+def test_draw_cards():
+    """Test that dead cards are handled correctly when drawing cards from a shuffled deck."""
+    from call_or_fold import draw_cards, new_deck
+    deck = new_deck()
+    dead = ['AS', 'AH']
+    drawn = draw_cards(50, deck, dead=dead)
+    assert 'AS' not in drawn
+    assert len(drawn) == 50
+    assert not deck
+    
