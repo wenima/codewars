@@ -19,12 +19,12 @@ DETERMINISTIC_DRAWS = [
 
 FINAL_HAND = [
     # (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[0], ['AS', '3S'], [14, 13, 11, 10, 9]),
-    # (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[1], ['AS', '3S'], [14, 11, 9, 3, 3]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[1], ['AS', '3S'], [14, 11, 9, 6, 3]),
     (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[2], ['AS', '3S'], [14, 13, 11, 6, 6]),
     (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[3], ['AS', '3S'], [14, 13, 11, 11, 9]),
     # (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[4], ['AS', '3S'], [14, 13, 11, 10, 9]),
-    # (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[5], ['AS', '3S'], [14, 13, 12, 11, 3]),
-    # (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[6], ['AS', '3S'], [14, 13, 12, 11, 3]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[5], ['AS', '3S'], [14, 12, 11, 9, 3]),
+    (['JS', '9S', 'KH'], DETERMINISTIC_DRAWS[6], ['AS', '3S'], [14, 12, 11, 9, 3]),
     (['JS', '9S', 'KH'], ['AH', 'AD'], ['AS', '3S'], [14, 14, 14, 13, 11]),
 ]
 
