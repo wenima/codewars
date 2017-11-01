@@ -1,4 +1,5 @@
 import pytest
+from random import Random
 
 INPUT = [
     ('KS AS TS QS JS', 'K♠A♠T♠Q♠J♠'),
@@ -8,6 +9,16 @@ INPUT = [
 BOARD_RUNOUTS = [
     (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 5),
     ([], ['AS', '3S'], ['KS', 'KD'], 5),
+]
+
+DETERMINISTIC_DRAWS = [
+    ['9S', '6H'], 
+    ['8D', '4H'],
+    ['KD', '4C'],
+    ['2C', 'AC'],
+    ['8C', '3H'],
+    ['6D', '4D'],
+    ['JD', '2H']
 ]
 
 @pytest.fixture
@@ -35,6 +46,16 @@ def test_draw_cards(deck):
     assert 'AS' not in drawn
     assert len(drawn) == 50
     assert not deck
+
+def test_draw_cards_deterministic(deck):
+    """Test that same cards are drawn passing in a seed."""
+    from call_or_fold import draw_cards
+    random = Random(333)
+    out = []
+    for _ in range(7):
+        out.append(draw_cards(2, deck, random=random))
+    for idx, draw in enumerate(out):
+        assert draw == DETERMINISTIC_DRAWS[idx]
 
 @pytest.mark.parametrize('board, hero, villain, result', BOARD_RUNOUTS)
 def test_complete_board(deck, board, hero, villain, result):
