@@ -61,24 +61,30 @@ def test_new_deck(deck):
     for suit in ['C', 'H', 'S', 'D']:
         assert len([c for c in deck if c[1] == suit]) == 13
 
+def test_new_deck_with_dead_cards():
+    """Test that a deck is returned minus dead cards."""
+    from call_or_fold import new_deck
+    dead = ['AS', 'AH']
+    deck = new_deck(dead)
+    assert 'AS' not in deck
+    assert len(deck) == 50
+
 def test_draw_cards(deck):
     """Test that dead cards are handled correctly when drawing cards from a shuffled deck."""
     from call_or_fold import draw_cards
-    dead = ['AS', 'AH']
-    drawn = draw_cards(50, deck, dead=dead)
-    assert 'AS' not in drawn
-    assert len(drawn) == 50
+    drawn = draw_cards(52, deck)
+    assert len(drawn) == 52
     assert not deck
 
-def test_draw_cards_deterministic(deck):
+def test_draw_cards_deterministic():
     """Test that same cards are drawn passing in a seed."""
     from call_or_fold import draw_cards, new_deck
     random = Random(333)
     dead = ['JS', '9S', 'KH', 'AS', '3S']
     out = []
     for _ in range(7):
-        deck = new_deck()
-        out.append(draw_cards(2, deck, dead, random=random))
+        deck = new_deck(dead)
+        out.append(draw_cards(2, deck, random=random))
     for idx, draw in enumerate(out):
         assert draw == DETERMINISTIC_DRAWS[idx]
 
@@ -98,12 +104,22 @@ def test_get_best_hand(board, runout, hole_cards, result):
     assert index == result[0]
 
 @pytest.mark.parametrize('runout, hero, result', HERO_VS_VILLAIN)
-def test_compare_hands(deck, runout, hero, result):
+def test_compare_hands(runout, hero, result):
     """Test that given 2 hands, the winner is correctly returned."""
     from call_or_fold import compare_hands
     board = ['JS', '9S', 'KH'] + runout
     villain = ['KS', 'KD']
-    assert compare_hands(deck, board, hero, villain) == result
+    assert compare_hands(board, hero, villain) == result
+
+def test_calc_equity():
+    """Test that simulations of runouts given board, hero and villain match expected result."""
+    from call_or_fold import calc_equity, new_deck
+    hero = ['AS', '3S']
+    villain = ['KS', 'KD']
+    board = ['JS', '9S', 'KH']
+    dead = hero + villain + board
+    deck = new_deck(dead=dead)
+    assert calc_equity(deck, board, hero, villain, mode='exhaustive') == 25.45
 
 
 
