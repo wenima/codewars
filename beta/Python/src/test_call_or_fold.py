@@ -39,6 +39,24 @@ HERO_VS_VILLAIN = [
     (['AH', 'AD'], ['AS', '3S'], 'Villain'),
 ]
 
+EQUITY_CALCS_EXHAUSTIVE = [
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'exhaustive', 25.45), #nut flush draw vs set
+    (['2D', '8D', '9S'], ['JS', 'TH'], ['AS', 'AH'], 'exhaustive', 34.24), #open-ended straight draw vs overpair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['AH', 'AD'], 'exhaustive', 36.82), #nut flush draw vs overpair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['QH', 'QD'], 'exhaustive', 44.75), #nut flush draw vs pair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['6H', '6D'], 'exhaustive', 48.38), #nut flush draw vs underpair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KD', 'JH'], 'exhaustive', 32.83), #nut flush draw vs top two pair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'JH'], 'exhaustive', 32.73), #nut flush draw vs top two pair with one of our outs dead (K of Spades)
+    (['2D', '8D', '9S'], ['JD', 'TD'], ['AS', 'AH'], 'exhaustive', 56.26), #open-ended straight draw + flush draw vs overpair
+    (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 'exhaustive', 36.97), #open-ended straight draw + backdoor flush draw vs overpair
+    (['8H', '2D', '9S'], ['7D', 'JH'], ['AS', 'AH'], 'exhaustive', 20.30), #inside straight draw (gutshot) vs overpair
+    (['8H', '6D', '9D'], ['TD', 'QH'], ['AS', 'AH'], 'exhaustive', 36.36), #double inside straight draw (double gutter) + backdoor flush draw vs overpair
+]
+
+EQUITY_CALCS_MC = [
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 990)
+]
+
 INPUT = [
     ('KS AS TS QS JS', 'K♠A♠T♠Q♠J♠'),
     ('2D AH 4H 5S KC', '2♦A♥4♥5♠K♣'),
@@ -111,15 +129,23 @@ def test_compare_hands(runout, hero, result):
     villain = ['KS', 'KD']
     assert compare_hands(board, hero, villain) == result
 
-def test_calc_equity():
+@pytest.mark.parametrize('board, hero, villain, mode, result', EQUITY_CALCS_EXHAUSTIVE)
+def test_calc_equity_exhaustive(board, hero, villain, mode, result):
     """Test that simulations of runouts given board, hero and villain match expected result."""
     from call_or_fold import calc_equity, new_deck
-    hero = ['AS', '3S']
-    villain = ['KS', 'KD']
-    board = ['JS', '9S', 'KH']
     dead = hero + villain + board
     deck = new_deck(dead=dead)
-    assert calc_equity(deck, board, hero, villain, mode='exhaustive') == 25.45
+    assert calc_equity(deck, board, hero, villain, mode=mode) == result
+
+# def test_calc_equity_monte_carlo():
+#     """Test that simulations of runouts given board, hero and villain match expected result."""
+#     from call_or_fold import calc_equity, new_deck
+#     hero = ['AS', '3S']
+#     villain = ['KS', 'KD']
+#     board = ['JS', '9S', 'KH']
+#     dead = hero + villain + board
+#     deck = new_deck(dead=dead)
+#     assert 23 < calc_equity(deck, board, hero, villain, mode='monte-carlo', trials=990) < 28
 
 
 
