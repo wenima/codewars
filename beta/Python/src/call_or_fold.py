@@ -27,16 +27,16 @@ LOOKUP = {
 
 HANDRANKS = [8, 9, 5, 6, 1, 2, 3, 10, 4, 7, 0]
 
-def new_deck():
+def new_deck(dead=[]):
     """Return a 52 deck of cards as a list."""
-    rs = [rank + suit for rank in "A23456789TJQK" for suit in "CDHS"]
-    return rs
-
-def draw_cards(n, deck, dead=[], random=None):
-    """Return n cards from a shuffled deck."""
+    deck = [rank + suit for rank in "A23456789TJQK" for suit in "CDHS"]
     for card in dead:
         pos = deck.index(card)
         del deck[pos]
+    return deck
+
+def draw_cards(n, deck, dead=[], random=None):
+    """Return n cards from a shuffled deck."""
     if random:
         random.shuffle(deck)
     else:
@@ -118,11 +118,11 @@ def get_best_hand(hand):
     hand = convert_suits(''.join(hand))
     return rank_hand(hand)
 
-def compare_hands(deck, board, hero, villain):
+def compare_hands(board, hero, villain):
     """Return a string as the outcome of hero after comparing to villains hand to be one of 3: Win, Loss, Tie."""
     if len(board) < 5:
         dead = board + hero + villain
-        for card in draw_cards(5 - len(board), deck, dead):
+        for card in draw_cards(5 - len(board), new_deck(dead)):
             board.append(card)
     hero_index, heroes_hand = get_best_hand(board + hero)
     villain_index, villains_hand = get_best_hand(board + villain)
@@ -139,6 +139,23 @@ def compare_hands(deck, board, hero, villain):
             return 'Villain'
         else:
             return 'Tie'
+
+def calc_equity(deck, board, hero, villain, mode='monte-carlo', trials=1):
+    """Return a float as the equity for hero."""
+    if mode == 'exhaustive':
+        combos = combinations(deck, 2)
+    else:
+       dead = board + hero + villain
+       combos = [tuple(draw_cards(5 - len(board), new_deck(dead=dead))) for _ in range(trials)] 
+    runs = []
+    for combo in combos:
+        runs.append(compare_hands(board + list(combo), hero, villain))
+    c = Counter(runs)
+    print(c)
+    return round((c['Hero'] / sum(c.values())) * 100, 2)
+    
+
+
     
         
 
