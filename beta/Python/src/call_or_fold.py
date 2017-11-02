@@ -146,7 +146,8 @@ def calc_equity(deck, board, hero, villain, mode='monte-carlo', trials=1):
         combos = combinations(deck, 2)
     else:
        dead = board + hero + villain
-       combos = [tuple(draw_cards(5 - len(board), new_deck(dead=dead))) for _ in range(trials)] 
+       combos = [tuple(draw_cards(5 - len(board), new_deck(dead=dead))) for _ in range(trials)]
+       print(combos)
     runs = []
     for combo in combos:
         runs.append(compare_hands(board + list(combo), hero, villain))
