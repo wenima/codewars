@@ -153,7 +153,7 @@ def calc_equity(deck, board, hero, villain, mode='monte-carlo', trials=1):
         runs.append(compare_hands(board + list(combo), hero, villain))
     c = Counter(runs)
     print(c)
-    return round(((c['Hero'] + (c['Tie'] // 2)) / sum(c.values())) * 100, 2)
+    return round(((c['Hero'] + (c['Tie'] / 2)) / sum(c.values())) * 100, 2)
     
 
 
