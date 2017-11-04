@@ -2,6 +2,7 @@ import re
 from random import shuffle
 from collections import Counter
 from itertools import combinations
+from math import ceil
 
 HANDS_STRENGHT_MAPPING = {
     0: 8, #four of a kind
@@ -147,13 +148,12 @@ def calc_equity(deck, board, hero, villain, mode='monte-carlo', trials=1):
     else:
        dead = board + hero + villain
        combos = [tuple(draw_cards(5 - len(board), new_deck(dead=dead))) for _ in range(trials)]
-       print(combos)
     runs = []
     for combo in combos:
         runs.append(compare_hands(board + list(combo), hero, villain))
     c = Counter(runs)
-    print(c)
-    return round(((c['Hero'] + (c['Tie'] / 2)) / sum(c.values())) * 100, 2)
+    if mode == 'exhaustive': return round(((c['Hero'] + (c['Tie'] / 2)) / sum(c.values())) * 100, 2)
+    elif mode == 'monte-carlo': return ceil(((c['Hero'] + (c['Tie'] / 2)) / sum(c.values())) * 100)
     
 
 
