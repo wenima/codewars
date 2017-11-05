@@ -16,6 +16,7 @@ HAND_RANK = [
 
 HAND_DICTS = [
     (['K♠', 'Q♦'], ['J♣', 'Q♥', '9♥', '2♥', '3♦'], {'type': 'pair', 'ranks': ['Q', 'K', 'J', '9']}),
+    (['A♠', '3♠'], ['J♠', 'K♥', '9♠', '10♥', '7♣'], {'type': 'nothing', 'ranks': ['A', 'K', 'J', '10', '9']}),
     (['K♠', 'A♦'], ['J♣', 'Q♥', '9♥', '2♥', '3♦'], {'type': 'nothing', 'ranks': ['A', 'K', 'Q', 'J', '9']}),
     (['K♠', 'J♦'], ['J♣', 'K♥', '9♥', '2♥', '3♦'], {'type': 'two pair', 'ranks': ['K', 'J', '9']}),
     (['4♠', '9♦'], ['J♣', 'Q♥', 'Q♠', '2♥', 'Q♦'], {'type': 'three-of-a-kind', 'ranks': ['Q', 'J', '9']}),
@@ -30,7 +31,7 @@ HAND_DICTS = [
 def test_get_cards():
     """Test that get_cards returns a list of strings representing the numerical value of each card."""
     from holdem import get_cards
-    assert get_cards('A♦A♣5♥5♣K♥Q♥K♦') == [14, 14, 5, 5, 13 , 12, 13]
+    assert get_cards('A♦A♣5♥5♣K♥Q♥K♦') == [14, 14, 5, 5, 13, 12, 13]
 
 def test_get_suits():
     """Test that get_suits returns a list of strings representing the suits."""
@@ -40,7 +41,7 @@ def test_get_suits():
 def test_get_pokerscore():
     """Test that getPokerScore returns correct integer score for given hand."""
     from holdem import get_pokerscore
-    assert get_pokerscore([14,14,5,5,12]) == 976220
+    assert get_pokerscore([14, 14, 5, 5, 12]) == 976220
 
 @pytest.mark.parametrize('hand, result', HAND_STRENGTH_INDEX)
 def test_calc_index(hand, result):
@@ -59,8 +60,3 @@ def test_hand(hole_cards, board, result):
     """Test that hand returns a dict with type of hand and high cards in order."""
     from holdem import hand
     assert hand(hole_cards, board) == result
-
-
-
-
-    
