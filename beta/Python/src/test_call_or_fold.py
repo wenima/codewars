@@ -53,12 +53,12 @@ EQUITY_CALCS_EXHAUSTIVE = [
     (['8H', '6D', '9D'], ['TD', 'QH'], ['AS', 'AH'], 'exhaustive', 36.36), #double inside straight draw (double gutter) + backdoor flush draw vs overpair
 ]
 
-# EQUITY_CALCS_MC = [
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 25),
-#     ([], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 33),
-#     ([], ['KH', 'KD'], ['AS', 'AD'], 'monte-carlo', 3000, 18),
-#     ([], ['AH', 'KD'], ['QH', 'QD'], 'monte-carlo', 3000, 44),
-# ]
+EQUITY_CALCS_MC = [
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 25),
+    ([], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 33),
+    ([], ['KH', 'KD'], ['AS', 'AD'], 'monte-carlo', 3000, 18),
+    ([], ['AH', 'KD'], ['QH', 'QD'], 'monte-carlo', 3000, 44),
+]
 
 INPUT = [
     ('KS AS TS QS JS', 'K♠A♠T♠Q♠J♠'),
@@ -135,19 +135,15 @@ def test_compare_hands(runout, hero, result):
 @pytest.mark.parametrize('board, hero, villain, mode, result', EQUITY_CALCS_EXHAUSTIVE)
 def test_calc_equity_exhaustive(board, hero, villain, mode, result):
     """Test that simulations of runouts given board, hero and villain match expected result."""
-    from call_or_fold import calc_equity, new_deck
-    dead = hero + villain + board
-    deck = new_deck(dead=dead)
-    assert calc_equity(deck, board, hero, villain, mode=mode) == result
+    from call_or_fold import calc_equity
+    assert calc_equity(board, hero, villain, mode=mode) == result
 
-# @pytest.mark.parametrize('board, hero, villain, mode, trials, result', EQUITY_CALCS_MC)
-# def test_calc_equity_monte_carlo(board, hero, villain, mode, trials, result):
-#     """Test that simulations of runouts given board, hero and villain match expected result."""
-#     from call_or_fold import calc_equity, new_deck
-#     dead = hero + villain + board
-#     deck = new_deck(dead=dead)
-#     eq = calc_equity(deck, board, hero, villain, mode=mode, trials=trials)
-#     assert eq == pytest.approx(result, abs=3)
+@pytest.mark.parametrize('board, hero, villain, mode, trials, result', EQUITY_CALCS_MC)
+def test_calc_equity_monte_carlo(board, hero, villain, mode, trials, result):
+    """Test that simulations of runouts given board, hero and villain match expected result."""
+    from call_or_fold import calc_equity
+    eq = calc_equity(board, hero, villain, mode=mode, trials=trials)
+    assert eq == pytest.approx(result, abs=3)
 
 
 
