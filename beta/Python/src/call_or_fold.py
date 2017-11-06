@@ -121,10 +121,6 @@ def get_best_hand(hand):
 
 def compare_hands(board, hero, villain):
     """Return a string as the outcome of hero after comparing to villains hand to be one of 3: Win, Loss, Tie."""
-    if len(board) < 5:
-        dead = board + hero + villain
-        for card in draw_cards(5 - len(board), new_deck(dead)):
-            board.append(card)
     hero_index, heroes_hand = get_best_hand(board + hero)
     villain_index, villains_hand = get_best_hand(board + villain)
     if HANDS_STRENGHT_MAPPING[hero_index] > HANDS_STRENGHT_MAPPING[villain_index]:
@@ -141,8 +137,10 @@ def compare_hands(board, hero, villain):
         else:
             return 'Tie'
 
-def calc_equity(deck, board, hero, villain, mode='monte-carlo', trials=1):
+def calc_equity(board, hero, villain, mode='monte-carlo', trials=1):
     """Return a float as the equity for hero."""
+    dead = hero + villain + board
+    deck = new_deck(dead=dead)
     if mode == 'exhaustive':
         combos = combinations(deck, 2)
     else:
