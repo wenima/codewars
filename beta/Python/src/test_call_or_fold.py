@@ -140,6 +140,14 @@ def test_compare_hands(runout, hero, result):
     villain = ['KS', 'KD']
     assert compare_hands(board, hero, villain) == result
 
+def test_compare_hands_straight_vs_straight():
+    """Test that given 2 hands, the winner is correctly returned given edge case to test straights."""
+    from call_or_fold import compare_hands
+    board = ['5S', '4S', 'KH'] + ['7D', '2D']
+    villain = ['6D', '8H']
+    hero = ['AS', '3S']
+    assert compare_hands(board, hero, villain) == 'Villain'
+
 # @pytest.mark.parametrize('board, hero, villain, mode, result', EQUITY_CALCS_EXHAUSTIVE)
 # def test_calc_equity_exhaustive(board, hero, villain, mode, result):
 #     """Test that simulations of runouts given board, hero and villain match expected result."""
