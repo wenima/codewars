@@ -69,8 +69,8 @@ def get_suits(heroes_hand):
 
 def get_pokerscore(heroes_hand):
     """Return a unique value representing overall hand strength."""
-    if set(heroes_hand) == set((14, 2, 3, 4, 5)): #add fix when comparing a 5 high straight to a higher straight so the Ace is not counted as high card
-        heroes_hand = (1, 2, 3, 4, 5)
+    # if set(heroes_hand) == set((14, 2, 3, 4, 5)): #add fix when comparing a 5 high straight to a higher straight so the Ace is not counted as high card
+    #     heroes_hand = (1, 2, 3, 4, 5)
     c = Counter(heroes_hand)
     a = sorted(heroes_hand, key=lambda x: (c[x], x), reverse=True)
     return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4]
@@ -104,7 +104,9 @@ def rank_hand(heroes_hand):
     for combo in c:
         cs, ss = zip(*combo)
         index = calc_index(combo)
-        if set(cs) == set([14, 2, 3, 4, 5]) and index != 1: index = 2 # fix for calc_index not handling a wheel (straight A-5) correctly
+        if set(cs) == set([14, 2, 3, 4, 5]) and index != 1: # fix for calc_index not handling a wheel (straight A-5) correctly
+            index = 2 
+            cs = (1, 2, 3, 4, 5)
         if HANDRANKS[index] > max_rank:
             max_rank = HANDRANKS[index]
             win_index = index
