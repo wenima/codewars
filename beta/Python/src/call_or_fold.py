@@ -69,6 +69,8 @@ def get_suits(heroes_hand):
 
 def get_pokerscore(heroes_hand):
     """Return a unique value representing overall hand strength."""
+    if set(heroes_hand) == set((14, 2, 3, 4, 5)): #add fix when comparing a 5 high straight to a higher straight so the Ace is not counted as high card
+        heroes_hand = (1, 2, 3, 4, 5)
     c = Counter(heroes_hand)
     a = sorted(heroes_hand, key=lambda x: (c[x], x), reverse=True)
     return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4]
