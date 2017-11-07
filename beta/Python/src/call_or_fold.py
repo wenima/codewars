@@ -69,8 +69,6 @@ def get_suits(heroes_hand):
 
 def get_pokerscore(heroes_hand):
     """Return a unique value representing overall hand strength."""
-    # if set(heroes_hand) == set((14, 2, 3, 4, 5)): #add fix when comparing a 5 high straight to a higher straight so the Ace is not counted as high card
-    #     heroes_hand = (1, 2, 3, 4, 5)
     c = Counter(heroes_hand)
     a = sorted(heroes_hand, key=lambda x: (c[x], x), reverse=True)
     return a[0]<<16|a[1]<<12|a[2]<<8|a[3]<<4|a[4]
@@ -97,7 +95,6 @@ def rank_hand(heroes_hand):
     for i, s in enumerate(suits):
         suits[i] = int(pow(2, (ord(s) % 9824)))
     heroes_hand = [(cards[i], suits[i]) for i in range(7)]
-    print(heroes_hand)
     c = combinations(heroes_hand, 5)
     max_rank = 0
     win_index = 10
@@ -130,27 +127,15 @@ def compare_hands(board, hero, villain):
     hero_index, heroes_hand = get_best_hand(board + hero)
     villain_index, villains_hand = get_best_hand(board + villain)
     if HANDS_STRENGHT_MAPPING[hero_index] > HANDS_STRENGHT_MAPPING[villain_index]:
-        print(HANDS_STRENGHT_MAPPING[hero_index], heroes_hand)
-        print(HANDS_STRENGHT_MAPPING[villain_index], villains_hand)
-        print('Hero')
         return 'Hero'
     elif HANDS_STRENGHT_MAPPING[hero_index] < HANDS_STRENGHT_MAPPING[villain_index]:
-        print(HANDS_STRENGHT_MAPPING[hero_index], heroes_hand)
-        print(HANDS_STRENGHT_MAPPING[villain_index], villains_hand)
-        print('Villain')
         return 'Villain'
     else:
         hero_score = get_pokerscore(heroes_hand)
         villain_score = get_pokerscore(villains_hand)
         if hero_score > villain_score:
-            print(HANDS_STRENGHT_MAPPING[hero_index], heroes_hand)
-            print(HANDS_STRENGHT_MAPPING[villain_index], villains_hand)
-            print('Hero')
             return 'Hero'
         elif hero_score < villain_score:
-            print(HANDS_STRENGHT_MAPPING[hero_index], heroes_hand)
-            print(HANDS_STRENGHT_MAPPING[villain_index], villains_hand)
-            print('Villain')
             return 'Villain'
         else:
             return 'Tie'
@@ -168,7 +153,6 @@ def calc_equity(board, hero, villain, mode='monte-carlo', trials=1):
     for combo in combos:
         runs.append(compare_hands(board + list(combo), hero, villain))
     c = Counter(runs)
-    print(c)
     if mode == 'exhaustive': return round(((c['Hero'] + (c['Tie'] / 2)) / sum(c.values())) * 100, 2)
     elif mode == 'monte-carlo': return ceil(((c['Hero'] + (c['Tie'] / 2)) / sum(c.values())) * 100)
 
