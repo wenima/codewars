@@ -66,10 +66,11 @@ INPUT = [
 ]
 
 KATA_EXAMPLES = [
-    # (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 25.45), #nut flush draw + backdoor straight draw vs set
-    # (['JS', '9S', 'KH', '2H'], ['AS', '3S'], ['6H', '6D'], 27.27), #nut flush draw + overcard draw vs underpair
-    # (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 36.97), #open-ended straight draw + backdoor flush draw vs overpair
-    (['5S', '4S', 'KH', '9D'], ['AS', '3S'], ['KS', 'QD'], 52.63), # nut flush draw + inside straight draw vs pair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 25.45), #nut flush draw + backdoor straight draw vs set
+    (['JS', '9S', 'KH', '2H'], ['AS', '3S'], ['6H', '6D'], 27.27), #nut flush draw + overcard draw vs underpair
+    (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 36.97), #open-ended straight draw + backdoor flush draw vs overpair
+    (['5S', '4S', 'KH', '9D'], ['AS', '3S'], ['KS', 'QD'], 31.82), # nut flush draw + inside straight draw + overcard vs pair
+    (['5S', '4S', 'KH'], ['AS', '3S'], ['KS', 'QD'], 52.63), # nut flush draw + inside straight draw + overcard vs pair
 ]
 
 @pytest.fixture
