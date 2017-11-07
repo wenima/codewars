@@ -39,26 +39,26 @@ HERO_VS_VILLAIN = [
     (['AH', 'AD'], ['AS', '3S'], 'Villain'),
 ]
 
-# EQUITY_CALCS_EXHAUSTIVE = [
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'exhaustive', 25.45), #nut flush draw + backdoor straight draw vs set
-#     (['2D', '8D', '9S'], ['JS', 'TH'], ['AS', 'AH'], 'exhaustive', 34.24), #open-ended straight draw vs overpair
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['AH', 'AD'], 'exhaustive', 36.82), #nut flush draw + backdoor straight draw vs overpair
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['QH', 'QD'], 'exhaustive', 44.75), #nut flush draw + backdoor straight + overcard vs pair
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['6H', '6D'], 'exhaustive', 48.38), #nut flush draw + backdoor straight overcard vs underpair
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['KD', 'JH'], 'exhaustive', 32.83), #nut flush draw vs top two pair
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'JH'], 'exhaustive', 32.73), #nut flush draw vs top two pair with one of our outs dead (K of Spades)
-#     (['2D', '8D', '9S'], ['JD', 'TD'], ['AS', 'AH'], 'exhaustive', 56.26), #open-ended straight draw + flush draw vs overpair
-#     (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 'exhaustive', 36.97), #open-ended straight draw + backdoor flush draw vs overpair
-#     (['8H', '2D', '9S'], ['7D', 'JH'], ['AS', 'AH'], 'exhaustive', 20.30), #inside straight draw (gutshot) vs overpair
-#     (['8H', '6D', '9D'], ['TD', 'QH'], ['AS', 'AH'], 'exhaustive', 36.36), #double inside straight draw (double gutter) + backdoor flush draw vs overpair
-# ]
+EQUITY_CALCS_EXHAUSTIVE = [
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'exhaustive', 25.45), #nut flush draw + backdoor straight draw vs set
+    (['2D', '8D', '9S'], ['JS', 'TH'], ['AS', 'AH'], 'exhaustive', 34.24), #open-ended straight draw vs overpair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['AH', 'AD'], 'exhaustive', 36.82), #nut flush draw + backdoor straight draw vs overpair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['QH', 'QD'], 'exhaustive', 44.75), #nut flush draw + backdoor straight + overcard vs pair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['6H', '6D'], 'exhaustive', 48.38), #nut flush draw + backdoor straight overcard vs underpair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KD', 'JH'], 'exhaustive', 32.83), #nut flush draw vs top two pair
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'JH'], 'exhaustive', 32.73), #nut flush draw vs top two pair with one of our outs dead (K of Spades)
+    (['2D', '8D', '9S'], ['JD', 'TD'], ['AS', 'AH'], 'exhaustive', 56.26), #open-ended straight draw + flush draw vs overpair
+    (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 'exhaustive', 36.97), #open-ended straight draw + backdoor flush draw vs overpair
+    (['8H', '2D', '9S'], ['7D', 'JH'], ['AS', 'AH'], 'exhaustive', 20.30), #inside straight draw (gutshot) vs overpair
+    (['8H', '6D', '9D'], ['TD', 'QH'], ['AS', 'AH'], 'exhaustive', 36.36), #double inside straight draw (double gutter) + backdoor flush draw vs overpair
+]
 
-# EQUITY_CALCS_MC = [
-#     (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 25),
-#     ([], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 33),
-#     ([], ['KH', 'KD'], ['AS', 'AD'], 'monte-carlo', 3000, 18),
-#     ([], ['AH', 'KD'], ['QH', 'QD'], 'monte-carlo', 3000, 44),
-# ]
+EQUITY_CALCS_MC = [
+    (['JS', '9S', 'KH'], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 25),
+    ([], ['AS', '3S'], ['KS', 'KD'], 'monte-carlo', 3000, 33),
+    ([], ['KH', 'KD'], ['AS', 'AD'], 'monte-carlo', 3000, 18),
+    ([], ['AH', 'KD'], ['QH', 'QD'], 'monte-carlo', 3000, 44),
+]
 
 INPUT = [
     ('KS AS TS QS JS', 'K♠A♠T♠Q♠J♠'),
@@ -148,18 +148,18 @@ def test_compare_hands_straight_vs_straight():
     hero = ['AS', '3S']
     assert compare_hands(board, hero, villain) == 'Villain'
 
-# @pytest.mark.parametrize('board, hero, villain, mode, result', EQUITY_CALCS_EXHAUSTIVE)
-# def test_calc_equity_exhaustive(board, hero, villain, mode, result):
-#     """Test that simulations of runouts given board, hero and villain match expected result."""
-#     from call_or_fold import calc_equity
-#     assert calc_equity(board, hero, villain, mode=mode) == result
+@pytest.mark.parametrize('board, hero, villain, mode, result', EQUITY_CALCS_EXHAUSTIVE)
+def test_calc_equity_exhaustive(board, hero, villain, mode, result):
+    """Test that simulations of runouts given board, hero and villain match expected result."""
+    from call_or_fold import calc_equity
+    assert calc_equity(board, hero, villain, mode=mode) == result
 
-# @pytest.mark.parametrize('board, hero, villain, mode, trials, result', EQUITY_CALCS_MC)
-# def test_calc_equity_monte_carlo(board, hero, villain, mode, trials, result):
-#     """Test that simulations of runouts given board, hero and villain match expected result."""
-#     from call_or_fold import calc_equity
-#     eq = calc_equity(board, hero, villain, mode=mode, trials=trials)
-#     assert eq == pytest.approx(result, abs=3)
+@pytest.mark.parametrize('board, hero, villain, mode, trials, result', EQUITY_CALCS_MC)
+def test_calc_equity_monte_carlo(board, hero, villain, mode, trials, result):
+    """Test that simulations of runouts given board, hero and villain match expected result."""
+    from call_or_fold import calc_equity
+    eq = calc_equity(board, hero, villain, mode=mode, trials=trials)
+    assert eq == pytest.approx(result, abs=3)
 
     
 @pytest.mark.parametrize('board, hero, villain, result', KATA_EXAMPLES)
@@ -169,10 +169,12 @@ def test_get_equity(board, hero, villain, result):
     assert get_equity(board, hero, villain) == result
 
 
-# @pytest.mark.parametrize('board, hero, villain, mode, result', KATA_EXAMPLES)
-# def test_get_equity(board, hero, villain, result):
-#     """Test that simulations of runouts given board, hero and villain match expected result."""
-#     from call_or_fold import get_equity
-#     eq = calc_equity(board, hero, villain)
-#     assert eq == pytest.approx(result, abs=3)
+def test_get_equity_preflop_example():
+    """Test that simulations of pre-flop all-in match expected result."""
+    from call_or_fold import get_equity
+    board = []
+    hero = ['AH', 'KD']
+    villain = ['QH', 'QD']
+    eq = get_equity(board, hero, villain)
+    assert eq == pytest.approx(44, abs=2)
 
