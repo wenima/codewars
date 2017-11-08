@@ -80,12 +80,6 @@ def deck():
     deck = new_deck()
     return deck
 
-@pytest.mark.parametrize('hand, result', INPUT)
-def test_convert_suits(hand, result):
-    """Test that convert_suits returns a string with actual suits in place of characters representing the suit."""
-    from call_or_fold import convert_suits
-    assert convert_suits(hand) == result
-
 def test_new_deck(deck):
     """Test that a new deck with 52 cards is returned and all suits are correct."""
     for suit in ['C', 'H', 'S', 'D']:
@@ -125,13 +119,13 @@ def test_complete_board(deck, board, hero, villain, result):
     board = complete_board(deck, board, hero, villain)
     assert len(board) == result
 
-@pytest.mark.parametrize('board, runout, hole_cards, result', FINAL_HAND)
-def test_get_best_hand(board, runout, hole_cards, result):
-    """Test that given a board, a runout and hole_cards, the best 5 card combination is returned."""
-    from call_or_fold import get_best_hand
-    index, best_hand = get_best_hand(board + runout + hole_cards)
-    assert Counter(best_hand) == Counter(result[1])
-    assert index == result[0]
+# @pytest.mark.parametrize('board, runout, hole_cards, result', FINAL_HAND)
+# def test_get_best_hand(board, runout, hole_cards, result):
+#     """Test that given a board, a runout and hole_cards, the best 5 card combination is returned."""
+#     from call_or_fold import get_best_hand
+#     index, best_hand = get_best_hand(board + runout + hole_cards)
+#     assert Counter(best_hand) == Counter(result[1])
+#     assert index == result[0]
 
 @pytest.mark.parametrize('runout, hero, result', HERO_VS_VILLAIN)
 def test_compare_hands(runout, hero, result):
@@ -177,5 +171,5 @@ def test_get_equity_preflop_example():
     hero = ['AH', 'KD']
     villain = ['QH', 'QD']
     eq = get_equity(board, hero, villain)
-    assert eq == pytest.approx(44, abs=2)
+    assert eq == pytest.approx(43.65, abs=2)
 
