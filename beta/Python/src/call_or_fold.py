@@ -26,6 +26,13 @@ LOOKUP = {
     'T' : 10,
     }
 
+SUITS = {
+    'S' : 1,
+    'C' : 8,
+    'H' : 32,
+    'D' : 64,
+    }
+
 HANDRANKS = [8, 9, 5, 6, 1, 2, 3, 10, 4, 7, 0]
 
 def new_deck(dead=[]):
@@ -44,9 +51,13 @@ def draw_cards(n, deck, dead=[], random=None):
         shuffle(deck)
     return [deck.pop() for _ in range(n)]
 
-def convert_suits(hand):
-    """Return a string with suit symbols in place of character representation for a given hand."""
-    return hand.replace('D', '♦').replace('H', '♥').replace('S', '♠').replace('C', '♣').replace(' ', '')
+def convert_hand(hand):
+    """Return a list of tuples with int value for card and suit."""
+    out = []
+    for c in hand:
+        card, suit = c
+        out.append((LOOKUP[card] if not card.isnumeric() else int(card), SUITS[suit]))
+    return out
 
 def complete_board(deck, board, hero, villain):
     """Return a 5 card board given a an existing board and hole cards from 2 players."""
@@ -55,17 +66,6 @@ def complete_board(deck, board, hero, villain):
     for card in draw_cards(5 - len(board), deck, dead):
         board.append(card)
     return board
-
-def get_cards(heroes_hand):
-    """Return a list with string representation of a given 7 card hand."""
-    card_str_no_suits = ''.join([c if ord(c) < 128 else '' for c in heroes_hand])
-    cards = [LOOKUP[c] if not c.isnumeric() else int(c) for c in card_str_no_suits]
-    return cards
-
-def get_suits(heroes_hand):
-    """Return a list with the suits of the hand."""
-    pattern = re.compile('♠|♣|♥|♦')
-    return list(re.findall(pattern, heroes_hand))
 
 def get_pokerscore(heroes_hand):
     """Return a unique value representing overall hand strength."""
@@ -90,11 +90,6 @@ def calc_index(heroes_hand):
 
 def rank_hand(heroes_hand):
     """Return a tuple with index representing hand strength and final 5 card hand."""
-    cards = get_cards(heroes_hand)
-    suits = get_suits(heroes_hand)
-    for i, s in enumerate(suits):
-        suits[i] = int(pow(2, (ord(s) % 9824)))
-    heroes_hand = [(cards[i], suits[i]) for i in range(7)]
     c = combinations(heroes_hand, 5)
     max_rank = 0
     win_index = 10
@@ -117,15 +112,11 @@ def rank_hand(heroes_hand):
                 wci = cs
     return (win_index, heroes_hand)
 
-def get_best_hand(hand):
-    """Return a list of integers representing the best 5 card combination from a given board and hole_cards."""
-    hand = convert_suits(''.join(hand))
-    return rank_hand(hand)
 
 def compare_hands(board, hero, villain):
     """Return a string as the outcome of hero after comparing to villains hand to be one of 3: Win, Loss, Tie."""
-    hero_index, heroes_hand = get_best_hand(board + hero)
-    villain_index, villains_hand = get_best_hand(board + villain)
+    hero_index, heroes_hand = rank_hand(convert_hand(board + hero))
+    villain_index, villains_hand = rank_hand(convert_hand(board + villain))
     if HANDS_STRENGHT_MAPPING[hero_index] > HANDS_STRENGHT_MAPPING[villain_index]:
         return 'Hero'
     elif HANDS_STRENGHT_MAPPING[hero_index] < HANDS_STRENGHT_MAPPING[villain_index]:
