@@ -71,6 +71,7 @@ KATA_EXAMPLES = [
     (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 36.97), #open-ended straight draw + backdoor flush draw vs overpair
     (['5S', '4S', 'KH', '9D'], ['AS', '3S'], ['KS', 'QD'], 31.82), # nut flush draw + inside straight draw + overcard vs pair
     (['5S', '4S', 'KH'], ['AS', '3S'], ['KS', 'QD'], 52.63), # nut flush draw + inside straight draw + overcard vs pair
+    (['AS', 'AH', 'KH'], ['KD', 'QC'], ['AD', 'KC'], 0), #drawing dead
 ]
 
 @pytest.fixture
