@@ -119,13 +119,13 @@ def test_complete_board(deck, board, hero, villain, result):
     board = complete_board(deck, board, hero, villain)
     assert len(board) == result
 
-# @pytest.mark.parametrize('board, runout, hole_cards, result', FINAL_HAND)
-# def test_get_best_hand(board, runout, hole_cards, result):
-#     """Test that given a board, a runout and hole_cards, the best 5 card combination is returned."""
-#     from call_or_fold import get_best_hand
-#     index, best_hand = get_best_hand(board + runout + hole_cards)
-#     assert Counter(best_hand) == Counter(result[1])
-#     assert index == result[0]
+@pytest.mark.parametrize('board, runout, hole_cards, result', FINAL_HAND)
+def test_rank_hand(board, runout, hole_cards, result):
+    """Test that given a board, a runout and hole_cards, the best 5 card combination is returned."""
+    from call_or_fold import rank_hand, convert_hand
+    index, best_hand = rank_hand(convert_hand(board + runout + hole_cards))
+    assert Counter(best_hand) == Counter(result[1])
+    assert index == result[0]
 
 @pytest.mark.parametrize('runout, hero, result', HERO_VS_VILLAIN)
 def test_compare_hands(runout, hero, result):
@@ -156,13 +156,11 @@ def test_calc_equity_monte_carlo(board, hero, villain, mode, trials, result):
     eq = calc_equity(board, hero, villain, mode=mode, trials=trials)
     assert eq == pytest.approx(result, abs=3)
 
-    
 @pytest.mark.parametrize('board, hero, villain, result', KATA_EXAMPLES)
 def test_get_equity(board, hero, villain, result):
     """Test that simulations of runouts given board, hero and villain match expected result."""
     from call_or_fold import get_equity
     assert get_equity(board, hero, villain) == result
-
 
 def test_get_equity_preflop_example():
     """Test that simulations of pre-flop all-in match expected result."""
