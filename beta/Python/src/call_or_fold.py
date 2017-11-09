@@ -97,7 +97,7 @@ def rank_hand(heroes_hand):
         cs, ss = zip(*combo)
         index = calc_index(combo)
         if set(cs) == set([14, 2, 3, 4, 5]) and index != 1: # fix for calc_index not handling a wheel (straight A-5) correctly
-            index = 2 
+            index = 2
             cs = (1, 2, 3, 4, 5)
         if HANDRANKS[index] > max_rank:
             max_rank = HANDRANKS[index]
@@ -138,8 +138,8 @@ def calc_equity(board, hero, villain, mode='monte-carlo', trials=1):
     if mode == 'exhaustive':
         combos = combinations(deck, 5 - len(board))
     else:
-       dead = board + hero + villain
-       combos = [tuple(draw_cards(5 - len(board), new_deck(dead=dead))) for _ in range(trials)]
+        dead = board + hero + villain
+        combos = [tuple(draw_cards(5 - len(board), new_deck(dead=dead))) for _ in range(trials)]
     runs = []
     for combo in combos:
         runs.append(compare_hands(board + list(combo), hero, villain))
@@ -154,5 +154,4 @@ def get_equity(board, hero, villain):
         eq = calc_equity(board, hero, villain, mode='monte-carlo', trials=5000)
     else:
         eq = calc_equity(board, hero, villain, mode='exhaustive')
-    return round(eq, 2)
-        
+    return round(eq, 2)   
