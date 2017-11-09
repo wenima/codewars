@@ -51,6 +51,10 @@ EQUITY_CALCS_EXHAUSTIVE = [
     (['2D', '8D', '9S'], ['JD', 'TH'], ['AS', 'AH'], 'exhaustive', 36.97), #open-ended straight draw + backdoor flush draw vs overpair
     (['8H', '2D', '9S'], ['7D', 'JH'], ['AS', 'AH'], 'exhaustive', 20.30), #inside straight draw (gutshot) vs overpair
     (['8H', '6D', '9D'], ['TD', 'QH'], ['AS', 'AH'], 'exhaustive', 36.36), #double inside straight draw (double gutter) + backdoor flush draw vs overpair
+    (['5H', 'JS', '6C', '4D'], ['7C', 'KC'], ['9C', 'TS'], 'exhaustive', 86.36), #random-generated
+    (['AS', '2D', 'TS', '8S'], ['4H', 'QD'], ['KH', '8H'], 'exhaustive', 6.82), #random-generated
+    (['6C', 'QH', '9H', 'TH'], ['KC', '7H'], ['7D', '9D'], 'exhaustive', 35.23), #random-generated
+    
 ]
 
 EQUITY_CALCS_MC = [
