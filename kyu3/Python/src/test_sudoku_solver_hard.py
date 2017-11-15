@@ -28,6 +28,18 @@ naked_pairs = [
     [0, 0, 4, 0, 8, 7, 0, 0, 2]
 ]
 
+brute_force = [
+    [5, 0, 0, 7, 9, 0, 0, 0, 8],
+    [0, 6, 0, 0, 1, 0, 0, 7, 0],
+    [0, 0, 0, 5, 6, 2, 0, 0, 0],
+    [0, 9, 4, 6, 8, 7, 1, 0, 0],
+    [7, 1, 0, 9, 3, 5, 0, 4, 6],
+    [6, 0, 5, 4, 2, 1, 9, 0, 7],
+    [0, 0, 0, 1, 5, 6, 0, 0, 0],
+    [0, 5, 0, 0, 4, 9, 0, 2, 0],
+    [9, 0, 0, 2, 7, 0, 0, 0, 4]
+]
+
 np = {(1, 5): [(8, 0), (8, 7), (8, 3)]}
 
 fiendish = [
@@ -336,6 +348,18 @@ def test_sudoku_solver_handles_unsolvable_sudoku():
     with pytest.raises(Exception) as e_info:
         sudoku_solver(unsolvable)
     assert str(e_info.value) == 'Sudoku not solvable at 0, 2'
+
+def test_fill_squares_first_permutation():
+    """Test that for a given sudoku, a square and a cartesian product, fill_squares returns a sudoku with the given square filled."""
+    from sudoku_solver_hard import sudoku_solver, fill_square
+    m, candidates, square_coords = sudoku_solver(m)
+    sq = square_coords
+    square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
+    p = [el for el in product(coords, candidates[coords[0]])]
+    brute_m = fill_square(m, square, p)
+    for k, v in sq.items():
+        if v == 8:
+            assert brute_m[k] != 0
 
 
 
