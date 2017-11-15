@@ -324,3 +324,18 @@ def remove_naked_sets_from_candidates(c, *args, naked_sets=defaultdict(list)):
                 c[coord] = [n for n in c[coord] if n not in k]
                 naked_sets[coord].extend(list(k))
     return c, dict(naked_sets)
+
+
+def fill_square(d, m, square, updated):
+    """Return a sudoku with completed square and a list of updated fits."""
+    for coord, missing in d.items():
+        n = missing.pop()
+        fit = (coord, n)
+        try:
+            if fit in updated: 
+                continue
+        except KeyError:
+            pass
+        m = update_sudoku((*coord, n), m)
+        updated.append(fit)
+    return m, updated
