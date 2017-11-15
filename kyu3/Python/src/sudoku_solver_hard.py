@@ -339,3 +339,32 @@ def fill_square(d, m, square, updated):
         m = update_sudoku((*coord, n), m)
         updated.append(fit)
     return m, updated
+
+def solver(m):
+    """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
+    candidates, dicts, square_coords = setup(m)
+    medium_m = sudoku_solver(m, dicts, candidates, square_coords)
+    candidates, dicts, square_coords = setup(m)
+    rm, cm, sm = dicts
+    sq = square_coords
+    square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
+    missing = candidates[coords[0]]
+    d = {k:missing for k in coords}
+    updated = []
+    brute_m, updated = fill_square(d, medium_m, square, updated)
+    try:
+        candidates, dicts, square_coords = setup(m)
+        brute_m = sudoku_solver(brute_m, dicts, candidates, square_coords)
+    except ValueError as e:
+        brute_m = fill_square(d, medium_m, square, updated)
+        try:
+            candidates, dicts, square_coords = setup(m)
+            brute_m = sudoku_solver(brute_m, dicts, candidates, square_coords)
+        except ValueError as e:
+            raise ValueError(e)
+    if valid(brute_m):
+        return brute_m
+    else:
+        raise ValueError('Sudoku not solvable')
+
+
