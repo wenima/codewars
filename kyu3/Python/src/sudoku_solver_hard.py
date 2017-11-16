@@ -368,3 +368,20 @@ def solver(m):
         raise ValueError('Sudoku not solvable')
 
 
+def valid(board):
+    """Retrun True if the given matrix is a valid and solved sudoku."""
+    sq = int(sqrt(len(board)))
+    size = sq * sq
+    rows = board
+    cols = [map(lambda x: x[i], board) for i in range(9)]   
+    squares = [reduce(lambda x, y: x + y, map(lambda x: x[i:(i + sq)], board[j:(j + sq)]))  
+                     for j in range(0, size, sq)  
+                     for i in range(0, size, sq)]
+    
+    for clusters in (rows, cols, squares):
+        for cluster in clusters:
+            if len(set(cluster)) != 9:
+                return False
+    return True
+
+
