@@ -93,6 +93,7 @@ def immediate_fills_dicts(medium_sudoku):
     from sudoku_solver_hard import (initialize_dicts, initialize_d,
     fill_given_numbers, populate_dicts)
     m = medium_sudoku
+    # candidates, dicts, square_coords = setup(m)
     square_sides = int(sqrt(len(medium_sudoku)))
     dicts = initialize_dicts(m, square_sides)
     dicts, square_coords = populate_dicts(m, square_sides, dicts)
@@ -114,7 +115,7 @@ def naked_sets_sudoku(medium_sudoku, immediate_fills_dicts, immediate_fills_cand
     dicts, square_coords = immediate_fills_dicts
     rm, cm, sm = dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
-    single_candidates = single_candidate(candidates, square_coords, sm)
+    single_candidates = single_candidate(candidates, square_coords, dicts)
     m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
     return m
 
@@ -181,7 +182,6 @@ def test_get_candidates(immediate_fills_candidates):
     """Test that function returns a dict of candidates per coordinate."""
     assert immediate_fills_candidates[(4, 4)] == [3]
 
-
 def test_get_candidates_account_for_naked_sets(medium_sudoku, immediate_fills_dicts):
     """Test that function returns a dict of candidates per coordinate but omits
     numbers for coordinates from naked sets if provided."""
@@ -193,7 +193,6 @@ def test_get_candidates_account_for_naked_sets(medium_sudoku, immediate_fills_di
     assert 3, 8 not in c[(8, 6)]
     assert 3, 8 not in c[(8, 2)]
     assert 3, 8 not in c[(8, 7)]
-
 
 def test_find_fit(immediate_fills_candidates):
     """Test that given a dict of candidates, a tuple is returned with coordinates
@@ -267,8 +266,7 @@ def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
-    rm, cm, sm = dicts
-    single_candidates = single_candidate(candidates, square_coords, sm)
+    single_candidates = single_candidate(candidates, square_coords, dicts)
     assert len(single_candidates) == 6
     assert (7, (0, 3)) in single_candidates
 
@@ -344,22 +342,24 @@ def test_remove_naked_sets_from_candidates(naked_sets_sudoku, naked_sets_dicts):
 
 def test_sudoku_solver_handles_unsolvable_sudoku():
     """Test that an unsolvable sudoku is handled correctly by sudoku_solver."""
-    from sudoku_solver_hard import sudoku_solver
+    from sudoku_solver_hard import setup
     with pytest.raises(Exception) as e_info:
-        sudoku_solver(unsolvable)
+        candidates, dicts, square_coords = setup(unsolvable)
     assert str(e_info.value) == 'Sudoku not solvable at 0, 2'
 
-def test_fill_squares_first_permutation():
-    """Test that for a given sudoku, a square and a cartesian product, fill_squares returns a sudoku with the given square filled."""
-    from sudoku_solver_hard import sudoku_solver, fill_square
-    m, candidates, square_coords = sudoku_solver(m)
-    sq = square_coords
-    square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
-    p = [el for el in product(coords, candidates[coords[0]])]
-    brute_m = fill_square(m, square, p)
-    for k, v in sq.items():
-        if v == 8:
-            assert brute_m[k] != 0
+
+def test_solver_combo_approach():
+    """
+    Test that function solver can solve a given sudoku of hard difficulty correctly using a mix of traditional solving techniques and
+    brute force.
+    """
+    from sudoku_solver_hard import solver, valid
+    solved_sudoku = solver(brute_force)
+    assert valid(solved_sudoku)
+
+
+
+
 
 
 
