@@ -68,12 +68,6 @@ unsolvable = [
 
 
 @pytest.fixture
-def solved_sudoku():
-    from sudoku_solver import sudoku_solver
-    new_sudoku = base
-    return new_sudoku
-
-@pytest.fixture
 def medium_sudoku():
     new_sudoku = [
         [5,0,0,0,9,0,0,0,8],
@@ -411,11 +405,6 @@ def test_solver_combo_approach():
 #     m, candidates, dicts = sudoku_solver(naked_pairs)
 #     assert find_naked_sets(candidates, dicts) == np
 #
-# def test_solved_sudoku_validator(solved_sudoku):
-#     """Test solved sudoku to make sure validtor works."""
-#     from sudoku_validator import Sudoku
-#     solved_sudoku = Sudoku(solved_sudoku)
-#     assert solved_sudoku.is_valid() == True
 #
 # def test_medium_sudoku_validator(fiendish_sudoku):
 #     """Test sudoku_validator returns correct result."""
