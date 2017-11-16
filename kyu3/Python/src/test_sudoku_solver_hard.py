@@ -124,11 +124,6 @@ def naked_sets_dicts(naked_sets_sudoku):
     dicts = get_missing(dicts)
     return dicts, square_coords
 
-@pytest.fixture
-def fiendish_sudoku():
-    from sudoku_solver import sudoku_solver
-    new_sudoku = sudoku_solver(fiendish)
-    return new_sudoku
 
 def test_initialize_dicts(medium_sudoku):
     """Given a Sudoku test that dicts are initialized correctly."""
