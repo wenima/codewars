@@ -66,6 +66,63 @@ unsolvable = [
     [9, 8, 1, 2, 7, 3, 6, 0, 4]
 ]
 
+hard_1 = [
+    [0, 0, 0, 2, 0, 0, 0, 6, 3],
+    [3, 0, 0, 0, 0, 5, 4, 0, 1],
+    [0, 0, 1, 0, 0, 3, 9, 8, 0],
+    [0, 0, 0, 0, 0, 0, 0, 9, 0],
+    [0, 0, 0, 5, 3, 8, 0, 0, 0],
+    [0, 3, 0, 0, 0, 0, 0, 0, 0],
+    [0, 2, 6, 3, 0, 0, 5, 0, 0],
+    [5, 0, 3, 7, 0, 0, 0, 0, 8],
+    [4, 7, 0, 0, 0, 1, 0, 0, 0],
+]
+
+hard_2 = [
+    [0, 1, 0, 0, 0, 4, 0, 0, 0],
+    [0, 0, 6, 8, 0, 5, 0, 0, 1],
+    [5, 0, 3, 7, 0, 1, 9, 0, 0],
+    [8, 0, 4, 0, 0, 7, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 3, 0, 0, 6, 0, 9],
+    [0, 0, 1, 5, 0, 8, 2, 0, 4],
+    [6, 0, 0, 4, 0, 3, 1, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 5, 0],
+]
+
+expert = [
+    [0, 0, 6, 0, 0, 0, 0, 0, 4],
+    [0, 0, 0, 8, 6, 0, 7, 3, 0],
+    [0, 4, 0, 3, 5, 0, 0, 0, 2],
+    [1, 7, 0, 4, 0, 0, 6, 0, 0],
+    [0, 9, 0, 0, 0, 0, 0, 8, 0],
+    [0, 0, 8, 0, 0, 6, 0, 1, 7],
+    [2, 0, 0, 0, 8, 1, 0, 4, 0],
+    [0, 6, 7, 0, 4, 3, 0, 0, 0],
+    [8, 0, 0, 0, 0, 0, 3, 0, 0],
+]
+
+extreme = [
+    [0, 0, 9, 7, 4, 8, 0, 0, 0],
+    [7, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 2, 0, 1, 0, 9, 0, 0, 0],
+    [0, 0, 7, 0, 0, 0, 2, 4, 0],
+    [0, 6, 4, 0, 1, 0, 5, 9, 0],
+    [0, 9, 8, 0, 0, 0, 3, 0, 0],
+    [0, 0, 0, 8, 0, 3, 0, 2, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 2, 7, 5, 9, 0, 0],
+]
+
+
+TEST_SUDOKUS = [
+    (base, True),
+    (brute_force, True),
+    (hard_1, True),
+    (hard_2, True),
+    (expert, True),
+]
+
 
 @pytest.fixture
 def medium_sudoku():
@@ -336,22 +393,15 @@ def test_sudoku_solver_handles_unsolvable_sudoku():
         candidates, dicts, square_coords = setup(unsolvable)
     assert str(e_info.value) == 'Sudoku not solvable at 0, 2'
 
-
-def test_solver_combo_approach():
+@pytest.mark.parametrize('m, result', TEST_SUDOKUS)
+def test_solver_combo_approach(m, result):
     """
     Test that function solver can solve a given sudoku of hard difficulty correctly using a mix of traditional solving techniques and
     brute force.
     """
     from sudoku_solver_hard import solver, valid
-    solved_sudoku = solver(brute_force)
-    assert valid(solved_sudoku)
-
-
-
-
-
-
-
+    solved_sudoku = solver(m)
+    assert valid(solved_sudoku) == result
 
 
 # def test_find_naked_pairs(naked_sets_sudoku):
@@ -369,20 +419,6 @@ def test_solver_combo_approach():
 #     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
 #     assert naked_sets_fields_row == {(3, 8): [(8, 7), (8, 6), (8, 2)]}
 #     assert naked_sets_fields_cols == {}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #
 #
