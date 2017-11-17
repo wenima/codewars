@@ -107,16 +107,10 @@ def sudoku_solver(m, dicts, candidates, square_coords):
     else:
         return m
     m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
-    try:
-        candidates = get_candidates(m, dicts, square_coords)
-    except ValueError as e:
-        raise ValueError(e)
+    candidates = get_candidates(m, dicts, square_coords)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
     candidates, naked_sets = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
-    try:
-        candidates = get_candidates(m, dicts, square_coords, naked_sets)
-    except ValueError as e:
-        raise ValueError(e)
+    candidates = get_candidates(m, dicts, square_coords, naked_sets)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=3)
     return m
 
@@ -177,10 +171,9 @@ def squares_to_missing(square_coords):
     return squares_missing
 
 
-def fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords):
+def fill_given_numbers(square, row, col, sq_nr, dicts, sq):
     """Fill dicts with given numbers number for a given square."""
     rm, cm, sm = dicts
-    sq = squares_coords
     for row_idx, sr in enumerate(square):
         for col_idx, sv in enumerate(sr):
             coord = (row + row_idx, col + col_idx)
@@ -232,12 +225,7 @@ def find_fit(candidates):
 def update_sudoku(fit, m):
     """Return an updated Sudoku."""
     row, col, n = fit
-    try:
-        if m[row][col] != 0:
-            raise ValueError
-        m[row][col] = n
-    except ValueError:
-        raise ValueError('This coordinate has already been updated.')
+    m[row][col] = n
     return m
 
 
