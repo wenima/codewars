@@ -106,7 +106,7 @@ def sudoku_solver(m, dicts, candidates, square_coords):
         single_candidates = single_candidate(candidates, square_coords, dicts)
     else:
         return m
-    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    m = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
     candidates = get_candidates(m, dicts, square_coords)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
     candidates, naked_sets = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
@@ -186,7 +186,7 @@ def fill_given_numbers(square, row, col, sq_nr, dicts, sq):
     return dicts, sq
 
 
-def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
+def fill_fit(m, dicts, squares_coords, candidates={}, single_candidates=[]):
     """
     Return an updated Sudoku by either finding a fit or taking a fit from a provided
     list of fits and filling it in as long as a fit is found.
@@ -205,7 +205,7 @@ def fill_fit(m, dicts, squares_coords, candidates=[], single_candidates=[]):
             dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
             candidates = remove_from_candidates(fit, candidates)
         else:
-            return m, candidates
+            return m
 
 
 def find_fit(candidates):
@@ -317,7 +317,7 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
     return out
 
 
-def remove_naked_sets_from_candidates(c, *args, naked_sets=defaultdict(list)):
+def (c, *args, naked_sets=defaultdict(list)):
     """Return an updated list of candidates and naked sets after removing possible numbers by looking at naked sets"""
     for d in args:
         for k, v in d.items():
