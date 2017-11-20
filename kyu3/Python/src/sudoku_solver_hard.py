@@ -329,16 +329,19 @@ def (c, *args, naked_sets=defaultdict(list)):
 
 def fill_square(d, m, square, updated):
     """Return a sudoku with completed square and a list of updated fits."""
-    for coord, missing in d.items():
-        n = missing.pop()
-        fit = (coord, n)
-        try:
-            if fit in updated: 
-                continue
-        except KeyError:
-            pass
-        m = update_sudoku((*coord, n), m)
-        updated.append(fit)
+    for coord in coords:
+        row, col = coord
+        for n in missing:
+            fit = (coord, n)
+            try:
+                if fit in updated or m[row][col] != 0: 
+                    continue
+            except KeyError:
+                pass
+            m = update_sudoku((*coord, n), m)
+            updated.append(fit)
+            missing.remove(n)
+            break
     return m, updated
 
 def solver(m):
