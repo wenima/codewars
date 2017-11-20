@@ -327,7 +327,7 @@ def (c, *args, naked_sets=defaultdict(list)):
     return c, dict(naked_sets)
 
 
-def fill_square(d, m, square, updated):
+def fill_square(coords, m, missing, square, updated):
     """Return a sudoku with completed square and a list of updated fits."""
     for coord in coords:
         row, col = coord
