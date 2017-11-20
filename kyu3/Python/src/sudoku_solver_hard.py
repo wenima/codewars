@@ -353,20 +353,36 @@ def solver(m):
     sq = square_coords
     square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
     missing = candidates[coords[0]]
-    d = {k:missing for k in coords}
     updated = []
-    brute_m, updated = fill_square(d, medium_m, square, updated)
-    try:
+    prev_zeroes = 0
+    for _ in missing: #try all combinations of fields and missing numbers
+        brute_m, updated = fill_square(coords, list(deepcopy(medium_m)), list(missing), square, updated)
+        while True:
+            try:
+                candidates, dicts, square_coords = setup(brute_m)
+                brute_m = sudoku_solver(list(brute_m), dicts, candidates, square_coords)
+            except ValueError as e:
+                print('Sudoku not solvable in this permutation')
+                break
+            if valid(brute_m):
+                break
+            else:
+                total_zeroes = 0
+                for row in m:
+                    total_zeroes += row.count(0)
+                if total_zeroes == 0: break
+                if prev_zeroes == total_zeroes: break
+                prev_zeroes = total_zeroes
+            
+    if valid(brute_m):
+        return brute_m
+    else:
         candidates, dicts, square_coords = setup(m)
-        brute_m = sudoku_solver(brute_m, dicts, candidates, square_coords)
-    except ValueError as e:
-        brute_m = fill_square(d, medium_m, square, updated)
-        try:
-            candidates, dicts, square_coords = setup(m)
-            brute_m = sudoku_solver(brute_m, dicts, candidates, square_coords)
-        except ValueError as e:
-            raise ValueError(e)
-    return brute_m
+        print(sorted(candidates.items(), key=lambda x: len(x[1])))
+        print(DataFrame(m))
+        raise ValueError('Sudoku not solvable')
+
+
 
 def valid(board):
     """Retrun True if the given matrix is a valid and solved sudoku."""
