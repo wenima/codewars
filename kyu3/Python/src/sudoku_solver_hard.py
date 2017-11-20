@@ -368,7 +368,7 @@ def solver(m):
                 break
             else:
                 total_zeroes = 0
-                for row in m:
+                for row in brute_m:
                     total_zeroes += row.count(0)
                 if total_zeroes == 0: break
                 if prev_zeroes == total_zeroes: break
