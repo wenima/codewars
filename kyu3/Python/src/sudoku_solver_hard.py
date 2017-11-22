@@ -327,23 +327,6 @@ def (c, *args, naked_sets=defaultdict(list)):
     return c, dict(naked_sets)
 
 
-def fill_square(coords, m, missing, square, updated):
-    """Return a sudoku with completed square and a list of updated fits."""
-    for coord in coords:
-        row, col = coord
-        for n in missing:
-            fit = (coord, n)
-            try:
-                if fit in updated or m[row][col] != 0: 
-                    continue
-            except KeyError:
-                pass
-            m = update_sudoku((*coord, n), m)
-            updated.append(fit)
-            missing.remove(n)
-            break
-    return m, updated
-
 def solver(m):
     """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
     candidates, dicts, square_coords = setup(m)
@@ -353,10 +336,14 @@ def solver(m):
     sq = square_coords
     square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
     missing = candidates[coords[0]]
-    updated = []
-    prev_zeroes = 0
-    for _ in missing: #try all combinations of fields and missing numbers
-        brute_m, updated = fill_square(coords, list(deepcopy(medium_m)), list(missing), square, updated)
+    fit = {} #keep track of best fit
+    for p in permutations(missing):: #try all combinations of fields and missing numbers
+        sq_p = tuple(zip(coords, p))
+        prev_zeroes = 0
+        brute_m = deepcopy(medium_m)
+        for fit in sq_p:
+            coord, n = fit
+            brute_m = update_sudoku((*coord, n), brute_m)
         while True:
             try:
                 candidates, dicts, square_coords = setup(brute_m)
@@ -371,7 +358,9 @@ def solver(m):
                 for row in brute_m:
                     total_zeroes += row.count(0)
                 if total_zeroes == 0: break
-                if prev_zeroes == total_zeroes: break
+                if prev_zeroes == total_zeroes:
+                    fits[sq_p] = total_zeroes
+                    break
                 prev_zeroes = total_zeroes
             
     if valid(brute_m):
