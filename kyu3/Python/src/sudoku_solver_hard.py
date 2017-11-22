@@ -327,6 +327,18 @@ def (c, *args, naked_sets=defaultdict(list)):
     return c, dict(naked_sets)
 
 
+def fill_square(brute_m, candidates, sq_p):
+    """
+    Return True if all coordinates an be filled with a given permutation without invalidating the sudoku.
+    Else return False.
+    """
+    for fit in sq_p:
+        coord, n = fit
+        if n not in candidates[coord]: return False
+        brute_m = update_sudoku((*coord, n), brute_m)
+    return True
+
+
 def solver(m):
     """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
     candidates, dicts, square_coords = setup(m)
@@ -341,9 +353,8 @@ def solver(m):
         sq_p = tuple(zip(coords, p))
         prev_zeroes = 0
         brute_m = deepcopy(medium_m)
-        for fit in sq_p:
-            coord, n = fit
-            brute_m = update_sudoku((*coord, n), brute_m)
+        if not fill_square(brute_m, candidates, sq_p):
+            continue
         while True:
             try:
                 candidates, dicts, square_coords = setup(brute_m)
