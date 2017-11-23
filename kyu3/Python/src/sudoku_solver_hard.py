@@ -348,9 +348,10 @@ def solver(m):
     sq = square_coords
     square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
     missing = candidates[coords[0]]
-    fit = {} #keep track of best fit
+    fits = {} #keep track of best fit
     for p in permutations(missing): #try all combinations of fields and missing numbers
         sq_p = tuple(zip(coords, p))
+        print(sq_p)
         prev_zeroes = 0
         brute_m = deepcopy(medium_m)
         candidates, dicts, square_coords = setup(brute_m)
@@ -364,7 +365,7 @@ def solver(m):
                 print('Sudoku not solvable in this permutation')
                 break
             if valid(brute_m):
-                break
+                return brute_m
             else:
                 total_zeroes = 0
                 for row in brute_m:
@@ -374,7 +375,6 @@ def solver(m):
                     fits[sq_p] = total_zeroes
                     break
                 prev_zeroes = total_zeroes
-            
     if valid(brute_m):
         return brute_m
     else:
