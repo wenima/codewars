@@ -149,7 +149,6 @@ def single_candidate(candidates, square_coords, dicts):
         for coord in v:
             pn = set(candidates[coord])
             if pn.issubset(seen):
-#                 print('is subset, continuing..')
                 continue
             for n in pn:
                 if n in seen:
@@ -354,6 +353,7 @@ def solver(m):
         sq_p = tuple(zip(coords, p))
         prev_zeroes = 0
         brute_m = deepcopy(medium_m)
+        candidates, dicts, square_coords = setup(brute_m)
         if not fill_square(brute_m, candidates, sq_p):
             continue
         while True:
@@ -378,9 +378,6 @@ def solver(m):
     if valid(brute_m):
         return brute_m
     else:
-        candidates, dicts, square_coords = setup(m)
-        print(sorted(candidates.items(), key=lambda x: len(x[1])))
-        print(DataFrame(m))
         raise ValueError('Sudoku not solvable')
 
 
