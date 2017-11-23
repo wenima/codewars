@@ -116,13 +116,18 @@ extreme = [
 
 
 TEST_SUDOKUS = [
-    (base, True),
     (brute_force, True),
     (hard_1, True),
     (hard_2, True),
     (expert, True),
 ]
 
+TEST_FILL_SQUARES = [
+    (hard_1, (((6, 0), 9), ((7, 1), 1), ((8, 2), 8)), True),
+    (hard_1, (((6, 0), 8), ((7, 1), 9), ((8, 2), 1)), False),
+    (hard_1, (((6, 0), 1), ((7, 1), 8), ((8, 2), 9)), False),
+    (hard_2, (((6, 4), 9), ((7, 4), 1), ((8, 4), 6), ((8, 5), 7)), False),
+]
 
 @pytest.fixture
 def medium_sudoku():
@@ -342,8 +347,10 @@ def test_coords_per_naked_set(naked_sets_sudoku, naked_sets_dicts):
 
 
 def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
-    """Given a dict of possible naked sets and it inverse dict, test that the
-    function returns an updated dict."""
+    """
+    Given a dict of possible naked sets and it inverse dict, test that the
+    function returns an updated dict.
+    """
     from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
     build_coords_per_naked_set, update_naked_set)
     m = naked_sets_sudoku
@@ -359,8 +366,10 @@ def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
 
 
 def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
-    """Given a dict of naked sets, test that function returns a list
-    of coordinates from which a naked set can be removed from."""
+    """
+    Given a dict of naked sets, test that function returns a list
+    of coordinates from which a naked set can be removed from
+    ."""
     from sudoku_solver_hard import get_candidates, find_naked_sets
     m = naked_sets_sudoku
     dicts, square_coords = naked_sets_dicts
@@ -373,8 +382,10 @@ def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
 
 
 def test_remove_naked_sets_from_candidates(naked_sets_sudoku, naked_sets_dicts):
-    """Given a dict of naked sets, test that function returns a list
-    of coordinates from which a naked set can be removed from."""
+    """
+    Given a dict of naked sets, test that function returns a list
+    of coordinates from which a naked set can be removed from.
+    """
     from sudoku_solver_hard import (get_candidates, find_naked_sets,
     remove_naked_sets_from_candidates)
     m = naked_sets_sudoku
@@ -392,6 +403,15 @@ def test_sudoku_solver_handles_unsolvable_sudoku():
     with pytest.raises(Exception) as e_info:
         candidates, dicts, square_coords = setup(unsolvable)
     assert str(e_info.value) == 'Sudoku not solvable at 0, 2'
+
+@pytest.mark.parametrize('m, fit, result', TEST_FILL_SQUARES)
+def test_fill_square_handles_invalid_permutations(m, fit, result):
+    """Test that fill_square returns correct boolean for a given permutation."""
+    from sudoku_solver_hard import setup, fill_square
+    from copy import deepcopy
+    brute_m = brute_m = deepcopy(m)
+    candidates, dicts, square_coords = setup(m)
+    assert fill_square(brute_m, candidates, fit) == result
 
 @pytest.mark.parametrize('m, result', TEST_SUDOKUS)
 def test_solver_combo_approach(m, result):
