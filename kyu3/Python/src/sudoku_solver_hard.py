@@ -1,10 +1,11 @@
 """Module to solve the code-kata https://www.codewars.com/kata/sudoku-solver."""
 
 from math import sqrt, ceil
-from itertools import islice, chain, groupby
+from itertools import islice, chain, groupby, permutations
 from operator import itemgetter
 from collections import defaultdict
 from functools import reduce
+from copy import deepcopy
 
 def initialize_dicts(m, square_sides):
     """Return a tuple of dicts for a given matrix and the size of the sudoku."""
@@ -106,7 +107,7 @@ def sudoku_solver(m, dicts, candidates, square_coords):
         single_candidates = single_candidate(candidates, square_coords, dicts)
     else:
         return m
-    m = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
     candidates = get_candidates(m, dicts, square_coords)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
     candidates, naked_sets = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
@@ -123,7 +124,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
     while True:
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
-        m = fill_fit(m, dicts, square_coords, candidates=candidates)
+        m, candidates = fill_fit(m, dicts, square_coords, candidates=candidates)
         starting_spots = get_starting_spots(m, dicts, square_coords)
         starting_spots.sort(key=itemgetter(2))
         candidates = get_candidates(m, dicts, square_coords)
@@ -205,7 +206,7 @@ def fill_fit(m, dicts, squares_coords, candidates={}, single_candidates=[]):
             dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
             candidates = remove_from_candidates(fit, candidates)
         else:
-            return m
+            return m, candidates
 
 
 def find_fit(candidates):
@@ -317,7 +318,7 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
     return out
 
 
-def (c, *args, naked_sets=defaultdict(list)):
+def remove_naked_sets_from_candidates(c, *args, naked_sets=defaultdict(list)):
     """Return an updated list of candidates and naked sets after removing possible numbers by looking at naked sets"""
     for d in args:
         for k, v in d.items():
@@ -349,7 +350,7 @@ def solver(m):
     square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
     missing = candidates[coords[0]]
     fit = {} #keep track of best fit
-    for p in permutations(missing):: #try all combinations of fields and missing numbers
+    for p in permutations(missing): #try all combinations of fields and missing numbers
         sq_p = tuple(zip(coords, p))
         prev_zeroes = 0
         brute_m = deepcopy(medium_m)
