@@ -120,6 +120,7 @@ TEST_SUDOKUS = [
     (hard_1, True),
     (hard_2, True),
     (expert, True),
+    (extreme, True),
 ]
 
 TEST_FILL_SQUARES = [
