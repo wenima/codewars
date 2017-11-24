@@ -25,12 +25,12 @@ def initialize_d(d, square_sides, offset=0):
 def populate_dicts(m, square_sides, dicts):
     """Return dicts holding information about fills in given Sudoku."""
     sq_nr = 0
-    squares_coords = {}
+    square_coords = {}
     for row in range(0, square_sides ** 2, square_sides):
         for col in range(0, square_sides ** 2, square_sides):
             sq_nr += 1
             square = [islice(m[i], col, square_sides + col) for i in range(row, row + square_sides)]
-            dicts, square_coords = fill_given_numbers(square, row, col, sq_nr, dicts, squares_coords)
+            dicts, square_coords = fill_given_numbers(square, row, col, sq_nr, dicts, square_coords)
     return dicts, square_coords
 
 def get_candidates(m, dicts, square_coords, naked_sets=None):
@@ -103,15 +103,23 @@ def sudoku_solver(m, dicts, candidates, square_coords):
     Look for naked sets and eliminate from candidates
     """
     m, candidates = scan_sudoku(m, dicts, square_coords, candidates)
+    candidates, dicts, square_coords = setup(m)
+    rm, cm, sm = dicts
     if candidates:
         single_candidates = single_candidate(candidates, square_coords, dicts)
     else:
         return m
     m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
-    candidates = get_candidates(m, dicts, square_coords)
+    try:
+        candidates = get_candidates(m, dicts, square_coords)
+    except ValueError as e:
+        raise ValueError(e)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
     candidates, naked_sets = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
-    candidates = get_candidates(m, dicts, square_coords, naked_sets)
+    try:
+        candidates = get_candidates(m, dicts, square_coords, naked_sets)
+    except ValueError as e:
+        raise ValueError(e)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=3)
     return m
 
@@ -186,7 +194,7 @@ def fill_given_numbers(square, row, col, sq_nr, dicts, sq):
     return dicts, sq
 
 
-def fill_fit(m, dicts, squares_coords, candidates={}, single_candidates=[]):
+def fill_fit(m, dicts, square_coords, candidates={}, single_candidates=[]):
     """
     Return an updated Sudoku by either finding a fit or taking a fit from a provided
     list of fits and filling it in as long as a fit is found.
@@ -202,7 +210,8 @@ def fill_fit(m, dicts, squares_coords, candidates={}, single_candidates=[]):
             return m, candidates
         if fit:
             m = update_sudoku(fit, m)
-            dicts = remove_updated_from_dicts(fit, dicts, squares_coords)
+            row, col, n = fit
+            dicts = remove_updated_from_dicts(fit, dicts, square_coords)
             candidates = remove_from_candidates(fit, candidates)
         else:
             return m, candidates
@@ -225,18 +234,23 @@ def find_fit(candidates):
 def update_sudoku(fit, m):
     """Return an updated Sudoku."""
     row, col, n = fit
-    m[row][col] = n
+    try:
+        if m[row][col] != 0:
+            raise ValueError
+        m[row][col] = n
+    except ValueError:
+        raise ValueError('Something is wrong')
     return m
 
 
-def remove_updated_from_dicts(fit, dicts, squares_coords):
+def remove_updated_from_dicts(fit, dicts, square_coords):
     """Return dicts with updated digit removed from missing digits."""
     row, col, n = fit
     rm, cm, sm = dicts
-    sq = squares_coords
+    sq = square_coords
     rm[row].remove(n)
     cm[col].remove(n)
-    sm[squares_coords[row, col]].remove(n)
+    sm[square_coords[row, col]].remove(n)
     del sq[(row, col)]
     return dicts
 
@@ -351,7 +365,6 @@ def solver(m):
     fits = {} #keep track of best fit
     for p in permutations(missing): #try all combinations of fields and missing numbers
         sq_p = tuple(zip(coords, p))
-        print(sq_p)
         prev_zeroes = 0
         brute_m = deepcopy(medium_m)
         candidates, dicts, square_coords = setup(brute_m)
@@ -361,8 +374,7 @@ def solver(m):
             try:
                 candidates, dicts, square_coords = setup(brute_m)
                 brute_m = sudoku_solver(list(brute_m), dicts, candidates, square_coords)
-            except ValueError as e:
-                print('Sudoku not solvable in this permutation')
+            except ValueError as e: #Sudoku not solvable for this permutation
                 break
             if valid(brute_m):
                 return brute_m
