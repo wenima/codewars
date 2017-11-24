@@ -420,7 +420,9 @@ def test_solver_combo_approach(m, result):
     brute force.
     """
     from sudoku_solver_hard import solver, valid
-    solved_sudoku = solver(m)
+    from copy import deepcopy
+    brute_m = brute_m = deepcopy(m)
+    solved_sudoku = solver(brute_m)
     assert valid(solved_sudoku) == result
 
 
