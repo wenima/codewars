@@ -115,9 +115,9 @@ def sudoku_solver(m, dicts, candidates, square_coords):
     except ValueError as e:
         raise ValueError(e)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
-    candidates, naked_sets = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
+    candidates  = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
     try:
-        candidates = get_candidates(m, dicts, square_coords, naked_sets)
+        candidates = get_candidates(m, dicts, square_coords)
     except ValueError as e:
         raise ValueError(e)
     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=3)
@@ -270,14 +270,21 @@ def remove_from_candidates(fit, candidates):
 
 
 def find_naked_sets(candidates, dicts, setlength=2):
-    """Return a dict of naked sets mapped to coordinates. A naked set is a set of numbers
-    which are the only possible values for fields along a row or column."""
+    """
+    Return a tuple containing 2 dicts of naked pairs&sets&quads mapped to coordinates. A naked set is a set of numbers
+    which are the only possible values for fields along a row or column.
+    """
+    rows = {}
+    cols = {}
     c = candidates
-    ns = build_possible_naked_sets(c, setlength=setlength)
-    cpns = build_coords_per_naked_set(ns)
-    ns = update_naked_set(ns, cpns)
-    rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=setlength)
-    cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=setlength)
+    for i in range(2, 5):
+        ns = build_possible_naked_sets(c, setlength=i)
+        cpns = build_coords_per_naked_set(ns)
+        ns = update_naked_set(ns, cpns)
+        ns_rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=i)
+        ns_cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=i)
+        rows.update(ns_rows)
+        cols.update(ns_cols)
     return rows, cols
 
 
@@ -333,13 +340,11 @@ def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
 
 def remove_naked_sets_from_candidates(c, *args):
     """Return an updated list of candidates and naked sets after removing possible numbers by looking at naked sets"""
-    naked_sets=defaultdict()
     for d in args:
         for k, v in d.items():
             for coord in v:
                 c[coord] = [n for n in c[coord] if n not in k]
-                naked_sets[coord].extend(list(k))
-    return c, dict(naked_sets)
+    return c
 
 
 def fill_square(brute_m, candidates, sq_p):
