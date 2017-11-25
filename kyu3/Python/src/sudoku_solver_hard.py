@@ -3,7 +3,7 @@
 from math import sqrt, ceil
 from itertools import islice, chain, groupby, permutations
 from operator import itemgetter
-from collections import defaultdict
+from collections import defaultdict, Counter
 from functools import reduce
 from copy import deepcopy
 
@@ -94,7 +94,7 @@ def get_missing(dicts):
     return dicts
 
 
-def sudoku_solver(m, dicts, candidates, square_coords):
+def sudoku_solver(m, dicts, candidates, square_coords, cnt_candidates=0):
     """
     Return a valid Sudoku for a given matrix, helper dicts, a list of candidates and a lookup for coords matching squares.
     Fill in simple numbers using scanning technique
@@ -114,13 +114,17 @@ def sudoku_solver(m, dicts, candidates, square_coords):
         candidates = get_candidates(m, dicts, square_coords)
     except ValueError as e:
         raise ValueError(e)
-    naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
-    candidates  = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
-    try:
-        candidates = get_candidates(m, dicts, square_coords)
-    except ValueError as e:
-        raise ValueError(e)
-    naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=3)
+    naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts)
+    if naked_sets_fields_row or naked_sets_fields_cols:
+        no_of_candidates = count_candidates(candidates)
+        candidates_sans_np = remove_naked_sets_from_candidates(candidates, naked_sets_fields_row, naked_sets_fields_cols)
+        no_of_candidates_rm = count_candidates(candidates_sans_np)
+        if no_of_candidates_rm == cnt_candidates:
+            return m
+        if no_of_candidates > no_of_candidates_rm:
+            return sudoku_solver(m, dicts, candidates_sans_np, square_coords, no_of_candidates_rm)
+        else:
+            return m
     return m
 
 
@@ -345,6 +349,14 @@ def remove_naked_sets_from_candidates(c, *args):
             for coord in v:
                 c[coord] = [n for n in c[coord] if n not in k]
     return c
+
+def count_candidates(candidates):
+    """Returns an integer number representing the total number of candidates."""
+    cnt_all_candidates = 0
+    c = Counter(candidates)
+    for v in c.values():
+        cnt_all_candidates += len(v)
+    return cnt_all_candidates
 
 
 def fill_square(brute_m, candidates, sq_p):
