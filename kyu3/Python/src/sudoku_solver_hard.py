@@ -136,7 +136,10 @@ def scan_sudoku(m, dicts, square_coords, candidates):
     while True:
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
-        m, candidates = fill_fit(m, dicts, square_coords, candidates=candidates)
+        try:
+            m, candidates = fill_fit(m, dicts, square_coords, candidates=candidates)
+        except KeyError:
+            pass
         starting_spots = get_starting_spots(m, dicts, square_coords)
         starting_spots.sort(key=itemgetter(2))
         candidates = get_candidates(m, dicts, square_coords)
@@ -214,7 +217,6 @@ def fill_fit(m, dicts, square_coords, candidates={}, single_candidates=[]):
             return m, candidates
         if fit:
             m = update_sudoku(fit, m)
-            row, col, n = fit
             dicts = remove_updated_from_dicts(fit, dicts, square_coords)
             candidates = remove_from_candidates(fit, candidates)
         else:
@@ -375,6 +377,7 @@ def solver(m):
     """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
     candidates, dicts, square_coords = setup(m)
     medium_m = sudoku_solver(m, dicts, candidates, square_coords)
+    if valid(medium_m): return m
     candidates, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
     sq = square_coords
