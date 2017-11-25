@@ -269,7 +269,7 @@ def remove_from_candidates(fit, candidates):
     return candidates
 
 
-def find_naked_sets(candidates, dicts, setlength=2):
+def find_naked_sets(candidates, dicts):
     """
     Return a tuple containing 2 dicts of naked pairs&sets&quads mapped to coordinates. A naked set is a set of numbers
     which are the only possible values for fields along a row or column.
