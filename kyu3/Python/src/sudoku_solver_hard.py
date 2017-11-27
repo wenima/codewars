@@ -287,8 +287,8 @@ def find_naked_sets(candidates, dicts):
         ns = build_possible_naked_sets(c, setlength=i)
         cpns = build_coords_per_naked_set(ns)
         ns = update_naked_set(ns, cpns, i)
-        ns_rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=i)
-        ns_cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=i)
+        ns_rows = get_coords_naked_sets(ns, candidates, dicts, i, row_or_col=0)
+        ns_cols = get_coords_naked_sets(ns, candidates, dicts, i, row_or_col=1)
         rows.update(ns_rows)
         cols.update(ns_cols)
     return rows, cols
@@ -328,19 +328,30 @@ def update_naked_set(ns, cpns, setlength):
     return ns
 
 
-def get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=2):
-    """Return a dict of coordinates as key and naked sets as values that can be removed from candidates."""
+def get_coords_naked_sets(ns, candidates, dicts, setlength, row_or_col=0):
+    """Return a dict of coordinates as key and naked pairs/sets/quads as values that can be removed from candidates."""
     c = candidates
     rm, cm, sm = dicts
     group = []
     out = {}
-    ns_sorted = {el[0]:el[1] for el in sorted(ns.items(), key=lambda x: x[0])}
-    for k, g in groupby(ns_sorted, lambda x: x[row_or_col]):
-        coords = list(g)
-        key = tuple(ns[coords[0]])
-        if len(coords) > 1: #if list has only one element, there are no naked sets for that key
-            if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
-                out[key] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in coords]
+    #an iterator to be used for groupby needs to be sorted; row_or_col flag is used as key
+    ns_sorted = {el[0]:el[1] for el in sorted(ns.items(), key=lambda x: x[row_or_col])}
+    #set up a new dict with naked pair/sets/quads as keys
+    ns_grouped = {}
+    for k, g in groupby(ns_sorted.items(), lambda x: x[1]): #cleanup, don't need groupby
+        ns_grouped[tuple(k)] = []
+    #group each naked pair/set/quad with the coordinates where they appear
+    for coord, naked in ns_sorted.items():
+        ns_grouped[tuple(naked)].append(coord)
+    #for each naked pair/set/quad, look at coords and group them by row or col so we get all coordinates with
+    #naked pair/set/quad along a row or column
+    for naked, coords in ns_grouped.items():
+        coords.sort(key=lambda x: x[row_or_col]) #need to sort coords by row or col so groupby works
+        for k, g in groupby(coords, lambda x: x[row_or_col]):
+            grouped_coords = list(g)
+            if len(grouped_coords) == setlength: # naked pairs/sets/quads are only valid if the number of coords matches the amount of candidates
+                if len(cm[k] if row_or_col == 1 else rm[k]) > setlength: #check missing row or col dict to see if more than given setlength is missing
+                    out[naked] = [coord for coord in c.keys() if coord[row_or_col] == k and coord not in grouped_coords]
     return out
 
 
