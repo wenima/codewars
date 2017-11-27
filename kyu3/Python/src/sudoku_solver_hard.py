@@ -286,7 +286,7 @@ def find_naked_sets(candidates, dicts):
     for i in range(2, 5):
         ns = build_possible_naked_sets(c, setlength=i)
         cpns = build_coords_per_naked_set(ns)
-        ns = update_naked_set(ns, cpns)
+        ns = update_naked_set(ns, cpns, i)
         ns_rows = get_coords_naked_sets(ns, candidates, dicts, row_or_col=0, setlength=i)
         ns_cols = get_coords_naked_sets(ns, candidates, dicts, row_or_col=1, setlength=i)
         rows.update(ns_rows)
@@ -316,13 +316,13 @@ def build_coords_per_naked_set(ns):
     return cpns
 
 
-def update_naked_set(ns, cpns):
+def update_naked_set(ns, cpns, setlength):
     """Return an updated dict of naked set."""
     for k, v in cpns.items():
         if len(v) == 1:
             del ns[v.pop()]
         else:
-            if len(set(v)) < 3:
+            if len(set(v)) < setlength:
                 for coord in set(v):
                     del ns[coord]
     return ns
