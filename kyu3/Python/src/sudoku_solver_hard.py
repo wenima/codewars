@@ -393,7 +393,7 @@ def solver(m):
     rm, cm, sm = dicts
     sq = square_coords
     square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
-    missing = candidates[coords[0]]
+    missing = sm[square]
     fits = {} #keep track of best fit
     for p in permutations(missing): #try all combinations of fields and missing numbers
         sq_p = tuple(zip(coords, p))
