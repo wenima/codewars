@@ -387,43 +387,37 @@ def fill_square(brute_m, candidates, sq_p):
 def solver(m):
     """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
     candidates, dicts, square_coords = setup(m)
-    medium_m = sudoku_solver(m, dicts, candidates, square_coords)
-    if valid(medium_m): return m
+    medium_m = sudoku_solver(list(m), dicts, candidates, square_coords)
+    if valid(medium_m):
+        return m #Sudoku solved after the first run
+    return rec_solver(medium_m)
+
+
+def rec_solver(m):
+    """Return a sudoku by recursively calling itself."""
+    if valid(m):
+        return m
     candidates, dicts, square_coords = setup(m)
-    rm, cm, sm = dicts
     sq = square_coords
+    rm, cm, sm = dicts
     square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
     missing = sm[square]
-    fits = {} #keep track of best fit
-    for p in permutations(missing): #try all combinations of fields and missing numbers
+    for p in permutations(missing):  #try all combinations of fields and missing numbers
+        candidates, dicts, square_coords = setup(m)
         sq_p = tuple(zip(coords, p))
-        prev_zeroes = 0
-        brute_m = deepcopy(medium_m)
-        candidates, dicts, square_coords = setup(brute_m)
+        brute_m = deepcopy(m)
         if not fill_square(brute_m, candidates, sq_p):
             continue
-        while True:
-            try:
-                candidates, dicts, square_coords = setup(brute_m)
-                brute_m = sudoku_solver(list(brute_m), dicts, candidates, square_coords)
-            except ValueError as e: #Sudoku not solvable for this permutation
-                break
-            if valid(brute_m):
-                return brute_m
-            else:
-                total_zeroes = 0
-                for row in brute_m:
-                    total_zeroes += row.count(0)
-                if total_zeroes == 0: break
-                if prev_zeroes == total_zeroes:
-                    fits[sq_p] = total_zeroes
-                    break
-                prev_zeroes = total_zeroes
-    if valid(brute_m):
+        try:
+            candidates, dicts, square_coords = setup(brute_m)
+            brute_m = sudoku_solver(list(brute_m), dicts, candidates, square_coords)
+        except ValueError as e:
+            continue
+        if not valid(brute_m):
+            brute_m = rec_solver(brute_m)
+            if not brute_m:
+                continue
         return brute_m
-    else:
-        raise ValueError('Sudoku not solvable')
-
 
 
 def valid(board):
