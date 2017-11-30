@@ -121,6 +121,7 @@ TEST_SUDOKUS = [
     (hard_2, True),
     (expert, True),
     (extreme, True),
+    (fiendish, True),
 ]
 
 TEST_FILL_SQUARES = [
