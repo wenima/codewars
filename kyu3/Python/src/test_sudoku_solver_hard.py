@@ -207,39 +207,35 @@ def test_populate_dicts(immediate_fills_dicts):
     assert cols_missing[8] == [8, 6, 4]
     assert squares_missing[9] == [2, 4]
 
-def test_get_missing(immediate_fills_dicts):
+def test_get_missing(medium_sudoku):
     """Test that dicts with given numbers swap with missing numbers."""
-    from sudoku_solver_hard import get_missing
-    dicts, square_coords = immediate_fills_dicts
-    dicts = get_missing(dicts)
+    from sudoku_solver_hard import setup, get_missing
+    c, dicts, square_coords = setup(medium_sudoku)
     rows_missing, cols_missing, squares_missing = dicts
     assert rows_missing[0] == set([1, 2, 3, 4, 6, 7])
     assert cols_missing[8] == set([1, 2, 3, 5, 7, 9])
     assert squares_missing[9] == set([1, 3, 5, 6, 7, 8, 9])
 
 
-def test_get_sorted_starting_spots(immediate_fills_dicts, medium_sudoku):
+def test_get_sorted_starting_spots(medium_sudoku):
     """Test that function returns best starting spots given a sudoku dicts
     and square coordinates."""
-    from sudoku_solver_hard import get_missing, get_starting_spots
-    dicts, square_coords = immediate_fills_dicts
-    dicts = get_missing(dicts)
+    from sudoku_solver_hard import setup, get_missing, get_starting_spots
+    c, dicts, square_coords = setup(medium_sudoku)
     starting_spots = get_starting_spots(medium_sudoku, dicts, square_coords)
     starting_spots.sort(key=itemgetter(2))
     assert starting_spots[0] == (4, 4, 11)
     assert starting_spots[-1] == (2, 2, 21)
 
-
 def test_get_candidates(immediate_fills_candidates):
     """Test that function returns a dict of candidates per coordinate."""
     assert immediate_fills_candidates[(4, 4)] == [3]
 
-def test_get_candidates_account_for_naked_sets(medium_sudoku, immediate_fills_dicts):
+def test_get_candidates_account_for_naked_sets(medium_sudoku):
     """Test that function returns a dict of candidates per coordinate but omits
     numbers for coordinates from naked sets if provided."""
-    from sudoku_solver_hard import get_missing, get_candidates
-    dicts, square_coords = immediate_fills_dicts
-    dicts = get_missing(dicts)
+    from sudoku_solver_hard import setup, get_missing, get_candidates
+    c, dicts, square_coords = setup(medium_sudoku)
     naked_sets = {(3, 8): [(8, 7), (8, 6), (8, 2)]}
     c = get_candidates(medium_sudoku, dicts, square_coords, naked_sets)
     assert 3, 8 not in c[(8, 6)]
@@ -253,14 +249,14 @@ def test_find_fit(immediate_fills_candidates):
     row, col, num = find_fit(immediate_fills_candidates)
     assert row == 4 and col == 4 and num == 3
 
-def test_fill_fit(medium_sudoku, immediate_fills_candidates, immediate_fills_dicts):
+def test_fill_fit_candidates(medium_sudoku):
     """Test that given candidates with immediate fits, the Sudoku is updated correctly
     and the fill is removed from Sudoku dicts."""
-    from sudoku_solver_hard import fill_fit
+    from sudoku_solver_hard import setup, fill_fit
     m = medium_sudoku
-    dicts, square_coords = immediate_fills_dicts
+    c, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
-    m, candidates = fill_fit(m, dicts, square_coords, candidates=immediate_fills_candidates)
+    m, candidates = fill_fit(m, dicts, square_coords, candidates=c)
     assert m[4][4] == 3
     assert m[2][4] == 6
     assert m[6][4] == 5
@@ -268,13 +264,12 @@ def test_fill_fit(medium_sudoku, immediate_fills_candidates, immediate_fills_dic
     assert (4, 4) not in candidates.keys()
 
 
-def test_fill_fit(medium_sudoku, immediate_fills_dicts):
+def test_fill_fit_single_candidates(medium_sudoku):
     """Test that given single_candidates, the Sudoku is updated correctly and
     the fill is removed from Sudoku dicts."""
-    from sudoku_solver_hard import get_missing, fill_fit
+    from sudoku_solver_hard import setup, get_missing, fill_fit
     m = medium_sudoku
-    dicts, square_coords = immediate_fills_dicts
-    dicts = get_missing(dicts)
+    c, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
     single_candidates = [(7, (0, 3)), (9, (3, 1)), (6, (5, 0)), (7, (5, 8)), (9, (7, 5)), (2, (8, 3))]
     m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
@@ -323,40 +318,36 @@ def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_
     assert (7, (0, 3)) in single_candidates
 
 
-def test_build_possible_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+def test_build_possible_naked_sets(naked_sets_sudoku):
     """Given a Sudoku test that function returns possible naked sets."""
-    from sudoku_solver_hard import get_candidates, build_possible_naked_sets
+    from sudoku_solver_hard import setup, build_possible_naked_sets
     m = naked_sets_sudoku
-    dicts, square_coords = naked_sets_dicts
-    candidates = get_candidates(m, dicts, square_coords)
-    possible_naked_sets = build_possible_naked_sets(candidates)
+    c, dicts, square_coords = setup(m)
+    possible_naked_sets = build_possible_naked_sets(c)
     assert possible_naked_sets[(7, 3)] == [3, 8]
     assert possible_naked_sets[(8, 5)] == [3, 8]
 
 
-def test_coords_per_naked_set(naked_sets_sudoku, naked_sets_dicts):
+def test_coords_per_naked_set(naked_sets_sudoku):
     """Given a dict of possible naked sets, test that function returns the inverted dict."""
-    from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
-    build_coords_per_naked_set)
+    from sudoku_solver_hard import setup, build_possible_naked_sets, build_coords_per_naked_set
     m = naked_sets_sudoku
-    dicts, square_coords = naked_sets_dicts
-    c = get_candidates(m, dicts, square_coords)
+    c, dicts, square_coords = setup(m)
     possible_naked_sets = build_possible_naked_sets(c)
     coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
     for k, v in coords_per_naked_set.items():
         assert len(v) == len([1 for nums in possible_naked_sets.values() if nums == list(k)])
 
 
-def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
+def test_update_naked_set(naked_sets_sudoku):
     """
     Given a dict of possible naked sets and it inverse dict, test that the
     function returns an updated dict.
     """
-    from sudoku_solver_hard import (get_candidates, build_possible_naked_sets,
+    from sudoku_solver_hard import (setup, build_possible_naked_sets,
     build_coords_per_naked_set, update_naked_set)
     m = naked_sets_sudoku
-    dicts, square_coords = naked_sets_dicts
-    c = get_candidates(m, dicts, square_coords)
+    c, dicts, square_coords = setup(m)
     possible_naked_sets = build_possible_naked_sets(c)
     coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
     naked_sets = update_naked_set(possible_naked_sets, coords_per_naked_set, 2)
@@ -366,15 +357,14 @@ def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
     assert len(vals) == 3
 
 
-def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
+def test_find_naked_sets(naked_sets_sudoku):
     """
     Given a dict of naked sets, test that function returns a list
     of coordinates from which a naked set can be removed from
     ."""
-    from sudoku_solver_hard import get_candidates, find_naked_sets
+    from sudoku_solver_hard import setup, find_naked_sets
     m = naked_sets_sudoku
-    dicts, square_coords = naked_sets_dicts
-    c = get_candidates(m, dicts, square_coords)
+    c, dicts, square_coords = setup(m)
     rows, cols = find_naked_sets(c, dicts)
     assert (8, 6) in rows[(3, 8)]
     assert (8, 2) in rows[(3, 8)]
