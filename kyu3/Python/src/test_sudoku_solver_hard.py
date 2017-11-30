@@ -43,15 +43,15 @@ brute_force = [
 np = {(1, 5): [(8, 0), (8, 7), (8, 3)]}
 
 fiendish = [
-    [3,0,5,0,2,0,7,0,1],
-    [0,0,0,8,0,3,0,0,2],
-    [0,6,0,0,0,5,0,0,0],
-    [0,7,1,0,0,0,0,5,0],
-    [0,0,6,0,0,0,9,0,0],
-    [0,9,0,0,0,0,4,2,0],
-    [0,0,0,6,0,0,0,9,0],
-    [9,0,0,5,0,4,0,0,5],
-    [6,0,8,0,3,0,2,0,4]
+    [3, 0, 5, 0, 2, 0, 7, 0, 1],
+    [0, 0, 0, 8, 0, 3, 0, 0, 2],
+    [0, 6, 0, 0, 0, 5, 0, 0, 0],
+    [0, 7, 1, 0, 0, 0, 0, 5, 0],
+    [0, 0, 6, 0, 0, 0, 9, 0, 0],
+    [0, 9, 0, 0, 0, 0, 4, 2, 0],
+    [0, 0, 0, 6, 0, 0, 0, 9, 0],
+    [9, 0, 0, 5, 0, 4, 0, 0, 5],
+    [6, 0, 8, 0, 3, 0, 2, 0, 4]
     ]
 
 unsolvable = [
@@ -133,15 +133,15 @@ TEST_FILL_SQUARES = [
 @pytest.fixture
 def medium_sudoku():
     new_sudoku = [
-        [5,0,0,0,9,0,0,0,8],
-        [0,6,0,0,1,0,0,7,0],
-        [0,0,0,5,0,2,0,0,0],
-        [0,0,4,0,8,0,1,0,0],
-        [7,1,0,9,0,5,0,4,6],
-        [0,0,5,0,2,0,9,0,0],
-        [0,0,0,1,0,6,0,0,0],
-        [0,5,0,0,4,0,0,2,0],
-        [9,0,0,0,7,0,0,0,4]
+        [5, 0, 0, 0, 9, 0, 0, 0, 8],
+        [0, 6, 0, 0, 1, 0, 0, 7, 0],
+        [0, 0, 0, 5, 0, 2, 0, 0, 0],
+        [0, 0, 4, 0, 8, 0, 1, 0, 0],
+        [7, 1, 0, 9, 0, 5, 0, 4, 6],
+        [0, 0, 5, 0, 2, 0, 9, 0, 0],
+        [0, 0, 0, 1, 0, 6, 0, 0, 0],
+        [0, 5, 0, 0, 4, 0, 0, 2, 0],
+        [9, 0, 0, 0, 7, 0, 0, 0, 4]
         ]
     return new_sudoku
 
@@ -179,7 +179,7 @@ def naked_sets_sudoku(medium_sudoku, immediate_fills_dicts, immediate_fills_cand
 @pytest.fixture
 def naked_sets_dicts(naked_sets_sudoku):
     from sudoku_solver_hard import (initialize_dicts, initialize_d,
-    fill_given_numbers, populate_dicts, get_missing, get_candidates, find_naked_sets)
+    fill_given_numbers, populate_dicts, get_missing, get_candidates)
     m = naked_sets_sudoku
     square_sides = int(sqrt(len(naked_sets_sudoku)))
     dicts = initialize_dicts(m, square_sides)
@@ -359,11 +359,11 @@ def test_update_naked_set(naked_sets_sudoku, naked_sets_dicts):
     c = get_candidates(m, dicts, square_coords)
     possible_naked_sets = build_possible_naked_sets(c)
     coords_per_naked_set = build_coords_per_naked_set(possible_naked_sets)
-    naked_sets = update_naked_set(possible_naked_sets, coords_per_naked_set)
+    naked_sets = update_naked_set(possible_naked_sets, coords_per_naked_set, 2)
     vals = []
     for v in naked_sets.values():
         if v not in vals: vals.append(v)
-    assert len(vals) == 1
+    assert len(vals) == 3
 
 
 def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
@@ -379,7 +379,9 @@ def test_find_naked_sets(naked_sets_sudoku, naked_sets_dicts):
     assert (8, 6) in rows[(3, 8)]
     assert (8, 2) in rows[(3, 8)]
     assert (8, 7) in rows[(3, 8)]
-    assert cols == {}
+    assert (6, 1) in cols[(3, 8)]
+    assert (0, 1) in cols[(3, 8)]
+    assert (2, 1) in cols[(3, 8)]
 
 
 def test_remove_naked_sets_from_candidates(naked_sets_sudoku, naked_sets_dicts):
