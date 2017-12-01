@@ -109,7 +109,7 @@ def sudoku_solver(m, dicts, candidates, square_coords, cnt_candidates=0):
         single_candidates = single_candidate(candidates, square_coords, dicts)
     else:
         return m
-    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    m = fill_fit(m, dicts, square_coords, candidates=candidates, single_candidates=single_candidates)
     try:
         candidates = get_candidates(m, dicts, square_coords)
     except ValueError as e:
@@ -137,7 +137,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
         try:
-            m, candidates = fill_fit(m, dicts, square_coords, candidates=candidates)
+            m = fill_fit(m, dicts, square_coords, candidates=candidates)
         except KeyError:
             pass
         starting_spots = get_starting_spots(m, dicts, square_coords)
@@ -214,13 +214,13 @@ def fill_fit(m, dicts, square_coords, candidates={}, single_candidates=[]):
             else:
                 fit = find_fit(candidates)
         except IndexError:
-            return m, candidates
+            return m
         if fit:
             m = update_sudoku(fit, m)
             dicts = remove_updated_from_dicts(fit, dicts, square_coords)
             candidates = remove_from_candidates(fit, candidates)
         else:
-            return m, candidates
+            return m
 
 
 def find_fit(candidates):
