@@ -394,7 +394,7 @@ def solver(m):
 
 
 def rec_solver(m):
-    """Return a sudoku by recursively calling itself."""
+    """Return a sudoku by recursively calling itself which triggers the next brute force of a square."""
     if valid(m):
         return m
     candidates, dicts, square_coords = setup(m)
