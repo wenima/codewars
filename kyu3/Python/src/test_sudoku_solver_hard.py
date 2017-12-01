@@ -187,7 +187,7 @@ def naked_sets_sudoku(medium_sudoku, immediate_fills_dicts, immediate_fills_cand
     rm, cm, sm = dicts
     m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
     single_candidates = single_candidate(candidates, square_coords, dicts)
-    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    m  = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
     return m
 
 @pytest.fixture
@@ -270,12 +270,11 @@ def test_fill_fit_candidates(medium_sudoku):
     m = medium_sudoku
     c, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
-    m, candidates = fill_fit(m, dicts, square_coords, candidates=c)
+    m  = fill_fit(m, dicts, square_coords, candidates=c)
     assert m[4][4] == 3
     assert m[2][4] == 6
     assert m[6][4] == 5
     assert 3 not in rm[4]
-    assert (4, 4) not in candidates.keys()
 
 
 def test_fill_fit_single_candidates(medium_sudoku):
@@ -286,7 +285,7 @@ def test_fill_fit_single_candidates(medium_sudoku):
     c, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
     single_candidates = [(7, (0, 3)), (9, (3, 1)), (6, (5, 0)), (7, (5, 8)), (9, (7, 5)), (2, (8, 3))]
-    m, candidates = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    m = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
     assert m[0][3] == 7
     assert m[5][0] == 6
     assert m[8][3] == 2
