@@ -247,33 +247,6 @@ def update_sudoku(fit, m):
         raise ValueError('Something is wrong')
     return m
 
-
-def remove_updated_from_dicts(fit, dicts, square_coords):
-    """Return dicts with updated digit removed from missing digits."""
-    row, col, n = fit
-    rm, cm, sm = dicts
-    sq = square_coords
-    rm[row].remove(n)
-    cm[col].remove(n)
-    sm[square_coords[row, col]].remove(n)
-    del sq[(row, col)]
-    return dicts
-
-
-def remove_from_candidates(fit, candidates):
-    """Return candidates with updated digit removed from all coordinates."""
-    if not candidates: return candidates
-    row, col, n = fit
-    del candidates[(row, col)]
-    for k, v in candidates.items():
-        if k[0] == row or k[1] == col:
-            try:
-                v.remove(n)
-            except:
-                continue
-    return candidates
-
-
 def find_naked_sets(candidates, dicts):
     """
     Return a tuple containing 2 dicts of naked pairs&sets&quads mapped to coordinates. A naked set is a set of numbers
