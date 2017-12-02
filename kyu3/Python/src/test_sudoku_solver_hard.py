@@ -180,12 +180,13 @@ def immediate_fills_candidates(immediate_fills_dicts, medium_sudoku):
     return candidates
 
 @pytest.fixture
-def naked_sets_sudoku(medium_sudoku, immediate_fills_dicts, immediate_fills_candidates):
-    from sudoku_solver_hard import scan_sudoku, fill_fit, single_candidate
+def naked_sets_sudoku(medium_sudoku):
+    from sudoku_solver_hard import  setup, scan_sudoku, fill_fit, single_candidate
     m = medium_sudoku
-    dicts, square_coords = immediate_fills_dicts
+    candidates, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
-    m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
+    m = scan_sudoku(m, dicts, square_coords, candidates)
+    candidates, dicts, square_coords = setup(m)
     single_candidates = single_candidate(candidates, square_coords, dicts)
     m  = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
     return m
@@ -269,8 +270,9 @@ def test_fill_fit_candidates(medium_sudoku):
     from sudoku_solver_hard import setup, fill_fit
     m = medium_sudoku
     c, dicts, square_coords = setup(m)
-    rm, cm, sm = dicts
     m  = fill_fit(m, dicts, square_coords, candidates=c)
+    c, dicts, square_coords = setup(m)
+    rm, cm , sm = dicts
     assert m[4][4] == 3
     assert m[2][4] == 6
     assert m[6][4] == 5
@@ -286,6 +288,8 @@ def test_fill_fit_single_candidates(medium_sudoku):
     rm, cm, sm = dicts
     single_candidates = [(7, (0, 3)), (9, (3, 1)), (6, (5, 0)), (7, (5, 8)), (9, (7, 5)), (2, (8, 3))]
     m = fill_fit(m, dicts, square_coords, single_candidates=single_candidates)
+    candidates, dicts, square_coords = setup(m)
+    rm, cm, sm = dicts
     assert m[0][3] == 7
     assert m[5][0] == 6
     assert m[8][3] == 2
@@ -298,13 +302,12 @@ def test_scan_sudoku(medium_sudoku, immediate_fills_candidates, immediate_fills_
     from sudoku_solver_hard import scan_sudoku
     m = medium_sudoku
     dicts, square_coords = immediate_fills_dicts
-    m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
+    m = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
     total_zeroes = 0
     for row in m:
         total_zeroes += row.count(0)
     assert m[5][5] == 1
     assert total_zeroes == 46
-    assert (5, 3) not in candidates.keys()
 
 
 def test_squares_to_missing(immediate_fills_dicts):
@@ -322,10 +325,11 @@ def test_squares_to_missing(immediate_fills_dicts):
 
 def test_single_candidate(medium_sudoku, immediate_fills_dicts, immediate_fills_candidates):
     """Test that function returns a fill by using the single candidate technique."""
-    from sudoku_solver_hard import scan_sudoku, single_candidate
+    from sudoku_solver_hard import setup, scan_sudoku, single_candidate
     m = medium_sudoku
-    dicts, square_coords = immediate_fills_dicts
-    m, candidates = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
+    candidates, dicts, square_coords = setup(m)
+    m = scan_sudoku(m, dicts, square_coords, immediate_fills_candidates)
+    candidates, dicts, square_coords = setup(m)
     single_candidates = single_candidate(candidates, square_coords, dicts)
     assert len(single_candidates) == 6
     assert (7, (0, 3)) in single_candidates
