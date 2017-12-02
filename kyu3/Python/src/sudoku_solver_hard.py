@@ -102,7 +102,7 @@ def sudoku_solver(m, dicts, candidates, square_coords, cnt_candidates=0):
     Look for naked pairs and eliminate from candidates
     Look for naked sets and eliminate from candidates
     """
-    m, candidates = scan_sudoku(m, dicts, square_coords, candidates)
+    m = scan_sudoku(m, dicts, square_coords, candidates)
     candidates, dicts, square_coords = setup(m)
     rm, cm, sm = dicts
     if candidates:
@@ -144,7 +144,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
         starting_spots.sort(key=itemgetter(2))
         candidates = get_candidates(m, dicts, square_coords)
         if not candidates: break
-    return m, candidates
+    return m
 
 
 def single_candidate(candidates, square_coords, dicts):
@@ -217,8 +217,7 @@ def fill_fit(m, dicts, square_coords, candidates={}, single_candidates=[]):
             return m
         if fit:
             m = update_sudoku(fit, m)
-            dicts = remove_updated_from_dicts(fit, dicts, square_coords)
-            candidates = remove_from_candidates(fit, candidates)
+            candidates, dicts, square_coords = setup(m)
         else:
             return m
 
