@@ -1,7 +1,7 @@
 """Module to solve the code-kata https://www.codewars.com/kata/sudoku-solver."""
 
 from math import sqrt, ceil
-from itertools import islice, chain, groupby, permutations
+from itertools import islice, chain, groupby, permutations, takewhile
 from operator import itemgetter
 from collections import defaultdict, Counter
 from functools import reduce
@@ -354,6 +354,32 @@ def get_coords_naked_sets(ns, candidates, dicts, setlength, row_or_col=0):
     return out
 
 
+def get_naked_pairs(candidates):
+    """Return a tuple containing a naked pair/set/quad and a list of corresponding coordinates."""
+    #take coordinates which have possible candidates of length 2 until there are no more
+    c = takewhile(lambda x: len(x[1]) == 2, sorted(candidates.items(), key=lambda x: len(x[1])))
+    # create groups of coordinates per possible pair
+    groups = groupby(sorted(c, key=lambda x: x[1]), key=itemgetter(1))
+    d = {tuple(k):[x[0] for x in v] for k, v in groups}
+    # go through all possible pairs and check if they qualify as a naked pair and return the pair and coordinates
+    for n in sorted(d.items(), key=lambda x: len(x[1]), reverse=True):
+        if len(n[1]) < 2:
+            #if we encounter the first item with less than 2 coordinates, we know there no naked pairs left
+            return n 
+        rows = [x[0] for x in n[1]]
+        cols = [x[1] for x in n[1]]
+        rc = Counter(rows)
+        cc = Counter(cols)
+        row, row_cnt = rc.most_common(1)[0]
+        col, col_cnt = rc.most_common(1)[0]
+        if row_cnt > 1:
+            return (n[0], [x for x in n[1] if x[0] == row])
+        elif col_cnt > 1:
+            return (n[0], [x for x in n[1] if x[1] == col])
+        else:
+            continue
+
+
 def remove_naked_sets_from_candidates(c, *args):
     """Return an updated list of candidates and naked sets after removing possible numbers by looking at naked sets"""
     for d in args:
@@ -399,8 +425,11 @@ def rec_solver(m):
     candidates, dicts, square_coords = setup(m)
     sq = square_coords
     rm, cm, sm = dicts
-    square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
-    missing = sm[square]
+    missing, coords = get_naked_pairs(candidates)
+    #use a naked pair for brute forcing, if no naked pair or set is available, brute force the best square
+    if len(coords) < 2:
+            square, coords = sorted(squares_to_missing(sq).items(), key = lambda x: len(x[1]), reverse=True).pop()
+            missing = sm[square]
     for p in permutations(missing):  #try all combinations of fields and missing numbers
         candidates, dicts, square_coords = setup(m)
         sq_p = tuple(zip(coords, p))
