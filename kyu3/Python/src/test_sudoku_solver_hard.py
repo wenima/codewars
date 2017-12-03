@@ -436,41 +436,14 @@ def test_solver_combo_approach(m, result):
     assert valid(solved_sudoku) == result
 
 
-# def test_find_naked_pairs(naked_sets_sudoku):
-#     """Given a Sudoku with naked pairs, test that funtion returns a dict with
-#     a naked set as key and coords to be updated."""
-#     from sudoku_solver_hard import (initialize_dicts, initialize_d,
-#     fill_given_numbers, populate_dicts, get_missing, get_candidates, find_naked_sets)
-#     m = naked_sets_sudoku
-#     square_sides = int(sqrt(len(naked_sets_sudoku)))
-#     dicts = initialize_dicts(m, square_sides)
-#     dicts, square_coords = populate_dicts(m, square_sides, dicts)
-#     dicts = get_missing(dicts)
-#     candidates = get_candidates(m, dicts, square_coords)
-#     print(candidates)
-#     naked_sets_fields_row, naked_sets_fields_cols = find_naked_sets(candidates, dicts, setlength=2)
-#     assert naked_sets_fields_row == {(3, 8): [(8, 7), (8, 6), (8, 2)]}
-#     assert naked_sets_fields_cols == {}
-
-#
-#
-# def test_find_naked_pairs():
-#     """Given a Sudoku with naked pairs, test that funtion returns a dict with
-#     a naked set as key and coords to be updated."""
-#     from sudoku_solver_hard import find_naked_sets, sudoku_solver
-#     m, candidates, dicts = sudoku_solver(naked_pairs)
-#     assert find_naked_sets(candidates, dicts) == np
-
-# def test_scan_for_fills():
-#     """Given a Sudoku with naked pairs, test that funtion returns a dict with
-#     a naked set as key and coords to be updated."""
-#     from sudoku_solver_hard import find_naked_sets, sudoku_solver
-#     m, candidates, dicts = sudoku_solver(naked_pairs)
-#     assert find_naked_sets(candidates, dicts) == np
-#
-#
-# def test_medium_sudoku_validator(fiendish_sudoku):
-#     """Test sudoku_validator returns correct result."""
-#     from sudoku_validator import Sudoku
-#     fiendish_sudoku = Sudoku(fiendish_sudoku)
-#     assert fiendish_sudoku.is_valid() == True
+@pytest.mark.parametrize('m, result', TEST_SUDOKUS)
+def test_solver_combo_approach_benchmark(m, result, benchmark):
+    """
+    Test that function solver can solve a given sudoku of hard difficulty correctly using a mix of traditional solving techniques and
+    brute force.
+    """
+    from sudoku_solver_hard import solver, valid
+    from copy import deepcopy
+    brute_m = brute_m = deepcopy(m)
+    result = benchmark(solver, brute_m)
+    
