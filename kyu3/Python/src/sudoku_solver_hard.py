@@ -1,4 +1,4 @@
-"""Module to solve the code-kata https://www.codewars.com/kata/sudoku-solver."""
+"""Module to solve the code-kata https://www.codewars.com/kata/hard-sudoku-solver."""
 
 from math import sqrt, ceil
 from itertools import islice, chain, groupby, permutations, takewhile
