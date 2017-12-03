@@ -431,7 +431,7 @@ def test_solver_combo_approach(m, result):
     """
     from sudoku_solver_hard import solver, valid
     from copy import deepcopy
-    brute_m = brute_m = deepcopy(m)
+    brute_m = deepcopy(m)
     solved_sudoku = solver(brute_m)
     assert valid(solved_sudoku) == result
 
@@ -446,4 +446,3 @@ def test_solver_combo_approach_benchmark(m, result, benchmark):
     from copy import deepcopy
     brute_m = brute_m = deepcopy(m)
     result = benchmark(solver, brute_m)
-    
