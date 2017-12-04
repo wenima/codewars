@@ -54,8 +54,7 @@ class Sudoku(object):
                     return False
         for i in range(0, 1 if self.square_sides == 1 else self.square_sides * 2, self.square_sides):
             try:
-                if not self._check_square(i):
-                    return False
+                self._check_square(i)
             except TypeError:
                 return False
         return True
