@@ -1,7 +1,0 @@
-language: python
-
-python:
-  - 3.6
-
-script: 
-  - pytest ./kyu4/Python/src/test*.py  -v --cov=. --cov-report term-missing
