@@ -98,3 +98,9 @@ def test_medium_sudoku_validator(medium_sudoku):
     from sudoku_validator import Sudoku
     medium_sudoku = Sudoku(medium_sudoku)
     assert medium_sudoku.is_valid() == False
+
+def test_update_non_empty_field_throws_exception():
+    """Test that update sudoku raises exception."""
+    from sudoku_solver import update_sudoku
+    with pytest.raises(Exception) as e_info:
+        update_sudoku((0, 0, 1), medium)
