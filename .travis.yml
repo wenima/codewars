@@ -12,5 +12,5 @@ branches:
     - sudoku_solver_hard
 # command to run tests
 script: 
-  - pytest ./kyu4/Python/src/test*.py
+  # - pytest ./kyu4/Python/src/test*.py
   - pytest ./kyu3/Python/src/test_sudoku_solver_hard_cw_submission.py
