@@ -21,14 +21,12 @@ class PokerHand(object):
         points = 0.0
         if self._is_straight:
             points += 7
-            print("str8")
         cards = 0
         for k, v in self.groups:
             if cards + v > 5: continue
             cards += v
             points += v ** 2
             if cards == 5: return points
-        return points
 
     @property
     def _is_straight(self):
