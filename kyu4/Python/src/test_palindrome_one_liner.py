@@ -4,12 +4,12 @@ import pytest
 
 
 TEST = [
-    (10, 'abcd'),
+    (10, 'abcd', 'abcdaadcba'),
 ]
 
 
-@pytest.mark.parametrize('n, s', TEST)
+@pytest.mark.parametrize('n, s, result', TEST)
 def test_make_palindrome(n, s, result):
     """Test palindrome is returned with length n."""
     from palindrome_one_liner import palindrome
-    assert make_palindrome(n, s) == result
+    assert palindrome(n, s) == result
