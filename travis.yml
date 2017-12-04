@@ -1,15 +1,8 @@
 language: python
 python:
-  - "2.7"
-  - "3.5"
-# command to install dependencies
-# install:
-#   - pip install .
-# which branch to build
-# branches:
-#   only:
-#     - master
-    # - sudoku_solver_hard
-# command to run tests
-script: 
-  - py.test ./kyu4/Python/src/test*.py  -v --cov=. --cov-report term-missing
+    - "3.6"
+#command to install dependencies
+install:
+    - pip install -e .[test]
+#command to run tests
+script: py.test ./kyu4/Python/src/test*.py  -v --cov=. --cov-report term-missing
