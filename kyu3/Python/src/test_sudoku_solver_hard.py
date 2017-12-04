@@ -435,7 +435,7 @@ def test_solver_combo_approach(m, result):
     solved_sudoku = solver(brute_m)
     assert valid(solved_sudoku) == result
 
-
+@pytest.mark.skip(reason="don't need benchmarking after moving the final version to travis for CI testing")
 @pytest.mark.parametrize('m, result', TEST_SUDOKUS)
 def test_solver_combo_approach_benchmark(m, result, benchmark):
     """
