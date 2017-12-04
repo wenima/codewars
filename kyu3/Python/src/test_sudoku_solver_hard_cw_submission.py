@@ -140,7 +140,7 @@ TEST_SUDOKUS = [
 @pytest.mark.parametrize('m, result', TEST_SUDOKUS)
 def test_solver_combo_approach_benchmark(m, result):
     """
-    Test that function solver can solve a given sudoku of hard difficulty correctly using a mix of traditional solving techniques and
+    Test that function solver can solve a given sudoku of any difficulty correctly using a mix of traditional solving techniques and
     brute force.
     """
     from sudoku_solver_hard_cw_submission import solver, valid
