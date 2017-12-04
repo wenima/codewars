@@ -1,8 +1,7 @@
 language: python
+
 python:
-    - "3.6"
-#command to install dependencies
-install:
-    - pip install -e .[test]
-#command to run tests
-script: py.test ./kyu4/Python/src/test*.py  -v --cov=. --cov-report term-missing
+  - 3.6
+
+script: 
+  - pytest ./kyu4/Python/src/test*.py  -v --cov=. --cov-report term-missing
