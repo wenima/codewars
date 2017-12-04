@@ -260,7 +260,8 @@ def fill_square(brute_m, candidates, sq_p):
     for fit in sq_p:
         coord, n = fit
         if n not in candidates[coord]: return False
-        brute_m = update_sudoku((*coord, n), brute_m)
+        row, col = coord
+        brute_m = update_sudoku((row, col, n), brute_m)
     return True
 
 
