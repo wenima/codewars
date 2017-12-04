@@ -14,4 +14,4 @@ branches:
 script: 
   # - pytest ./kyu4/Python/src/test*.py
   # - pytest ./kyu3/Python/src/test*.py
-  - py.test ./kyu3/Python/src/test_sudoku_solver_hard.py
+  - py.test ./kyu3/Python/src/test_sudoku_solver_hard_cw_submission.py
