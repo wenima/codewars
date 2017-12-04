@@ -6,9 +6,9 @@ python:
 # install:
 #   - pip install .
 # which branch to build
-branches:
-  only:
-    - master
+# branches:
+#   only:
+#     - master
     # - sudoku_solver_hard
 # command to run tests
 script: 
