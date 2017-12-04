@@ -94,12 +94,6 @@ invalid_last_column = [
 
 
 @pytest.fixture
-def valid_sudoku():
-    from sudoku_validator import Sudoku
-    new_sudoku = Sudoku(valid_m)
-    return new_sudoku
-
-@pytest.fixture
 def invalid_sudoku():
     from sudoku_validator import Sudoku
     new_sudoku = Sudoku(invalid_m_str)
@@ -136,11 +130,6 @@ def ivalid_sudoku_true():
     return new_sudoku
 
 
-def test_sudoku_validator(valid_sudoku):
-    """Test sudoku_validator returns correct result."""
-    assert valid_sudoku.is_valid() == True
-
-
 def test_sudoku_validator_4x4(valid_sudoku_4x4):
     """Test sudoku_validator returns correct result."""
     assert valid_sudoku_4x4.is_valid() == True
@@ -168,14 +157,14 @@ def test_sudoku_validator_false_bool_as_value(ivalid_sudoku_true):
     """Test sudoku_validator returns false if element in sudoku is not an integer."""
     assert ivalid_sudoku_true.is_valid() == False
 
-def test_sudoku_validator():
+def test_sudoku_validator_valid_2():
     """Test sudoku_validator returns correct result."""
     from sudoku_validator import Sudoku
-    valid_sudoku = Sudoku(valid_2)
-    assert valid_sudoku.is_valid() == True
+    s = Sudoku(valid_2)
+    assert s.is_valid() == True
 
 def test_sudoku_validator():
     """Test sudoku_validator returns correct result."""
     from sudoku_validator import Sudoku
-    valid_sudoku = Sudoku(invalid_last_column)
-    assert valid_sudoku.is_valid() == False
+    s = Sudoku(invalid_last_column)
+    assert s.is_valid() == False
