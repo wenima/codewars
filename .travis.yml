@@ -11,5 +11,5 @@ python:
 #     - sudoku_solver_hard
 # command to run tests
 script: 
-  - pytest ./kyu4/Python/src/test*.py  -v --cov=. --cov-report term-missing
+  - pytest ./kyu4/Python/src/test*.py
 
