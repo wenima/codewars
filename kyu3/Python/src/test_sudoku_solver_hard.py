@@ -66,6 +66,30 @@ unsolvable = [
     [9, 8, 1, 2, 7, 3, 6, 0, 4]
 ]
 
+invalid = [
+    [1, 2, 3, 4, 5, 6, 7, 8, 'a'], 
+    [4, 0, 6, 7, 8, 9, 1, 2, 3], 
+    [7, 8, 9, 1, 2, 3, 4, 5, 6], 
+    [2, 3, 4, 5, 6, 7, 8, 9, 1], 
+    [5, 6, 7, 8, 9, 1, 2, 3, 4], 
+    [8, 9, 1, 2, 3, 4, 5, 6, 7], 
+    [3, 4, 5, 6, 7, 8, 9, 1, 2], 
+    [6, 7, 8, 9, 1, 2, 3, 4, 5], 
+    [9, 1, 2, 3, 4, 5, 6, 7, 8]
+    ]
+
+not_unique = [
+    [0, 0, 3, 4, 5, 6, 7, 8, 9], 
+    [4, 5, 6, 7, 8, 9, 0, 0, 3], 
+    [7, 8, 9, 0, 0, 3, 4, 5, 6], 
+    [0, 3, 4, 5, 6, 7, 8, 9, 0], 
+    [5, 6, 7, 8, 9, 0, 0, 3, 4], 
+    [8, 9, 0, 0, 3, 4, 5, 6, 7], 
+    [3, 4, 5, 6, 7, 8, 9, 0, 0], 
+    [6, 7, 8, 9, 0, 0, 3, 4, 5], 
+    [9, 0, 0, 3, 4, 5, 6, 7, 8]
+    ]
+
 hard_1 = [
     [0, 0, 0, 2, 0, 0, 0, 6, 3],
     [3, 0, 0, 0, 0, 5, 4, 0, 1],
@@ -413,6 +437,13 @@ def test_sudoku_solver_handles_unsolvable_sudoku():
     with pytest.raises(Exception) as e_info:
         candidates, dicts, square_coords = setup(unsolvable)
     assert str(e_info.value) == 'Sudoku not solvable at 0, 2'
+
+def test_sudoku_solver_handles_garbage_input():
+    """Test that an unsolvable sudoku is handled correctly by sudoku_solver."""
+    from sudoku_solver_hard import setup
+    with pytest.raises(Exception) as e_info:
+        candidates, dicts, square_coords = setup(invalid)
+    assert str(e_info.value) == "Garbage input: 'a' at coord (0, 8), not a valid Sudoku"
 
 @pytest.mark.parametrize('m, fit, result', TEST_FILL_SQUARES)
 def test_fill_square_handles_invalid_permutations(m, fit, result):
