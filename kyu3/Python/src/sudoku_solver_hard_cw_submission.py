@@ -7,9 +7,9 @@ For the CW submission, the pre-set version of Python is 2.7.6 so this code targe
 """
 
 from math import sqrt, ceil
-from itertools import islice, chain, groupby, permutations, takewhile
+from itertools import islice, chain, permutations
 from operator import itemgetter
-from collections import defaultdict, Counter
+from collections import defaultdict
 from functools import reduce
 from copy import deepcopy
 
