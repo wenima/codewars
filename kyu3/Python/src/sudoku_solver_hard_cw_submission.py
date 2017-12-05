@@ -115,10 +115,7 @@ def sudoku_solver(m, dicts, candidates, square_coords):
     else:
         return m
     m = fill_fit(m, dicts, square_coords, candidates, single_candidates=single_candidates)
-    try:
-        candidates = get_candidates(m, dicts, square_coords)
-    except ValueError as e:
-        raise ValueError(e)
+    candidates = get_candidates(m, dicts, square_coords)
     return m
 
 
@@ -130,10 +127,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
     while True:
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
-        try:
-            m = fill_fit(m, dicts, square_coords, candidates)
-        except KeyError:
-            pass
+        m = fill_fit(m, dicts, square_coords, candidates)
         starting_spots = get_starting_spots(m, dicts, square_coords)
         starting_spots.sort(key=itemgetter(2))
         candidates = get_candidates(m, dicts, square_coords)
@@ -220,10 +214,7 @@ def fill_fit(*args, single_candidates=[]):
 def find_fit(candidates):
     """Return a tuple with coordinate and value to update from a sorted
     representation of a dict. If no fit can be found, return None."""
-    try:
-        fit = sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)
-    except AttributeError:
-        return None
+    fit = sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)
     row, col = fit[0]
     n = fit[1].pop()
     if len(fit[1]) == 0:
@@ -234,22 +225,8 @@ def find_fit(candidates):
 def update_sudoku(fit, m):
     """Return an updated Sudoku."""
     row, col, n = fit
-    try:
-        if m[row][col] != 0:
-            raise ValueError
-        m[row][col] = n
-    except ValueError:
-        raise ValueError('Something is wrong')
+    m[row][col] = n
     return m
-
-
-def count_candidates(candidates):
-    """Returns an integer number representing the total number of candidates."""
-    cnt_all_candidates = 0
-    c = Counter(candidates)
-    for v in c.values():
-        cnt_all_candidates += len(v)
-    return cnt_all_candidates
 
 
 def fill_square(brute_m, candidates, sq_p):
@@ -276,8 +253,6 @@ def solver(m):
 
 def rec_solver(m):
     """Return a sudoku by recursively calling itself which triggers the next brute force of a square."""
-    if valid(m):
-        return m
     candidates, dicts, square_coords = setup(m)
     sq = square_coords
     rm, cm, sm = dicts
