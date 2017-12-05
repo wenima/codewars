@@ -239,12 +239,12 @@ def fill_square(brute_m, candidates, sq_p):
     return True
 
 
-def solver(m):
+def solver(board):
     """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
-    medium_m = sudoku_solver(list(m), setup(m))
-    if valid(medium_m):
+    m = sudoku_solver(list(board), setup(board))
+    if valid(m):
         return m #Sudoku solved after the first run
-    return rec_solver(medium_m)
+    return rec_solver(m)
 
 
 def rec_solver(m):
