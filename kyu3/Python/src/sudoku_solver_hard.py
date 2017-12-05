@@ -195,6 +195,8 @@ def fill_given_numbers(square, row, col, sq_nr, dicts, sq):
             if sv == 0:
                 sq[coord] = sq_nr
                 continue
+            elif sv not in range(1, 10):
+                raise ValueError("Garbage input: '{0}' at coord {1}, not a valid Sudoku".format(sv, coord))
             rm[coord[0]].append(sv)
             cm[coord[1]].append(sv)
             sm[sq_nr].append(sv)
