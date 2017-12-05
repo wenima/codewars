@@ -100,7 +100,7 @@ def get_missing(dicts):
     return dicts
 
 
-def sudoku_solver(m, dicts, candidates, square_coords, cnt_candidates=0):
+def sudoku_solver(m, dicts, candidates, square_coords):
     """
     Return a valid Sudoku for a given matrix, helper dicts, a list of candidates and a lookup for coords matching squares.
     Fill in simple numbers using scanning technique
@@ -110,12 +110,11 @@ def sudoku_solver(m, dicts, candidates, square_coords, cnt_candidates=0):
     """
     m = scan_sudoku(m, dicts, square_coords, candidates)
     candidates, dicts, square_coords = setup(m)
-    rm, cm, sm = dicts
     if candidates:
         single_candidates = single_candidate(candidates, square_coords, dicts)
     else:
         return m
-    m = fill_fit(m, dicts, square_coords, candidates=candidates, single_candidates=single_candidates)
+    m = fill_fit(m, dicts, square_coords, candidates, single_candidates=single_candidates)
     try:
         candidates = get_candidates(m, dicts, square_coords)
     except ValueError as e:
@@ -132,7 +131,7 @@ def scan_sudoku(m, dicts, square_coords, candidates):
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
         try:
-            m = fill_fit(m, dicts, square_coords, candidates=candidates)
+            m = fill_fit(m, dicts, square_coords, candidates)
         except KeyError:
             pass
         starting_spots = get_starting_spots(m, dicts, square_coords)
@@ -196,11 +195,12 @@ def fill_given_numbers(square, row, col, sq_nr, dicts, sq):
     return dicts, sq
 
 
-def fill_fit(m, dicts, square_coords, candidates={}, single_candidates=[]):
+def fill_fit(*args, single_candidates=[]):
     """
     Return an updated Sudoku by either finding a fit or taking a fit from a provided
     list of fits and filling it in as long as a fit is found.
     """
+    m, dicts, square_coords, candidates = args
     while True:
         try:
             if single_candidates:
