@@ -110,7 +110,7 @@ def sudoku_solver(m, setup_return):
         single_candidates = single_candidate(setup(m))
     else:
         return m
-    m = fill_fit(m, setup(m), single_candidates=single_candidates)
+    m = fill_fit(m, get_candidates(m, dicts, square_coords), single_candidates=single_candidates)
     candidates = get_candidates(m, dicts, square_coords)
     return m
 
@@ -124,7 +124,7 @@ def scan_sudoku(m, setup_return):
     while True:
         if len(sorted(candidates.items(), key=lambda x: len(x[1])).pop(0)[1]) > 1: # no longer easily solvable
             break
-        m = fill_fit(m, setup(m))
+        m = fill_fit(m, get_candidates(m, dicts, square_coords))
         starting_spots = get_starting_spots(m, dicts, square_coords)
         starting_spots.sort(key=itemgetter(2))
         candidates = get_candidates(m, dicts, square_coords)
@@ -187,12 +187,11 @@ def fill_given_numbers(square, row, col, sq_nr, dicts, sq):
     return dicts, sq
 
 
-def fill_fit(m, setup_return, single_candidates=[]):
+def fill_fit(m, candidates, single_candidates=[]):
     """
     Return an updated Sudoku by either finding a fit or taking a fit from a provided
     list of fits and filling it in as long as a fit is found.
     """
-    candidates, dicts, square_coords = setup_return
     while True:
         try:
             if single_candidates:
