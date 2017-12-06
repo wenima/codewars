@@ -1,17 +1,11 @@
 language: python
 python:
-  # - "2.7"
   - "3.6"
-# command to install dependencies
-# install:
-#   - pip install
-which branch to build
+# which branch to build
 branches:
   only:
-    # - master
-    - sudoku_solver_hard
+    - master
 # command to run tests
 script: 
-  # - pytest ./kyu4/Python/src/test*.py
-  - pytest ./kyu3/Python/src/test_sudoku_solver_hard_cw_submission.py
-
+  - pytest ./kyu3/Python/src/test*.py
+  - pytest ./kyu2/Python/src/test*.py

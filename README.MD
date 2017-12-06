@@ -39,7 +39,11 @@ kyu5 or higher. [History of the term kyu](https://en.wikipedia.org/wiki/Ky%C5%AB
 ## kyu3
 
 * Sudoku Solver
+* Hard Sudoku Solver
 * Texas Holdem
+
+## kyu2
+* Hard Unique Sudoku Solver
 
 # C# coding challenges:
 
@@ -579,4 +583,25 @@ def sudoku(puzzle):
         if len(p) == 1:
             puzzle[r][c] = p.pop()
     return sudoku(puzzle)
-  ```
+```
+
+### Hard Sudoku Solver
+* Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
+function will take one argument consisting of the 2D puzzle array, with the value
+0 representing an unknown square. Puzzle is of hard or higher difficulty.
+* Difficulty: kyu3
+* Module: sudoku_solver_hard_cw_submission.py
+* Tests: test_sudoku_solver_hard_cw_submission.py
+* Link: https://www.codewars.com/kata/hard-sudoku-solver
+* Comments: implementing more advanced Sudoku solving strategies like naked pairs/sets/quads are
+actually increasing the runtime over brute forcing
+
+### Hard Unique Sudoku Solver
+* Descripton of Kata: Write a function that will solve a 9x9 Sudoku puzzle. The
+function will take one argument consisting of the 2D puzzle array, with the value
+0 representing an unknown square. Puzzle is of hard or higher difficulty. Also check that
+the given Sudoku only has 1 possible solution.
+* Difficulty: kyu2
+* Module: sudoku_solver_hard_unique.py
+* Tests: test_sudoku_solver_hard_unique.py
+* Link: https://www.codewars.com/kata/hard-sudoku-solver-1
