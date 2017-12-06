@@ -1,6 +1,6 @@
 language: python
 python:
-  - "2.7.6"
+  # - "2.7.6"
   - "3.6"
 # command to install dependencies
 # install:
@@ -14,4 +14,6 @@ branches:
 script: 
   # - pytest ./kyu4/Python/src/test*.py
   # - pytest ./kyu3/Python/src/test*.py
-  - py.test ./kyu3/Python/src/test_sudoku_solver_hard_cw_submission.py
+  # - py.test ./kyu3/Python/src/test_sudoku_solver_hard_cw_submission.py
+  - pytest ./kyu3/Python/src/test*.py
+  - pytest ./kyu2/Python/src/test*.py
