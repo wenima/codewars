@@ -1,4 +1,4 @@
-"""Tests for https://www.codewars.com/kata/sudoku-solver."""
+"""Tests for https://www.codewars.com/kata/hard-sudoku-solver-1."""
 
 import pytest
 from math import sqrt
@@ -106,9 +106,9 @@ def test_sudoku_solver_handles_garbage_input():
 
 def test_sudoku_solver_handles_non_unique():
     """Test that an non-unique sudoku is handled correctly by sudoku_solver."""
-    from sudoku_solver_hard_unique import solver
+    from sudoku_solver_hard_unique import sudoku_solver
     with pytest.raises(Exception) as e_info:
-        solver(not_unique)
+        sudoku_solver(not_unique)
     assert str(e_info.value) == "Sudoku is not unique"
 
 @pytest.mark.parametrize('m, result', TEST_SUDOKUS)
@@ -117,8 +117,8 @@ def test_solver_combo_approach(m, result):
     Test that function solver can solve a given sudoku of hard difficulty correctly using a mix of traditional solving techniques and
     brute force.
     """
-    from sudoku_solver_hard_unique import solver, valid
+    from sudoku_solver_hard_unique import sudoku_solver, valid
     from copy import deepcopy
     brute_m = deepcopy(m)
-    solved_sudoku = solver(brute_m)
+    solved_sudoku = sudoku_solver(brute_m)
     assert valid(solved_sudoku) == result

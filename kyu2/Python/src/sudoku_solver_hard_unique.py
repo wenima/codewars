@@ -44,7 +44,7 @@ def get_candidates(m, dicts, square_coords, naked_sets=None):
         row, col, missing = coordinate
         c[(row, col)] = [n for n in cm[col] if n in rm[row] and n in sm[square_coords[row, col]]]
         if not c[(row, col)]:
-            raise ValueError(f'Sudoku not solvable at {row}, {col}')
+            raise ValueError('Sudoku not solvable at {0}, {1}'.format(row, col))
         try:
             c[(row, col)] = [n for n in c[(row, col)] if n not in naked_sets[(row, col)]]
         except (KeyError, TypeError):
@@ -95,7 +95,7 @@ def get_missing(dicts):
     return dicts
 
 
-def sudoku_solver(m, setup_return, cnt_candidates=0):
+def solver(m, setup_return, cnt_candidates=0):
     """
     Return a valid Sudoku for a given matrix, helper dicts, a list of candidates and a lookup for coords matching squares.
     Fill in simple numbers using scanning technique
@@ -122,7 +122,7 @@ def sudoku_solver(m, setup_return, cnt_candidates=0):
         if no_of_candidates_rm == cnt_candidates:
             return m
         if no_of_candidates > no_of_candidates_rm:
-            return sudoku_solver(m, (candidates_sans_np, dicts, square_coords), no_of_candidates_rm)
+            return solver(m, (candidates_sans_np, dicts, square_coords), no_of_candidates_rm)
         else:
             return m
     return m
@@ -379,13 +379,14 @@ def fill_square(brute_m, candidates, sq_p):
     for fit in sq_p:
         coord, n = fit
         if n not in candidates[coord]: return False
-        brute_m = update_sudoku((*coord, n), brute_m)
+        row, col = coord
+        brute_m = update_sudoku((row, col, n), brute_m)
     return True
 
 
-def solver(board):
+def sudoku_solver(board):
     """Return a solved Sudoku for a given Sudoku or raise a ValueError if not solvable."""
-    m = sudoku_solver(list(board), setup(board))
+    m = solver(list(board), setup(board))
     if valid(m):
         return m #Sudoku solved after the first run
     return rec_solver(m)
@@ -407,13 +408,12 @@ def rec_solver(m, solutions=0):
     for p in permutations(missing):  #try all combinations of fields and missing numbers
         candidates, dicts, square_coords = setup(m)
         sq_p = tuple(zip(coords, p))
-        print('permutation: ', sq_p)
         brute_m = deepcopy(m)
         if not fill_square(brute_m, candidates, sq_p):
             continue
         try:
             candidates, dicts, square_coords = setup(brute_m)
-            brute_m = sudoku_solver(list(brute_m), setup(brute_m))
+            brute_m = solver(list(brute_m), setup(brute_m))
         except ValueError as e:
             continue
         if not valid(brute_m):
