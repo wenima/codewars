@@ -423,7 +423,6 @@ def rec_solver(m, solutions=0):
             brute_m = rec_solver(brute_m, solutions)
             if not brute_m:
                 continue
-        set_trace()
         if valid(brute_m):
             solved = deepcopy(brute_m)
             solutions += 1
