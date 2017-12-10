@@ -34,18 +34,17 @@ def min_tries_2_eggs(floors):
 def min_tries_n_eggs(n, k):
     """Return the minimum number of tries it would take to find the breaking point for a given number of floors k and n eggs."""
     numdrops = []
-    for i in range(k):
-        numdrops[0][i] = 0
-    for i in range(k):
-        numdrops[1][i] = i
-    for j in range(n):
-        numdrops[j][0] = 0
+    numdrops.append([0 for _ in range(k)])
+    numdrops.append([i for i in range(k)])
+
+    for _ in range(n - 2):
+        numdrops.append([0 for _ in range(k)])
 
     for i in range(2, n):
         for j in range(1, k):
             minimum = inf
             for x in range(1, j):
-                minimum = min(minimum, (1 + max(numdrops[i][j-x], numdrops[i-1][x-1])))
+                minimum = min(minimum, 1 + max(numdrops[i][j-x], numdrops[i-1][x-1]))
                 numdrops[i][j] = minimum
 
     return numdrops[n][k]
