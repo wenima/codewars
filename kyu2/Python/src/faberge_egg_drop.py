@@ -1,6 +1,6 @@
 """Solution for https://www.codewars.com/kata/faberge-easter-eggs-crush-test."""
 
-from math import sqrt, ceil
+from math import sqrt, ceil, inf
 
 def height(eggs, tries, prev_floor=0):
     """Return the number of max floors a building can have given a number of tries and a number of eggs."""
@@ -13,7 +13,7 @@ def height(eggs, tries, prev_floor=0):
         egg1 += interval
     return egg1 + 1
 
-def min_tries(floors):
+def min_tries_2_eggs(floors):
     """
     Return the minimum tries it would take to find the breaking point given a number of floors and 2 eggs.
 
@@ -30,3 +30,22 @@ def min_tries(floors):
     we can solve this by applying the quadratic formula:
     """
     return ceil((-1 + sqrt(1 + 8 * floors)) / 2)
+
+def min_tries_n_eggs(n, k):
+    """Return the minimum number of tries it would take to find the breaking point for a given number of floors k and n eggs."""
+    numdrops = []
+    for i in range(k):
+        numdrops[0][i] = 0
+    for i in range(k):
+        numdrops[1][i] = i
+    for j in range(n):
+        numdrops[j][0] = 0
+
+    for i in range(2, n):
+        for j in range(1, k):
+            minimum = inf
+            for x in range(1, j):
+                minimum = min(minimum, (1 + max(numdrops[i][j-x], numdrops[i-1][x-1])))
+                numdrops[i][j] = minimum
+
+    return numdrops[n][k]
