@@ -15,7 +15,7 @@ def height(eggs, tries, prev_floor=0):
 
 def min_tries_2_eggs(floors):
     """
-    Return the minimum tries it would take to find the breaking point given a number of floors and 2 eggs.
+    Return the minimum number of drops it would take to find the breaking point given a number of floors and 2 eggs.
 
     The idea is to keep the number of drops constanst, wether the first egg drops on the first or last drop, i.e. we
     need to balance the worst case scenario by lowering the number of drops egg2 has to take.
@@ -30,6 +30,28 @@ def min_tries_2_eggs(floors):
     we can solve this by applying the quadratic formula:
     """
     return ceil((-1 + sqrt(1 + 8 * floors)) / 2)
+
+drops = {}
+def rec_drops(n, k):
+    """
+    Return the minimum number of tries it would take to find the breaking point for a given number of floors k and n eggs recursively.
+    Optimized for all instances where we only have 2 eggs left using the earlier derived closed formula
+    Optimized to make use of memoization
+    Not suitable for large number of floors due to recursion depth limit.
+    """
+    if n == 1 or k == 0 or k == 1:
+        return k
+    drop = drops.get((n, k))
+    if drop: return drop
+    if n == 2:
+        minimum = min_tries_2_eggs(k)
+        drops[(n, k)] = minimum
+        return minimum
+    minimum = inf
+    for x in range(1, k + 1):
+        minimum = min(minimum, 1 + max(rec_drops(n - 1, x - 1), rec_drops(n, k - x)))
+    drops[(n, k)] = minimum
+    return minimum
 
 def min_tries_n_eggs(n, k):
     """Return the minimum number of tries it would take to find the breaking point for a given number of floors k and n eggs."""
