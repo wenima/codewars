@@ -56,14 +56,21 @@ def rec_drops(n, k):
 def min_tries_n_eggs(n, k):
     """Return the minimum number of tries it would take to find the breaking point for a given number of floors k and n eggs."""
     numdrops = []
-    numdrops.append([0 for _ in range(k)])
-    numdrops.append([i for i in range(k)])
+    numdrops.append([0 for _ in range(k + 1)])
+    numdrops.append([i for i in range(k + 1)])
+
+    #we can solve all floors for 2 eggs with closed formula so we save 1 loop of k floors
+    l = [0, 0, 1]
+    for i in range(3, k + 1):
+        l.append(min_tries_2_eggs(i))
+        
+    numdrops.append(l)
 
     for _ in range(n - 2):
-        numdrops.append([0 for _ in range(k)])
+        numdrops.append([0 for _ in range(k + 1)])
 
-    for i in range(2, n):
-        for j in range(1, k):
+    for i in range(3, n + 1):
+        for j in range(1, k + 1):
             minimum = inf
             for x in range(1, j):
                 minimum = min(minimum, 1 + max(numdrops[i][j-x], numdrops[i-1][x-1]))
